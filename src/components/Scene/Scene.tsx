@@ -191,6 +191,39 @@ export function Scene() {
     const context = gsap.context(() => {
       // Mede o repouso do painel antes de qualquer coisa inline interferir.
       gsap.set(morph, { clearProps: "width,height,x,y,borderRadius" });
+
+      /*
+        No retrato a altura era uma constante, 78svh, e não tinha como não
+        errar: o painel de Marcas tem cinco linhas de conteúdo e o de Conteúdo
+        tem uma pilha bem mais alta. Na tela pequena a constante servia ao
+        maior, e o menor abria com um vazio de quase metade do painel embaixo
+        do botão.
+
+        Então a altura passa a vir do conteúdo. Solto a altura do palco, meço o
+        que ele realmente ocupa e travo de volta num valor em px, com teto de
+        88svh para o painel nunca encostar nas bordas da tela.
+
+        Só no retrato: no desktop a altura por tipo de conteúdo é deliberada,
+        porque lá sobra espaço e um painel que muda de tamanho a cada pasta
+        ficaria inquieto.
+      */
+      const retrato = window.matchMedia(
+        "(max-width: 900px), (max-aspect-ratio: 1 / 1)",
+      ).matches;
+      const stage = morph.querySelector<HTMLElement>(`.${styles.morphStage}`);
+
+      morph.style.removeProperty("--h");
+      if (retrato && stage) {
+        stage.style.height = "auto";
+        const natural = stage.getBoundingClientRect().height;
+        stage.style.height = "";
+        const teto = window.innerHeight * 0.88;
+        morph.style.setProperty(
+          "--h",
+          `${Math.round(Math.min(natural, teto))}px`,
+        );
+      }
+
       const target = morph.getBoundingClientRect();
       // Lidos do CSS em vez de fixados aqui: o breakpoint usa outros raios e a
       // timeline precisa sair e pousar exatamente nos valores de repouso.
@@ -348,6 +381,9 @@ export function Scene() {
     return () => {
       context.revert();
       timelineRef.current = null;
+      // A altura medida vale para a pasta que estava aberta. Sem limpar, a
+      // próxima abriria com a medida da anterior.
+      morph.style.removeProperty("--h");
     };
   }, [activeId, geometryToken, reducedMotion]);
 
