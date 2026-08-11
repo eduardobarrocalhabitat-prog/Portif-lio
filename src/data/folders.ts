@@ -118,6 +118,12 @@ export type FolderDefinition = {
   comingSoon?: boolean;
 
   /**
+   * Fora do site inteiro: some da cena, do menu e das seções. A definição
+   * continua aqui, inteira. Para trazer de volta, apague esta linha na pasta.
+   */
+  hidden?: boolean;
+
+  /**
    * O loop que roda dentro da pasta no hover. Fica parado e invisível em
    * repouso — a pasta fechada é branca, como no rascunho —, e só toca
    * enquanto o ponteiro está em cima.
@@ -165,7 +171,48 @@ const PLACEHOLDER_PREVIEW = { src: PLACEHOLDER, poster: null };
 const MOBILE_SIZE = "clamp(118px, 38vw, 186px)";
 const DESKTOP_SIZE = "clamp(148px, 13.6vw, 208px)";
 
-export const folders: FolderDefinition[] = [
+/*
+  As coordenadas não são escritas à mão: elas vêm da quantidade de pastas
+  visíveis. Antes eram oito valores fixos, e esconder uma pasta deixava um
+  buraco na fileira que só se via rodando o site.
+
+  Desktop: fileira única, vão constante de 18,6% e o conjunto centrado.
+  Retrato: duas colunas; se sobrar uma pasta sozinha na última fileira, ela
+  vai para o meio em vez de ficar encostada na esquerda.
+*/
+const VAO = 18.6;
+const COLUNAS_RETRATO = [28, 72];
+
+type FolderSource = Omit<FolderDefinition, "desktop" | "mobile">;
+
+function posicionar(fontes: FolderSource[]): FolderDefinition[] {
+  const largura = (fontes.length - 1) * VAO;
+  const fileiras = Math.ceil(fontes.length / COLUNAS_RETRATO.length);
+  // Com uma fileira só, 56%/82% deixaria tudo colado no topo da cena.
+  const alturas = fileiras === 1 ? [70] : [56, 82];
+
+  return fontes.map((fonte, i) => {
+    const fileira = Math.floor(i / COLUNAS_RETRATO.length);
+    const naFileira = fontes.length - fileira * COLUNAS_RETRATO.length;
+    const sozinha = naFileira === 1;
+
+    return {
+      ...fonte,
+      desktop: {
+        x: `${(50 - largura / 2 + i * VAO).toFixed(1)}%`,
+        y: "77%",
+        size: DESKTOP_SIZE,
+      },
+      mobile: {
+        x: `${sozinha ? 50 : COLUNAS_RETRATO[i % COLUNAS_RETRATO.length]}%`,
+        y: `${alturas[Math.min(fileira, alturas.length - 1)]}%`,
+        size: MOBILE_SIZE,
+      },
+    };
+  });
+}
+
+const fontes: FolderSource[] = [
   {
     id: "marcas",
     label: "Marcas",
@@ -173,8 +220,6 @@ export const folders: FolderDefinition[] = [
     icon: "tag",
     tint: "peach",
     preview: PLACEHOLDER_PREVIEW,
-    desktop: { x: "22%", y: "77%", size: DESKTOP_SIZE },
-    mobile: { x: "28%", y: "56%", size: MOBILE_SIZE },
     depth: 0.5,
     phase: 0,
     panel: {
@@ -264,8 +309,6 @@ export const folders: FolderDefinition[] = [
     icon: "image",
     tint: "lilac",
     preview: PLACEHOLDER_PREVIEW,
-    desktop: { x: "40.6%", y: "77%", size: DESKTOP_SIZE },
-    mobile: { x: "72%", y: "56%", size: MOBILE_SIZE },
     depth: 0.62,
     phase: 1.9,
     panel: {
@@ -419,8 +462,6 @@ export const folders: FolderDefinition[] = [
     icon: "globe",
     tint: "sky",
     preview: PLACEHOLDER_PREVIEW,
-    desktop: { x: "59.4%", y: "77%", size: DESKTOP_SIZE },
-    mobile: { x: "28%", y: "82%", size: MOBILE_SIZE },
     depth: 0.62,
     phase: 3.7,
     panel: {
@@ -459,9 +500,14 @@ export const folders: FolderDefinition[] = [
     count: "03",
     icon: "spark",
     tint: "mint",
+    /*
+      Escondida até existir caso real. Os três casos abaixo são exemplos de
+      formato, escritos para o layout ficar visível, e publicar isso seria
+      anunciar trabalho que não aconteceu. Troque o conteúdo e apague esta
+      linha: a fileira se reorganiza sozinha para quatro pastas de novo.
+    */
+    hidden: true,
     preview: PLACEHOLDER_PREVIEW,
-    desktop: { x: "78%", y: "77%", size: DESKTOP_SIZE },
-    mobile: { x: "72%", y: "82%", size: MOBILE_SIZE },
     depth: 0.5,
     phase: 5.4,
     panel: {
@@ -537,6 +583,14 @@ export const folders: FolderDefinition[] = [
     },
   },
 ];
+
+/**
+ * As pastas que o site desenha. Quem some por `hidden` não chega aqui, então
+ * cena, menu e seções ficam coerentes sem cada um precisar filtrar de novo.
+ */
+export const folders: FolderDefinition[] = posicionar(
+  fontes.filter((fonte) => !fonte.hidden),
+);
 
 /**
  * Achata o conteúdo em pares legíveis. Disponível para qualquer lugar que
