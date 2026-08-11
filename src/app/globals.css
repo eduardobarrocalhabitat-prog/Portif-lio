@@ -1,0 +1,124 @@
+/* ---------------------------------------------------------------------------
+   Tokens + reset
+   Tudo que é global mora aqui. Estilo de componente fica no .module.css dele.
+--------------------------------------------------------------------------- */
+
+:root {
+  /* Paleta — base branca com difusores frios/quentes bem dessaturados */
+  --c-paper: #ffffff;
+  /*
+    Contraste sobre branco: 18.1:1, 6.3:1 e 4.9:1. O `faint` era #8f95a6, que
+    dava 2.99:1 e reprovava no WCAG AA — e ele é a cor dos kickers, metadados
+    e contadores, texto pequeno onde a régua é mais dura, não mais frouxa.
+  */
+  --c-ink: #14161d;
+  --c-ink-soft: #5a6070;
+  --c-ink-faint: #6b7185;
+
+  --c-glass-line: rgba(255, 255, 255, 0.72);
+  --c-glass-shadow: rgba(88, 100, 152, 0.36);
+
+  --tint-lilac: 196, 186, 255;
+  --tint-peach: 255, 206, 184;
+  --tint-mint: 178, 235, 219;
+  --tint-sky: 186, 216, 255;
+
+  /* Tipografia */
+  --f-sans: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  --f-serif: var(--font-instrument-serif), Georgia, "Times New Roman", serif;
+  --f-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* Ritmo de movimento — num lugar só, para o timing ficar coeso */
+  --d-fast: 0.28s;
+  --d-base: 0.55s;
+  --e-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Parallax do ponteiro — sobrescrito em runtime pela Scene */
+  --pointer-x: 0px;
+  --pointer-y: 0px;
+
+  color-scheme: light;
+}
+
+/*
+  Registrada para ser interpolável: sem isso o hover que endireita uma peça
+  jogada saltaria em vez de girar.
+*/
+@property --tilt {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+html {
+  /*
+    Reserva a calha da barra de rolagem sempre. Sem isso, travar o scroll ao
+    abrir um painel remove a barra e a página inteira salta alguns pixels.
+  */
+  scrollbar-gutter: stable;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--c-paper);
+  color: var(--c-ink);
+  font-family: var(--f-sans);
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Painel ou visualizador aberto: o documento atrás não rola. */
+body[data-panel-open="true"],
+body[data-viewer-open="true"] {
+  overflow: hidden;
+  touch-action: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+:where(button, a):focus-visible {
+  outline: 2px solid rgba(88, 100, 152, 0.75);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

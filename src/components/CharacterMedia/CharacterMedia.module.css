@@ -1,0 +1,60 @@
+.root {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  /* Ponto de partida da Scene: ela sobrescreve transform/opacity via GSAP. */
+  transform: scale(var(--rest-scale, 1));
+  transform-origin: 50% 48%;
+  will-change: transform;
+}
+
+.media {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: var(--fit, contain);
+  object-position: var(--object-position, 50% 45%);
+
+  opacity: 0;
+  transition: opacity 0.9s var(--e-out);
+}
+
+.root[data-ready="true"] .media {
+  opacity: 1;
+}
+
+/*
+  Dissolve a borda da mídia no branco da página. É isto que devolve o fundo
+  branco com gradientes: o vídeo preenche a tela, mas some antes das bordas,
+  e o que sobra ao redor é a página.
+*/
+.root[data-feather="true"] .media {
+  -webkit-mask-image: radial-gradient(
+    104% 96% at 50% 44%,
+    #000 34%,
+    rgba(0, 0, 0, 0.92) 58%,
+    rgba(0, 0, 0, 0.5) 82%,
+    transparent 99%
+  );
+  mask-image: radial-gradient(
+    104% 96% at 50% 44%,
+    #000 34%,
+    rgba(0, 0, 0, 0.92) 58%,
+    rgba(0, 0, 0, 0.5) 82%,
+    transparent 99%
+  );
+}
+
+/* Em viewport estreita o corte já é agressivo; não vale ampliar mais. */
+@media (max-aspect-ratio: 1 / 1) {
+  .media {
+    object-fit: cover;
+  }
+
+  .root {
+    transform: scale(1);
+  }
+}

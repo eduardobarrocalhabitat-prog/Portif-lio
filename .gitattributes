@@ -1,0 +1,12 @@
+# O Windows grava CRLF, o Vercel constrói em Linux. Normalizar aqui evita que
+# o repositório fique com finais de linha misturados e que um clone em outra
+# máquina apareça como "arquivo inteiro modificado".
+* text=auto eol=lf
+
+# Binários não passam por normalização.
+*.mp4  binary
+*.webp binary
+*.jpg  binary
+*.png  binary
+*.pdf  binary
+*.ico  binary

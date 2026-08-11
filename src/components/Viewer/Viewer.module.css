@@ -1,0 +1,533 @@
+.root {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: grid;
+  place-items: center;
+  padding: clamp(12px, 3vw, 40px);
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(20px) saturate(70%) brightness(1.06);
+  backdrop-filter: blur(20px) saturate(70%) brightness(1.06);
+  background: rgba(18, 22, 34, 0.32);
+
+  opacity: 0;
+  transition: opacity 0.28s var(--e-out);
+}
+
+.window {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: min(1180px, 100%);
+  height: min(860px, 100%);
+  max-height: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.7),
+    0 60px 120px -40px rgba(12, 18, 40, 0.6);
+
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.32s var(--e-out),
+    transform 0.32s var(--e-out);
+}
+
+.root[data-entered="true"] .scrim {
+  opacity: 1;
+}
+
+.root[data-entered="true"] .window {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* -------------------------------------------------------------------------
+   Barra
+------------------------------------------------------------------------- */
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 12px 12px 20px;
+  border-bottom: 1px solid rgba(78, 90, 140, 0.14);
+  background: rgba(255, 255, 255, 0.86);
+}
+
+/* Só nos sites: é o que faz a moldura ler como navegador. */
+.dots {
+  display: flex;
+  gap: 6px;
+  flex: none;
+}
+
+.dots span {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(78, 90, 140, 0.2);
+}
+
+.identity {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  margin-right: auto;
+}
+
+.name {
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--c-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.meta {
+  font-size: 11.5px;
+  color: var(--c-ink-faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.counter {
+  flex: none;
+  font-family: var(--f-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--c-ink-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.open {
+  flex: none;
+  padding: 9px 15px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--c-ink-soft);
+  transition:
+    color 0.18s var(--e-out),
+    background 0.18s var(--e-out);
+}
+
+.open:hover {
+  color: var(--c-ink);
+  background: rgba(78, 90, 140, 0.08);
+}
+
+.close {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  background: rgba(78, 90, 140, 0.08);
+  transition: background 0.18s var(--e-out);
+}
+
+.close:hover {
+  background: rgba(78, 90, 140, 0.16);
+}
+
+.close svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: var(--c-ink-soft);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+}
+
+/* -------------------------------------------------------------------------
+   Leitor de documento — rolagem contínua
+
+   Ninguém lê um manual de marca do começo ao fim: escaneia. Rolar acompanha
+   esse gesto, e no celular deslizar é o que a mão já ia fazer sozinha.
+   Cada página é uma caixa com a proporção fixa, então a barra de rolagem
+   nasce no tamanho certo e nada salta enquanto as imagens chegam.
+------------------------------------------------------------------------- */
+
+.readerWrap {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+/*
+  No carrossel a janela veste o slide em vez de esticar até 1180px: um
+  carrossel 4:5 dentro de uma janela larga ficaria com metade da tela vazia dos
+  dois lados, e aí não lê como carrossel, lê como imagem perdida numa caixa.
+  `--doc-ratio` vem medido da primeira tela que carrega.
+
+  A largura sai de um cálculo direto, e não de `aspect-ratio` no filho: com o
+  leitor em `flex: 1` dentro de uma janela de largura automática, as duas
+  medidas dependiam uma da outra e o navegador resolvia a favor da altura —
+  sobrava tarja em cima e embaixo do slide.
+*/
+.window[data-axis="x"] {
+  --pad: clamp(12px, 3vw, 40px);
+  --bar: 62px;
+  --leitor: calc(min(860px, 100vh - 2 * var(--pad)) - var(--bar));
+
+  width: min(100%, calc(var(--leitor) * var(--doc-ratio, 0.8)));
+}
+
+.reader {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: #e7eaf0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+  /* Barra fina: a página é o conteúdo, não o cromo em volta dela. */
+  scrollbar-width: thin;
+}
+
+/* -------------------------------------------------------------------------
+   Carrossel: anda para o lado, uma tela por vez.
+
+   `scroll-snap` faz o trabalho que um carrossel em JS faria — inclusive o
+   arraste no celular, que passa a ser o gesto nativo do sistema em vez de uma
+   imitação. As setas existem só porque mouse não rola na horizontal.
+------------------------------------------------------------------------- */
+
+.reader[data-axis="x"] {
+  flex-direction: row;
+  overflow-x: auto;
+  overflow-y: hidden;
+  gap: 0;
+  padding: 0;
+  scroll-snap-type: x mandatory;
+  background: #eceef3;
+
+  /*
+    Sem barra aqui. Na leitura vertical ela é informação — mostra que há mais
+    documento abaixo. No carrossel, o snap, as setas e o contador já dizem
+    isso, e ela só corta a base do slide com um risco cinza.
+  */
+  scrollbar-width: none;
+}
+
+.reader[data-axis="x"]::-webkit-scrollbar {
+  display: none;
+}
+
+.reader[data-axis="x"] .sheet {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  border-radius: 0;
+  background: transparent;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+}
+
+.sheet {
+  position: relative;
+  display: block;
+  flex: none;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #f4f5f8;
+}
+
+/*
+  Imagem solta não é documento: ela ocupa a janela inteira em vez de virar uma
+  faixa 16:9 com tarja em volta. `contain` garante que nada seja cortado, seja
+  qual for a proporção da peça.
+*/
+.reader[data-single="true"] {
+  padding: 0;
+  background: transparent;
+}
+
+.reader[data-single="true"] .sheet {
+  aspect-ratio: auto;
+  height: 100%;
+  border-radius: 0;
+  background: transparent;
+}
+
+/* `contain` porque nem todo manual é 16:9 — a página inteira tem que caber. */
+.pageImage {
+  object-fit: contain;
+}
+
+/* -------------------------------------------------------------------------
+   Setas do carrossel
+------------------------------------------------------------------------- */
+
+.nav {
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.86);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 26px -12px rgba(12, 18, 40, 0.5);
+  transition:
+    opacity 0.18s var(--e-out),
+    background 0.18s var(--e-out);
+}
+
+.nav:hover:not(:disabled) {
+  background: #fff;
+}
+
+.nav:disabled {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.nav svg {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: var(--c-ink);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.prev {
+  left: 14px;
+}
+
+.next {
+  right: 14px;
+}
+
+.next svg {
+  rotate: 180deg;
+}
+
+/* -------------------------------------------------------------------------
+   Artigo — o caso que não tem tela
+------------------------------------------------------------------------- */
+
+.article {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: clamp(28px, 5vw, 60px) clamp(20px, 4vw, 48px) clamp(40px, 6vw, 72px);
+}
+
+.prose {
+  max-width: 62ch;
+  margin: 0 auto;
+}
+
+.articleHeading {
+  margin: 34px 0 12px;
+  font-family: var(--f-serif);
+  font-weight: 400;
+  font-size: clamp(22px, 2.4vw, 30px);
+  line-height: 1.1;
+}
+
+.articleHeading:first-child {
+  margin-top: 0;
+}
+
+.articleText {
+  margin: 0 0 14px;
+  font-size: clamp(15px, 1.2vw, 17px);
+  line-height: 1.68;
+  color: var(--c-ink-soft);
+  text-wrap: pretty;
+}
+
+/* O número é o argumento; a legenda só diz do que ele é. */
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 26px 0;
+  padding: 20px 24px;
+  border-radius: 14px;
+  background: rgba(var(--tint, 178, 235, 219), 0.16);
+  box-shadow: inset 0 0 0 1px rgba(var(--tint, 178, 235, 219), 0.35);
+}
+
+.stat strong {
+  font-family: var(--f-serif);
+  font-weight: 400;
+  font-size: clamp(28px, 3.4vw, 42px);
+  line-height: 1;
+  color: var(--c-ink);
+}
+
+.stat span {
+  font-size: 12.5px;
+  color: var(--c-ink-soft);
+}
+
+.articleFigure {
+  margin: 26px 0;
+}
+
+.articleFigure img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+.articleFigure figcaption {
+  margin-top: 9px;
+  font-size: 12px;
+  color: var(--c-ink-faint);
+}
+
+/* -------------------------------------------------------------------------
+   Site embutido
+------------------------------------------------------------------------- */
+
+.stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  background: #f4f5f8;
+}
+
+.frame {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+.loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: #f4f5f8;
+  transition: opacity 0.3s var(--e-out);
+}
+
+.loading[data-done="true"] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.spinner {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid rgba(78, 90, 140, 0.18);
+  border-top-color: rgba(78, 90, 140, 0.7);
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.loadingText {
+  font-size: 12.5px;
+  color: var(--c-ink-faint);
+}
+
+/* Tela de toque: entrega o arquivo em vez de fingir um leitor. */
+.handoff {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 28px 22px 34px;
+  text-align: center;
+}
+
+.handoffCover {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 460px;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 44px -22px rgba(12, 18, 40, 0.5);
+}
+
+.handoffImage {
+  object-fit: cover;
+}
+
+.handoffText {
+  margin: 0;
+  max-width: 38ch;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--c-ink-soft);
+  text-wrap: pretty;
+}
+
+.handoffButton {
+  padding: 14px 24px;
+  border-radius: 999px;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: #fff;
+  background: var(--c-ink);
+  box-shadow: 0 16px 32px -16px rgba(20, 22, 29, 0.9);
+}
+
+@media (max-width: 700px) {
+  .bar {
+    padding: 10px 10px 10px 16px;
+    gap: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrim,
+  .window,
+  .loading {
+    transition: none;
+  }
+
+  .spinner {
+    animation-duration: 2s;
+  }
+}

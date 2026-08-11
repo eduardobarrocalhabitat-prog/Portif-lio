@@ -1,0 +1,107 @@
+.band {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(18px, 2.4vw, 26px) 0;
+  border-top: 1px solid rgba(78, 90, 140, 0.14);
+  border-bottom: 1px solid rgba(78, 90, 140, 0.14);
+}
+
+/*
+  Esmaece nas duas pontas para a faixa parecer contínua além da tela, em vez
+  de itens sendo cortados na borda.
+*/
+.band::before,
+.band::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  width: clamp(40px, 8vw, 120px);
+  pointer-events: none;
+}
+
+.band::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--c-paper), transparent);
+}
+
+.band::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--c-paper), transparent);
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  /* Metade da largura: quando reinicia, a segunda cópia caiu onde a primeira
+     estava. Só transform anima — nada de layout por frame. */
+  animation: desliza 42s linear infinite;
+  will-change: transform;
+}
+
+.band:hover .track {
+  animation-play-state: paused;
+}
+
+@keyframes desliza {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.list {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 2.4vw, 30px);
+  padding-right: clamp(16px, 2.4vw, 30px);
+  white-space: nowrap;
+  font-family: var(--f-serif);
+  font-size: clamp(19px, 2vw, 27px);
+  letter-spacing: -0.01em;
+  color: var(--c-ink);
+}
+
+.dot {
+  flex: none;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(var(--tint-peach), 1);
+}
+
+/* Alterna a cor dos pontos para a faixa não virar uma régua monótona. */
+.item:nth-child(3n + 2) .dot {
+  background: rgba(var(--tint-lilac), 1);
+}
+
+.item:nth-child(3n) .dot {
+  background: rgba(var(--tint-mint), 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Sem movimento a faixa vira uma linha estática, e a segunda cópia só
+     duplicaria o texto na tela. */
+  .track {
+    animation: none;
+    width: 100%;
+    padding: 0 clamp(20px, 4vw, 56px);
+  }
+
+  .list {
+    flex-wrap: wrap;
+    gap: 4px 0;
+  }
+
+  .track .list:last-child {
+    display: none;
+  }
+}

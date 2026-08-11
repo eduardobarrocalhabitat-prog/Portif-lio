@@ -1,0 +1,81 @@
+.section {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: clamp(72px, 11vw, 150px) clamp(20px, 4vw, 56px);
+  /* Compensa a barra fixa quando a âncora leva até aqui. */
+  scroll-margin-top: clamp(70px, 9vw, 96px);
+}
+
+/* Fio entre as seções, para o scroll ter articulação. */
+.section + .section::before,
+.section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: clamp(20px, 4vw, 56px);
+  right: clamp(20px, 4vw, 56px);
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(78, 90, 140, 0.18),
+    rgba(78, 90, 140, 0.04)
+  );
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  max-width: 56ch;
+  margin-bottom: clamp(34px, 5vw, 62px);
+}
+
+.index {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--c-ink-faint);
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(var(--tint), 1);
+  box-shadow: 0 0 0 4px rgba(var(--tint), 0.26);
+}
+
+.kicker {
+  margin-left: 6px;
+  padding-left: 12px;
+  border-left: 1px solid rgba(78, 90, 140, 0.2);
+  font-family: var(--f-sans);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--f-serif);
+  font-weight: 400;
+  font-size: clamp(44px, 7vw, 92px);
+  line-height: 0.94;
+  letter-spacing: -0.02em;
+}
+
+.blurb {
+  margin: 0;
+  font-size: clamp(15px, 1.3vw, 18px);
+  line-height: 1.62;
+  color: var(--c-ink-soft);
+  text-wrap: pretty;
+}
+

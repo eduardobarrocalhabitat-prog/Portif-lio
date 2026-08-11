@@ -1,0 +1,378 @@
+/* ---------------------------------------------------------------------------
+   Grades do acervo. Sem ângulo e sem sobreposição — comparar exige alinhamento.
+--------------------------------------------------------------------------- */
+
+.brands,
+.sites,
+.cases {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* A superfície de todas as peças, seja imagem, vídeo ou placeholder. */
+.tile,
+.shot16 {
+  position: relative;
+  display: block;
+  width: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  background:
+    linear-gradient(150deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.42)),
+    radial-gradient(
+      82% 82% at 28% 18%,
+      rgba(var(--tint, 186, 216, 255), 0.5),
+      rgba(var(--tint, 186, 216, 255), 0.14)
+    );
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.8),
+    0 16px 34px -20px rgba(28, 38, 80, 0.5);
+  transition:
+    transform 0.18s var(--e-out),
+    box-shadow 0.18s var(--e-out);
+}
+
+/* Elevação, nunca escala: escala em hover empurra os vizinhos. */
+.card:hover:not(:disabled) .tile,
+.shot:hover .tile,
+.caseCard:hover:not([data-static]) .tile,
+.siteCard:hover .shot16 {
+  transform: translateY(-5px);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.92),
+    0 26px 46px -22px rgba(28, 38, 80, 0.55);
+}
+
+.media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.glyph {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 26%;
+  min-width: 32px;
+  max-width: 56px;
+  height: auto;
+  translate: -50% -50%;
+  fill: none;
+  stroke: rgba(48, 60, 105, 0.28);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.monogram {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--f-serif);
+  font-size: clamp(28px, 3.4vw, 44px);
+  color: rgba(40, 50, 90, 0.3);
+}
+
+.chip {
+  position: absolute;
+  left: 10px;
+  bottom: 9px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(28, 34, 56, 0.72);
+  background: rgba(255, 255, 255, 0.72);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.itemName {
+  display: block;
+  margin-top: 12px;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--c-ink);
+}
+
+.itemMeta {
+  display: block;
+  margin-top: 3px;
+  font-size: 12.5px;
+  color: var(--c-ink-faint);
+}
+
+/* Cada peça entra pelo ScrollTrigger da seção. */
+.brand,
+.shot,
+.site,
+.case {
+  will-change: transform;
+}
+
+/* Selo de vídeo na peça parada. Some no hover, quando o loop já se explica. */
+.playBadge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.78);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  transition: opacity 0.18s var(--e-out);
+}
+
+.shot:hover .playBadge {
+  opacity: 0;
+}
+
+.playBadge svg {
+  width: 13px;
+  height: 13px;
+  fill: rgba(28, 34, 56, 0.72);
+}
+
+/* -------------------------------------------------------------------------
+   Marcas
+------------------------------------------------------------------------- */
+
+/* Capas 16:9 pedem coluna mais larga que um quadrado pediria. */
+.brands {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: clamp(20px, 2.6vw, 36px);
+}
+
+/* O card é um botão de verdade: ele abre o documento. */
+.card {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.card:disabled {
+  cursor: default;
+}
+
+/* -------------------------------------------------------------------------
+   Imagens
+------------------------------------------------------------------------- */
+
+.gallery {
+  columns: 3;
+  column-gap: clamp(16px, 2vw, 26px);
+}
+
+.shot {
+  display: block;
+  margin: 0 0 clamp(20px, 2.4vw, 32px);
+  break-inside: avoid;
+}
+
+/* Selo com o número de telas do carrossel. */
+.slides {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: grid;
+  place-items: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 7px;
+  border-radius: 999px;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  color: rgba(28, 34, 56, 0.78);
+  background: rgba(255, 255, 255, 0.8);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+/* -------------------------------------------------------------------------
+   Sites
+------------------------------------------------------------------------- */
+
+.sites {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: clamp(20px, 2.6vw, 34px);
+}
+
+/* Vira <button> quando o site está no ar; <span> enquanto não está. */
+.siteCard {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.siteCard[data-static] {
+  cursor: default;
+}
+
+/* Moldura de navegador: diz "isto é um site" sem precisar escrever. */
+.chrome {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 12px;
+  border-radius: 12px 12px 0 0;
+  background: rgba(255, 255, 255, 0.68);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(78, 90, 140, 0.22);
+}
+
+.url {
+  flex: 1;
+  margin-left: 8px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  color: var(--c-ink-faint);
+  background: rgba(255, 255, 255, 0.7);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.shot16 {
+  border-radius: 0 0 14px 14px;
+}
+
+.siteFoot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 13px;
+}
+
+.siteFoot .itemName {
+  margin-top: 0;
+}
+
+.badge {
+  flex: none;
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-ink-faint);
+  background: rgba(78, 90, 140, 0.08);
+}
+
+/* -------------------------------------------------------------------------
+   Casos de IA
+------------------------------------------------------------------------- */
+
+.cases {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: clamp(20px, 2.6vw, 34px);
+}
+
+/* Vira <button> quando há o que abrir; <span> quando o caso é só a ficha. */
+.caseCard {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.caseCard[data-static] {
+  cursor: default;
+}
+
+.caseBody {
+  display: block;
+}
+
+.caseSummary {
+  display: block;
+  margin-top: 6px;
+  max-width: 42ch;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--c-ink-soft);
+  text-wrap: pretty;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.tag {
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 10.5px;
+  font-weight: 500;
+  color: var(--c-ink-soft);
+  background: rgba(var(--tint), 0.22);
+  box-shadow: inset 0 0 0 1px rgba(var(--tint), 0.4);
+}
+
+/* -------------------------------------------------------------------------
+   Responsivo
+------------------------------------------------------------------------- */
+
+@media (max-width: 1100px) {
+  .gallery {
+    columns: 2;
+  }
+}
+
+@media (max-width: 700px) {
+  .brands {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+
+  .sites,
+  .cases {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .itemName {
+    font-size: 13.5px;
+  }
+
+  .itemMeta {
+    font-size: 11.5px;
+  }
+}

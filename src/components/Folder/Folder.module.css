@@ -1,0 +1,332 @@
+/* ---------------------------------------------------------------------------
+   Uma camada, uma responsabilidade.
+
+   .root      posicionamento (sem transform próprio; a Scene o usa no recuo)
+   .parallax  deslocamento pelo ponteiro, via CSS var
+   .drift     idle do GSAP
+   .press     feedback de toque
+   .surface   hover (levanta + escala) + o botão de verdade
+
+   Nenhuma camada é escrita por dois donos, então nenhuma animação sobrescreve
+   a outra e cada uma pode ser lida isoladamente.
+
+   Atenção ao mexer aqui: `will-change: opacity`, `filter` ou `contain: paint`
+   em qualquer ancestral cria um Backdrop Root e o backdrop-filter do vidro
+   passa a amostrar o vazio. Por isso só declaramos `will-change: transform`.
+--------------------------------------------------------------------------- */
+
+.root {
+  --x: var(--x-d);
+  --y: var(--y-d);
+  --size: var(--size-d);
+  /* Proporção da pasta do rascunho, largura : altura. */
+  --ratio: 1.22;
+
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--size);
+  height: calc(var(--size) / var(--ratio));
+  /* Centraliza sem gastar o transform, que pertence ao GSAP. */
+  margin-left: calc(var(--size) / -2);
+  margin-top: calc(var(--size) / var(--ratio) / -2);
+}
+
+.root[data-tint="lilac"] {
+  --tint: var(--tint-lilac);
+}
+.root[data-tint="peach"] {
+  --tint: var(--tint-peach);
+}
+.root[data-tint="mint"] {
+  --tint: var(--tint-mint);
+}
+.root[data-tint="sky"] {
+  --tint: var(--tint-sky);
+}
+
+.parallax,
+.drift,
+.press {
+  position: absolute;
+  inset: 0;
+}
+
+.parallax {
+  transform: translate3d(
+    calc(var(--pointer-x) * var(--depth)),
+    calc(var(--pointer-y) * var(--depth)),
+    0
+  );
+  will-change: transform;
+}
+
+.drift {
+  will-change: transform;
+}
+
+/* -------------------------------------------------------------------------
+   A pasta de vidro
+------------------------------------------------------------------------- */
+
+.surface {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  will-change: transform;
+}
+
+/*
+  O vidro: a pasta inteira, aba e corpo, numa forma só.
+
+  Dessatura o backdrop em vez de saturá-lo. O fundo é grama muito saturada;
+  com `saturate()` acima de 100% o vidro vira verde-amarelado e a pasta deixa
+  de ler como branca. Puxando para baixo, sobra a forma desfocada da grama sem
+  a cor dela — que é como vidro fosco se comporta de verdade.
+
+  O raio do blur é modesto por outro motivo: perto das bordas o backdrop-filter
+  tem menos pixels para amostrar e clareia a faixa externa. Num elemento de
+  ~200px, blur(20px) desenhava uma moldura clara visível.
+
+  Estes três números são o botão de gosto da pasta — mexa aqui para deixá-la
+  mais transparente (menos branco no gradiente abaixo) ou mais leitosa.
+*/
+.glass {
+  position: absolute;
+  inset: 0;
+  clip-path: url("#folder-silhouette");
+
+  -webkit-backdrop-filter: blur(13px) saturate(58%) brightness(1.2);
+  backdrop-filter: blur(13px) saturate(58%) brightness(1.2);
+
+  background-image:
+    /* fio de luz no contorno superior, no lugar do antigo aro de 1px:
+       com clip-path a máscara de borda não acompanharia a silhueta */
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.98) 0px,
+      rgba(255, 255, 255, 0) 2px
+    ),
+    /* luz principal descendo da aresta superior */
+      linear-gradient(
+        168deg,
+        rgba(255, 255, 255, 0.88) 0%,
+        rgba(255, 255, 255, 0.7) 56%,
+        rgba(255, 255, 255, 0.8) 100%
+      ),
+    /* cor refratada acumulando na base */
+      radial-gradient(
+        78% 58% at 88% 96%,
+        rgba(var(--tint), 0.22),
+        rgba(var(--tint), 0) 72%
+      );
+}
+
+/*
+  Sombra desenhada à mão, e não `box-shadow`: o `clip-path` recortaria a sombra
+  junto com a forma. É a mesma silhueta, deslocada e borrada — blur estático,
+  nada recalculado por frame.
+*/
+.shadow {
+  position: absolute;
+  inset: 0;
+  clip-path: url("#folder-silhouette");
+  background: rgba(28, 38, 80, 0.42);
+  filter: blur(16px);
+  transform: translateY(13px) scale(0.965);
+}
+
+/*
+  A região do corpo. Não pinta nada — o vidro já cobre a pasta inteira —, só
+  recorta o conteúdo e serve de retângulo de origem para o morph do painel.
+*/
+.body {
+  position: absolute;
+  top: 17%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.contents {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+/*
+  Reflexo especular. Branco puro, sem `mix-blend-mode: screen` — sobre a grama
+  o screen virava um brilho amarelo em vez de um reflexo.
+*/
+.sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(
+    152deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0) 46%
+  );
+}
+
+/*
+  O loop entra como um cartão DENTRO da pasta, não sangrando até a borda:
+  assim a moldura de vidro continua visível enquanto o vídeo roda.
+*/
+.preview {
+  position: absolute;
+  inset: 7px 7px 34px;
+  border-radius: 10px;
+  object-fit: cover;
+  opacity: 0;
+  will-change: opacity;
+  box-shadow: 0 6px 16px -8px rgba(28, 38, 80, 0.45);
+}
+
+.meta {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 13px 11px;
+  color: var(--c-ink);
+  /* Leve: o vidro já clareia o que passa por trás da etiqueta. */
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.4) 45%,
+    rgba(255, 255, 255, 0.6) 100%
+  );
+}
+
+.meta svg {
+  flex: none;
+  width: 15px;
+  height: 15px;
+  color: var(--c-ink-soft);
+}
+
+.label {
+  font-size: 12.5px;
+  font-weight: 500;
+}
+
+.count {
+  margin-left: auto;
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-ink-faint);
+}
+
+/* Halo do hover. Fora do .press: o brilho não deve escalar junto. */
+.glow {
+  position: absolute;
+  left: -14%;
+  right: -14%;
+  top: 6%;
+  bottom: -18%;
+  border-radius: 30px;
+  opacity: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    closest-side,
+    rgba(var(--tint), 0.6),
+    rgba(var(--tint), 0) 78%
+  );
+  /* Blur estático: só a opacidade anima, nada é recalculado por frame. */
+  filter: blur(16px);
+}
+
+/* -------------------------------------------------------------------------
+   Pasta anunciada e ainda vazia
+------------------------------------------------------------------------- */
+
+.root[data-soon="true"] .surface {
+  cursor: default;
+}
+
+.root[data-soon="true"] .glass {
+  background-image: linear-gradient(
+    168deg,
+    rgba(255, 255, 255, 0.76) 0%,
+    rgba(255, 255, 255, 0.54) 60%,
+    rgba(255, 255, 255, 0.66) 100%
+  );
+}
+
+.root[data-soon="true"] .shadow {
+  background: rgba(28, 38, 80, 0.3);
+  transform: translateY(9px) scale(0.965);
+}
+
+.root[data-soon="true"] .label {
+  color: var(--c-ink-soft);
+}
+
+/* Contorno tracejado, no lugar exato onde ficaria o cartão de vídeo. */
+.root[data-soon="true"] .contents::after {
+  content: "";
+  position: absolute;
+  inset: 7px 7px 34px;
+  border: 1px dashed rgba(60, 74, 130, 0.28);
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+/* -------------------------------------------------------------------------
+   Responsivo — troca o par de coordenadas; nenhum JS envolvido.
+------------------------------------------------------------------------- */
+
+@media (max-width: 900px), (max-aspect-ratio: 1 / 1) {
+  .root {
+    --x: var(--x-m);
+    --y: var(--y-m);
+    --size: var(--size-m);
+  }
+
+  .body {
+    border-radius: 11px;
+  }
+
+  .preview,
+  .root[data-soon="true"] .contents::after {
+    inset: 5px 5px 29px;
+    border-radius: 8px;
+  }
+
+  .meta {
+    padding: 12px 10px 9px;
+    gap: 6px;
+  }
+
+  .meta svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  .label {
+    font-size: 11.5px;
+  }
+
+  .count {
+    font-size: 8.5px;
+    letter-spacing: 0.1em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .parallax {
+    transform: none;
+  }
+}
