@@ -99,7 +99,8 @@ export function Scene() {
   const handleExplore = useCallback(() => {
     const target = activeId;
     const overlay = overlayRef.current;
-    if (!target || !overlay) return;
+    const section = target ? document.getElementById(target) : null;
+    if (!target || !overlay || !section) return;
 
     // Solta o scroll antes de pedir a rolagem, senão ela sai num documento travado.
     delete document.body.dataset.panelOpen;
@@ -111,44 +112,34 @@ export function Scene() {
     */
     void document.body.offsetHeight;
 
-    const section = document.getElementById(target);
+    /*
+      Rolagem instantânea, atrás do painel que ainda cobre a tela.
+
+      As três tentativas anteriores animavam a rolagem — via hash, via
+      `scrollIntoView` suave — e todas falhavam pelo mesmo motivo: rolagem
+      animada é cancelada por qualquer evento de roda. Quem clica no botão está
+      com a mão no trackpad, e o menor deslize matava o movimento no meio do
+      caminho. O painel fechava e a página não saía do lugar.
+
+      Nas sondas passava, porque navegador automatizado não tem mão no
+      trackpad. Era um bug que só existia com gente de verdade usando.
+
+      `"instant"` e não `"auto"`: `auto` significa "obedeça ao CSS", e o CSS
+      aqui é `scroll-behavior: smooth`. Era por isso que até o meu remédio
+      tinha o defeito da doença.
+
+      Salto não é interrompível, e ninguém o vê: o painel ainda está opaco por
+      cima. Quando ele dissolve, a seção já está posicionada.
+    */
+    section.scrollIntoView({ behavior: "instant", block: "start" });
 
     /*
-      Navegação por âncora, e não `scrollIntoView` puro.
-
-      É o caminho nativo do navegador para chegar a uma seção: respeita o
-      `scroll-margin-top` dela, sobrevive a interrupção, e deixa o endereço
-      refletir onde a pessoa está — quem recarregar volta para a seção, e o
-      botão "voltar" retorna para a hero. De quebra, dá para ver se o botão
-      funcionou só olhando a URL.
-
-      Se o hash já for esse, o navegador ignora o pedido; nesse caso vamos na
-      mão.
+      O endereço passa a refletir onde a pessoa está — quem recarregar volta
+      para a seção. `replaceState` e não `location.hash` porque o segundo
+      dispararia a rolagem do navegador de novo, por cima da que acabou de
+      acontecer.
     */
-    if (window.location.hash !== `#${target}`) {
-      window.location.hash = target;
-    } else {
-      section?.scrollIntoView({
-        behavior: reducedMotion ? "auto" : "smooth",
-        block: "start",
-      });
-    }
-
-    /*
-      Verificação de chegada, não de movimento. A versão anterior conferia se a
-      página tinha saído do lugar — o que dava por bom um scroll que começou e
-      morreu no meio do caminho.
-    */
-    window.setTimeout(() => {
-      const alvoEl = document.getElementById(target);
-      if (!alvoEl) return;
-      const margem = Number.parseFloat(
-        getComputedStyle(alvoEl).scrollMarginTop || "0",
-      );
-      if (Math.abs(alvoEl.getBoundingClientRect().top - margem) > 40) {
-        alvoEl.scrollIntoView({ behavior: "auto", block: "start" });
-      }
-    }, 420);
+    window.history.replaceState(null, "", `#${target}`);
 
     gsap.to(overlay, {
       opacity: 0,
@@ -158,7 +149,7 @@ export function Scene() {
         gsap.set(overlay, { clearProps: "opacity" });
         setActiveId(null);
         // O foco viaja junto, senão o teclado continua lá em cima.
-        section?.querySelector<HTMLElement>("h2")?.focus({ preventScroll: true });
+        section.querySelector<HTMLElement>("h2")?.focus({ preventScroll: true });
       },
     });
   }, [activeId, reducedMotion]);
