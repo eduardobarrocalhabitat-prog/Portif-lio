@@ -250,6 +250,24 @@
   cursor: pointer;
 }
 
+/*
+  O painel também precisa receber o ponteiro.
+
+  `.overlay` é `pointer-events: none` para não bloquear a cena quando está
+  fechado, e ao abrir a regra acima devolvia o ponteiro só ao scrim. O `.morph`
+  ficava de fora, e `pointer-events: none` num ancestral apaga a subárvore
+  inteira do teste de acerto: todo clique dentro do painel atravessava o
+  conteúdo e caía no scrim, que fecha.
+
+  Era isto, e não a rolagem, que fazia "Explorar" parecer um botão de fechar.
+  Nenhum clique dentro do painel chegava ao seu destino. Passou despercebido
+  porque `.click()` numa sonda dispara o evento direto no elemento, sem teste
+  de acerto: só mouse de verdade reproduzia.
+*/
+.overlay[data-open="true"] .morph {
+  pointer-events: auto;
+}
+
 /* -------------------------------------------------------------------------
    O morph: a pasta virando painel.
 
