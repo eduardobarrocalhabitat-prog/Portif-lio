@@ -1,6 +1,6 @@
 .root {
   position: absolute;
-  inset: 0;
+  inset: var(--bar-h) 0 0 0;
   z-index: 1;
   display: grid;
   place-items: center;

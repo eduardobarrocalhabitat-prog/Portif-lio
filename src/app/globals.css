@@ -72,6 +72,23 @@ html {
   scroll-behavior: smooth;
 }
 
+/*
+  Altura da barra do topo, aqui em cima porque duas partes distantes precisam
+  dela: a própria barra, e a hero, que começa logo abaixo em vez de passar por
+  baixo. Enquanto a barra era transparente, o vídeo atrás dela era o certo;
+  opaca, ela virou uma tampa preta sobre o topo do quadro e cortava a cabeça
+  do personagem.
+*/
+:root {
+  --bar-h: 64px;
+}
+
+@media (max-width: 760px) {
+  :root {
+    --bar-h: 56px;
+  }
+}
+
 body {
   background: var(--c-paper);
   color: var(--c-ink);
