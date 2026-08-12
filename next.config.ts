@@ -42,7 +42,7 @@ const nextConfig: NextConfig = {
           `conteudo` estava de fora, e é a pasta maior — 53 MB, com os três
           reels. Sem esta linha eles revalidavam a cada visita.
         */
-        source: "/:folder(media|marcas|conteudo)/:path*",
+        source: "/:folder(media|marcas|conteudo|sites)/:path*",
         headers: [{ key: "Cache-Control", value: IMMUTABLE }],
       },
     ];

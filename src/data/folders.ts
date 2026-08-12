@@ -64,7 +64,8 @@ export type GalleryItem = {
 export type SiteItem = {
   name: string;
   stack: string;
-  year: string;
+  /** Opcional pelo mesmo motivo do ano das marcas: data errada é pior que ausente. */
+  year?: string;
   url?: string;
   status: "live" | "wip";
   /** Captura da home, proporção 16:10. */
@@ -458,7 +459,7 @@ const fontes: FolderSource[] = [
   {
     id: "sites",
     label: "Sites",
-    count: "Em breve",
+    count: "02",
     icon: "globe",
     tint: "sky",
     preview: PLACEHOLDER_PREVIEW,
@@ -468,27 +469,40 @@ const fontes: FolderSource[] = [
       kicker: "Interface",
       title: "Sites",
       blurb:
-        "Três em construção agora. Cada um vira um card com link assim que entrar no ar.",
+        "Interfaces que foram ao ar. Clicar abre o site aqui dentro, navegável, sem sair da página.",
+      /*
+        Os dois estão no ar e os dois aceitam ser abertos dentro do
+        visualizador: testei carregando cada um num iframe de verdade, porque
+        cabeçalho limpo não basta, muito site quebra o enquadramento por
+        JavaScript.
+
+        `stack` saiu de checagem, não de suposição: a as7 declara Framer no
+        próprio HTML, e o MKZ carrega GSAP em onze requisições com um script
+        só, que é o retrato de um estático feito à mão.
+
+        `year` está de fora nos dois porque eu não sei as datas.
+
+        Aqui havia três cartões "em construção" que eu mesmo tinha escrito para
+        o layout aparecer. Saíram: sem URL e sem data de estreia, eles só
+        prometiam trabalho que ninguém pode conferir. Se algum for real e
+        estiver a caminho, é uma entrada de volta.
+      */
       content: {
         kind: "sites",
         items: [
           {
-            name: "Método Sintrópico",
-            stack: "Next.js · Sanity",
-            year: "2026",
-            status: "wip",
+            name: "as7 Comunicação",
+            stack: "Framer",
+            url: "https://as7.framer.website/",
+            status: "live",
+            image: "/sites/as7.webp",
           },
           {
-            name: "Pen Education",
-            stack: "Next.js · Stripe",
-            year: "2025",
-            status: "wip",
-          },
-          {
-            name: "Studio Barrocal",
-            stack: "Astro · GSAP",
-            year: "2025",
-            status: "wip",
+            name: "MKZ Canaã",
+            stack: "Estático · GSAP",
+            url: "https://mkzcanaabuffet.com.br/",
+            status: "live",
+            image: "/sites/mkz-canaa.webp",
           },
         ],
       },

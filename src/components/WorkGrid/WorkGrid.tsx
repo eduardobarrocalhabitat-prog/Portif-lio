@@ -299,8 +299,9 @@ function SiteGrid({ items }: { items: SiteItem[] }) {
               <span className={styles.siteFoot}>
                 <span>
                   <span className={styles.itemName}>{item.name}</span>
+                  {/* Sem ano, mostra só a stack: data errada é pior que ausente. */}
                   <span className={styles.itemMeta}>
-                    {item.stack} · {item.year}
+                    {item.year ? `${item.stack} · ${item.year}` : item.stack}
                   </span>
                 </span>
                 {live ? null : (
