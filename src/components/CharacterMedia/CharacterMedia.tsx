@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { characterConfig } from "@/config/character";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
@@ -19,6 +19,11 @@ type Props = {
 export function CharacterMedia({ ref }: Props) {
   const { mode } = characterConfig;
   const [ready, setReady] = useState(false);
+  /*
+    Estável de propósito: os filhos usam isto dentro de um efeito, e uma função
+    nova a cada render faria o efeito remontar sem necessidade.
+  */
+  const revelar = useCallback(() => setReady(true), []);
 
   return (
     <div
@@ -36,9 +41,9 @@ export function CharacterMedia({ ref }: Props) {
       aria-hidden="true"
     >
       {mode === "video" ? (
-        <VideoCharacter onReady={() => setReady(true)} />
+        <VideoCharacter onReady={revelar} />
       ) : (
-        <ImageCharacter onReady={() => setReady(true)} />
+        <ImageCharacter onReady={revelar} />
       )}
     </div>
   );
@@ -55,9 +60,36 @@ function VideoCharacter({ onReady }: { onReady: () => void }) {
     const el = videoRef.current;
     if (!el) return;
 
+    /*
+      Revelar deixa de depender só do evento.
+
+      `loadeddata` dispara uma vez. Se o arquivo já estava no cache, ele pode
+      acontecer antes do React pendurar o manipulador: o evento se perde,
+      `data-ready` fica em false para sempre, e o vídeo existe, toca, e está
+      invisível. É o "às vezes no F5".
+
+      Não reproduzi em vinte e um carregamentos automatizados, porque a
+      automação tem sempre o mesmo tempo e a corrida depende de variação. Mas
+      o estado conta a verdade em qualquer instante, enquanto o evento só conta
+      no dele, e a checagem custa uma linha.
+
+      `canplay` entra como segunda chance, e `error` também revela: com o
+      arquivo quebrado, o poster parado ainda é melhor do que tela vazia.
+    */
+    if (el.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) onReady();
+    el.addEventListener("loadeddata", onReady);
+    el.addEventListener("canplay", onReady);
+    el.addEventListener("error", onReady);
+
+    const limpar = () => {
+      el.removeEventListener("loadeddata", onReady);
+      el.removeEventListener("canplay", onReady);
+      el.removeEventListener("error", onReady);
+    };
+
     if (reducedMotion) {
       el.pause();
-      return;
+      return limpar;
     }
 
     // Safari/iOS recusa o autoplay em modo de baixo consumo; nesse caso a
@@ -66,8 +98,11 @@ function VideoCharacter({ onReady }: { onReady: () => void }) {
     attempt();
 
     window.addEventListener("pointerdown", attempt, { once: true });
-    return () => window.removeEventListener("pointerdown", attempt);
-  }, [reducedMotion]);
+    return () => {
+      limpar();
+      window.removeEventListener("pointerdown", attempt);
+    };
+  }, [reducedMotion, onReady]);
 
   return (
     <video
@@ -82,7 +117,6 @@ function VideoCharacter({ onReady }: { onReady: () => void }) {
       playsInline
       preload="auto"
       disablePictureInPicture
-      onLoadedData={onReady}
     >
       {video.webmSrc ? <source src={video.webmSrc} type="video/webm" /> : null}
       <source src={video.src} type="video/mp4" />
@@ -92,16 +126,26 @@ function VideoCharacter({ onReady }: { onReady: () => void }) {
 
 function ImageCharacter({ onReady }: { onReady: () => void }) {
   const { image, alt } = characterConfig;
+  const imgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
     // O placeholder vetorial não dispara onLoad, então libera o fade na hora.
-    if (!image.src) onReady();
+    if (!image.src) {
+      onReady();
+      return;
+    }
+
+    // Mesma corrida do vídeo: imagem em cache já chega `complete`, e nesse
+    // caso o `onLoad` acontece antes do React estar ouvindo.
+    const el = imgRef.current;
+    if (el?.complete && el.naturalWidth > 0) onReady();
   }, [image.src, onReady]);
 
   if (!image.src) return <PlaceholderCharacter />;
 
   return (
     <Image
+      ref={imgRef}
       className={styles.media}
       src={image.src}
       alt={alt}
