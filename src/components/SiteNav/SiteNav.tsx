@@ -13,10 +13,11 @@ const SECTIONS = [
   ...folders.map((folder) => ({ id: folder.id, label: folder.label })),
 ];
 
-/** O e-mail sai do mesmo lugar que a seção de contato, para nunca divergirem. */
-const EMAIL =
-  about.contact.links.find((link) => link.href.startsWith("mailto:"))?.href ??
-  "#";
+/*
+  O botão da barra vai para o WhatsApp, que é onde ele responde. Sai do mesmo
+  lugar que a seção de contato, para os dois nunca divergirem.
+*/
+const CONTATO = about.contact.whatsapp.href;
 
 /**
  * A barra do topo.
@@ -84,7 +85,12 @@ export function SiteNav() {
           <ul className={styles.list}>{links}</ul>
         </nav>
 
-        <a className={styles.contact} href={EMAIL}>
+        <a
+          className={styles.contact}
+          href={CONTATO}
+          target="_blank"
+          rel="noreferrer"
+        >
           Falar comigo
         </a>
       </header>

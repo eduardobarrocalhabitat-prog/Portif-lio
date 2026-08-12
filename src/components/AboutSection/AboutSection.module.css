@@ -206,6 +206,9 @@
   padding: 0;
   display: flex;
   flex-wrap: wrap;
+  /* O botão do WhatsApp é mais alto por ter duas linhas; sem isto os outros
+     três encostam no topo da fileira e ficam desalinhados com ele. */
+  align-items: center;
   gap: 10px;
 }
 
@@ -235,4 +238,34 @@
   .body {
     grid-template-columns: minmax(0, 1fr);
   }
+}
+
+/*
+  O botão principal do contato. Preenchido e com o número embaixo do rótulo:
+  quem já decidiu chamar não deveria precisar de mais um clique para saber
+  para onde vai.
+
+  Escrito como `.links .primary` e não como `.primary`: a regra `.links a`
+  acima já pinta fundo e sombra, e com peso menor esta aqui perderia. Subir a
+  especificidade resolve sem `!important`, que só empurraria o problema para
+  a próxima regra.
+*/
+.links .primary {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
+  color: var(--c-paper);
+  background: var(--c-ink);
+  box-shadow: none;
+}
+
+.links .primary span {
+  font-size: 11.5px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  opacity: 0.72;
+}
+
+.links .primary:hover {
+  background: #000;
 }

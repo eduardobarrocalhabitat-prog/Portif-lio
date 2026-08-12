@@ -19,11 +19,34 @@
   padding-right: max(clamp(20px, 3vw, 44px), env(safe-area-inset-right));
 
   /*
-    Sobre a hero a barra é só tipografia no ar. O vidro e o fio de borda só
-    entram depois, e por isso a transição é de fundo e sombra, nunca de
-    posição: uma barra que se move ao rolar chama atenção para si mesma.
+    Dois estados, um jogo de variáveis.
+
+    Sobre a hero a barra é uma faixa preta cheia. A primeira versão era só
+    tipografia no ar, sem fundo, e ficava estranha no desktop: as letras
+    boiavam sobre o teto claro do vídeo sem nada que as segurasse, e a barra
+    parecia um resto de layout em vez de uma decisão. Preta, ela vira moldura,
+    e o vídeo começa logo abaixo dela com uma aresta limpa.
+
+    Passada a hero ela troca para o vidro claro, que é o que serve quando há
+    conteúdo branco correndo por baixo.
+
+    As cores vivem em variáveis aqui em cima, e não repetidas em cada filho,
+    para os dois estados serem dois conjuntos de valores em vez de duas cópias
+    das mesmas regras. Trocar a variável dispara a transição de `color` e
+    `background` que cada filho já declara.
+
+    A transição é de cor, fundo e sombra, nunca de posição: uma barra que se
+    move ao rolar chama atenção para si mesma em vez de para o conteúdo.
   */
-  background: rgba(255, 255, 255, 0);
+  --bar-fg: var(--c-paper);
+  --bar-fg-soft: rgba(255, 255, 255, 0.66);
+  --bar-fg-faint: rgba(255, 255, 255, 0.46);
+  --bar-hover-bg: rgba(255, 255, 255, 0.13);
+  --bar-active-bg: var(--c-paper);
+  --bar-active-fg: var(--c-ink);
+  --bar-edge: rgba(255, 255, 255, 0.3);
+
+  background: var(--c-ink);
   box-shadow: 0 1px 0 rgba(28, 38, 80, 0);
   transition:
     background 0.3s var(--e-out),
@@ -32,6 +55,14 @@
 }
 
 .bar[data-scrolled="true"] {
+  --bar-fg: var(--c-ink);
+  --bar-fg-soft: var(--c-ink-soft);
+  --bar-fg-faint: var(--c-ink-faint);
+  --bar-hover-bg: rgba(255, 255, 255, 0.7);
+  --bar-active-bg: var(--c-ink);
+  --bar-active-fg: #fff;
+  --bar-edge: rgba(28, 38, 80, 0.16);
+
   -webkit-backdrop-filter: blur(14px) saturate(58%) brightness(1.16);
   backdrop-filter: blur(14px) saturate(58%) brightness(1.16);
   background: rgba(255, 255, 255, 0.72);
@@ -58,7 +89,8 @@
   font-size: clamp(17px, 1.4vw, 21px);
   letter-spacing: -0.01em;
   line-height: 1;
-  color: var(--c-ink);
+  color: var(--bar-fg);
+  transition: color 0.3s var(--e-out);
 }
 
 .brand span {
@@ -67,7 +99,8 @@
   font-weight: 500;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--c-ink-faint);
+  color: var(--bar-fg-faint);
+  transition: color 0.3s var(--e-out);
 }
 
 /* -------------------------------------------------------------------------
@@ -94,7 +127,7 @@
   border-radius: 999px;
   font-size: 12.5px;
   font-weight: 500;
-  color: var(--c-ink-soft);
+  color: var(--bar-fg-soft);
   white-space: nowrap;
   transition:
     color 0.18s var(--e-out),
@@ -102,14 +135,14 @@
 }
 
 .link:hover {
-  color: var(--c-ink);
-  background: rgba(255, 255, 255, 0.7);
+  color: var(--bar-fg);
+  background: var(--bar-hover-bg);
 }
 
 /* Estado ativo por cor E por fundo: cor sozinha não é indicador suficiente. */
 .link[data-active="true"] {
-  color: #fff;
-  background: var(--c-ink);
+  color: var(--bar-active-fg);
+  background: var(--bar-active-bg);
 }
 
 /* -------------------------------------------------------------------------
@@ -122,8 +155,8 @@
   border-radius: 999px;
   font-size: 12.5px;
   font-weight: 500;
-  color: var(--c-ink);
-  box-shadow: inset 0 0 0 1px rgba(28, 38, 80, 0.16);
+  color: var(--bar-fg);
+  box-shadow: inset 0 0 0 1px var(--bar-edge);
   white-space: nowrap;
   transition:
     color 0.18s var(--e-out),
@@ -132,9 +165,9 @@
 }
 
 .contact:hover {
-  color: #fff;
-  background: var(--c-ink);
-  box-shadow: inset 0 0 0 1px var(--c-ink);
+  color: var(--bar-active-fg);
+  background: var(--bar-active-bg);
+  box-shadow: inset 0 0 0 1px var(--bar-active-bg);
 }
 
 /* -------------------------------------------------------------------------
@@ -167,6 +200,18 @@
   }
 
   .pill {
+    /*
+      A pílula é irmã da barra, não filha, então não herda as variáveis dela:
+      sem estas linhas os links aqui ficariam sem cor nenhuma. E o conjunto é
+      fixo porque a pílula é sempre o vidro claro, em qualquer altura da
+      página.
+    */
+    --bar-fg: var(--c-ink);
+    --bar-fg-soft: var(--c-ink-soft);
+    --bar-hover-bg: rgba(255, 255, 255, 0.7);
+    --bar-active-bg: var(--c-ink);
+    --bar-active-fg: #fff;
+
     position: fixed;
     left: 50%;
     bottom: max(14px, env(safe-area-inset-bottom));

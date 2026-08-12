@@ -95,10 +95,34 @@ export function AboutSection({ index, total }: { index: number; total: number })
           <p>{about.contact.body}</p>
         </div>
 
+        {/*
+          O WhatsApp na frente e com peso próprio. As outras formas existem,
+          mas oferecer quatro botões iguais é empurrar a decisão para quem
+          chegou: uma lista de opções equivalentes convida a fechar a aba.
+        */}
         <ul className={styles.links}>
+          <li>
+            <a
+              className={styles.primary}
+              href={about.contact.whatsapp.href}
+              target="_blank"
+              rel="noreferrer"
+            >
+              WhatsApp
+              <span>{about.contact.whatsapp.label}</span>
+            </a>
+          </li>
+
           {about.contact.links.map((link) => (
             <li key={link.label}>
-              <a href={link.href}>{link.label}</a>
+              <a
+                href={link.href}
+                // mailto abre o cliente de e-mail; o resto sai para outra aba.
+                target={link.href.startsWith("mailto:") ? undefined : "_blank"}
+                rel={link.href.startsWith("mailto:") ? undefined : "noreferrer"}
+              >
+                {link.label}
+              </a>
             </li>
           ))}
         </ul>

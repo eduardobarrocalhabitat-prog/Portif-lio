@@ -73,13 +73,34 @@ export const about = {
     },
   ],
 
+  /*
+    O WhatsApp vem primeiro em todo lugar, e é ele que os botões de contato
+    disparam: é onde ele responde. O resto fica como alternativa, não como
+    escolha equivalente.
+
+    `whatsapp.href` é só dígitos com o país na frente, que é o formato que o
+    wa.me exige. `whatsapp.label` é o número como se lê, para a tela.
+  */
   contact: {
     label: "Vamos conversar",
     body: "Aberto a projetos, colaborações e conversas sem compromisso. Costumo responder em até um dia útil.",
+    whatsapp: {
+      label: "+55 11 96184-8938",
+      href: "https://wa.me/5511961848938",
+    },
     links: [
-      { label: "dudueddudis@gmail.com", href: "mailto:dudueddudis@gmail.com" },
-      { label: "Instagram", href: "#" },
-      { label: "LinkedIn", href: "#" },
+      {
+        label: "eduardo.barrocal@hotmail.com",
+        href: "mailto:eduardo.barrocal@hotmail.com",
+      },
+      {
+        label: "LinkedIn",
+        href: "https://www.linkedin.com/in/eduardo-barrocal",
+      },
+      {
+        label: "Behance",
+        href: "https://www.behance.net/eduardobarrocal",
+      },
     ],
   },
 } as const;
