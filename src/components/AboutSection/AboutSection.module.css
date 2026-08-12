@@ -298,3 +298,100 @@
 .links .iconLink:hover {
   color: var(--c-ink);
 }
+
+/* -------------------------------------------------------------------------
+   Empresas
+------------------------------------------------------------------------- */
+
+.companies {
+  margin-top: clamp(40px, 6vw, 80px);
+  padding-top: clamp(26px, 3.4vw, 40px);
+  border-top: 1px solid rgba(78, 90, 140, 0.16);
+}
+
+.companiesTitle {
+  margin: 0 0 clamp(20px, 2.6vw, 30px);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--c-ink-faint);
+}
+
+/*
+  Grade e não fileira que rola.
+
+  Já existe uma faixa em movimento nesta página, a dos serviços. Uma segunda
+  logo abaixo brigaria com ela, e nome de cliente é coisa que se lê parado.
+
+  `auto-fill` com mínimo em px: com dez nomes ou com três, as células mantêm a
+  mesma largura e a fileira nunca fica com um item esticado sozinho.
+*/
+.logos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(clamp(130px, 15vw, 180px), 1fr));
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/*
+  O fio entre as células é o fundo da grade aparecendo pelo `gap`. Sai mais
+  limpo que borda em cada item, que dobraria de espessura nos encontros.
+*/
+.logo {
+  display: grid;
+  place-items: center;
+  min-height: clamp(76px, 8vw, 96px);
+  padding: 14px 16px;
+  background: var(--c-paper);
+  /*
+    O fio vem de cada célula, e não do fundo da grade aparecendo por um vão.
+
+    Com o fundo fazendo as linhas, a última fileira incompleta deixava o cinza
+    exposto onde não havia célula: dois buracos no canto. Assim a linha só
+    existe onde existe conteúdo, e o espaço que sobra é a página.
+
+    Vizinhas desenham a sombra uma sobre a outra no mesmo pixel, então a linha
+    entre duas células continua com 1px, não 2.
+  */
+  box-shadow: 0 0 0 1px rgba(78, 90, 140, 0.14);
+}
+
+.logo img {
+  max-width: 100%;
+  height: auto;
+  max-height: 40px;
+  object-fit: contain;
+  /*
+    Logo de cliente vem em dez cores diferentes e transforma a fileira num
+    mostruário de tintas. Sem cor, o que sobra é a forma, e a grade lê como
+    uma coisa só. Recupera a cor no hover, para quem quiser ver.
+  */
+  filter: grayscale(1);
+  opacity: 0.62;
+  transition:
+    filter 0.22s var(--e-out),
+    opacity 0.22s var(--e-out);
+}
+
+.logo:hover img {
+  filter: grayscale(0);
+  opacity: 1;
+}
+
+.logoNome {
+  font-size: clamp(12.5px, 1.1vw, 14px);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-align: center;
+  text-wrap: balance;
+  color: var(--c-ink-soft);
+  transition: color 0.22s var(--e-out);
+}
+
+.logo:hover .logoNome {
+  color: var(--c-ink);
+}

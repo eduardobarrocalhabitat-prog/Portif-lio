@@ -18,7 +18,24 @@ export const FOLDER_CLIP_ID = "folder-silhouette";
 
 export function FolderShape() {
   return (
-    <svg width="0" height="0" aria-hidden="true" focusable="false">
+    <svg
+      width="0"
+      height="0"
+      aria-hidden="true"
+      focusable="false"
+      /*
+        `position: absolute` não é capricho.
+
+        Este SVG só carrega uma definição e mede 0x0, mas `svg` é `display:
+        inline` por padrão, e elemento inline gera uma linha de texto mesmo
+        vazio: a altura da linha vira espaço de verdade no fluxo. Isso empurrava
+        a página INTEIRA 21px para baixo, e a hero começava 21px abaixo do topo.
+        O efeito visível era uma faixa branca entre a barra do topo e o vídeo.
+
+        Fora do fluxo, ele não mede nada e não empurra nada.
+      */
+      style={{ position: "absolute", width: 0, height: 0 }}
+    >
       <defs>
         <clipPath id={FOLDER_CLIP_ID} clipPathUnits="objectBoundingBox">
           <path

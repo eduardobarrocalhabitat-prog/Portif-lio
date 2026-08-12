@@ -39,10 +39,14 @@ const nextConfig: NextConfig = {
           Vídeos, posters, capas, páginas de manual: nada aqui muda sem mudar
           de nome.
 
-          `conteudo` estava de fora, e é a pasta maior — 53 MB, com os três
+          `conteudo` estava de fora, e é a pasta maior, 53 MB com os três
           reels. Sem esta linha eles revalidavam a cada visita.
+
+          `empresas` entra antes de existir arquivo lá: quando as logos
+          chegarem, elas já nascem com o cabeçalho certo em vez de dependerem
+          de alguém lembrar.
         */
-        source: "/:folder(media|marcas|conteudo|sites)/:path*",
+        source: "/:folder(media|marcas|conteudo|sites|empresas)/:path*",
         headers: [{ key: "Cache-Control", value: IMMUTABLE }],
       },
     ];

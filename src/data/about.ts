@@ -74,6 +74,37 @@ export const about = {
   ],
 
   /*
+    Empresas com quem ele trabalhou.
+
+    Os nomes não são chute: cada um saiu do próprio acervo do site. Lavaê, AND
+    Academy, Business Place, Pitqueens, Campo Mourão e Toth vêm dos manuais de
+    marca; as7 e MKZ Canaã, dos sites no ar; Pen Education e Campo Capital, das
+    peças de conteúdo. Ou seja, para cada um destes existe trabalho publicado
+    aqui, o que é o critério certo para uma lista dessas.
+
+    TODO: `logo` está vazio em todos. Enquanto não chega o arquivo, o cartão
+    mostra o nome com tratamento tipográfico próprio, que lê como decisão e não
+    como imagem quebrada. Quando as logos chegarem, é preencher o campo: ponha
+    o arquivo em `public/empresas/` (SVG, ou PNG com fundo transparente) e
+    aponte aqui. Nada mais precisa mudar.
+  */
+  companies: {
+    label: "Empresas com quem trabalhei",
+    items: [
+      { name: "Lavaê", logo: null },
+      { name: "AND Academy", logo: null },
+      { name: "Business Place", logo: null },
+      { name: "Pitqueens", logo: null },
+      { name: "Campo Mourão", logo: null },
+      { name: "Toth", logo: null },
+      { name: "as7 Comunicação", logo: null },
+      { name: "MKZ Canaã", logo: null },
+      { name: "Pen Education", logo: null },
+      { name: "Campo Capital", logo: null },
+    ] as { name: string; logo: string | null }[],
+  },
+
+  /*
     O WhatsApp vem primeiro em todo lugar, e é ele que os botões de contato
     disparam: é onde ele responde. O resto fica como alternativa, não como
     escolha equivalente.

@@ -2,6 +2,8 @@
 
 import { useRef } from "react";
 
+import Image from "next/image";
+
 import { ContactIcon } from "@/components/ContactIcon/ContactIcon";
 import { about } from "@/data/about";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
@@ -89,6 +91,39 @@ export function AboutSection({ index, total }: { index: number; total: number })
           </li>
         ))}
       </ul>
+
+      {/*
+        A prova social vem depois das frentes de trabalho e antes do contato:
+        primeiro o que ele faz, depois quem já confiou, e só então o convite.
+        Invertida, a lista de nomes vira enfeite.
+      */}
+      <section className={styles.companies} aria-labelledby="empresas-titulo">
+        <h3 id="empresas-titulo" className={styles.companiesTitle} data-reveal>
+          {about.companies.label}
+        </h3>
+
+        <ul className={styles.logos}>
+          {about.companies.items.map((company) => (
+            <li key={company.name} className={styles.logo} data-reveal>
+              {company.logo ? (
+                <Image
+                  src={company.logo}
+                  alt={company.name}
+                  width={220}
+                  height={80}
+                />
+              ) : (
+                /*
+                  Sem arquivo, o nome ocupa o lugar da logo com tratamento
+                  próprio. Não é "imagem faltando": é como a marca se chama,
+                  escrita. Quando o arquivo chegar, ele entra no mesmo espaço.
+                */
+                <span className={styles.logoNome}>{company.name}</span>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
 
       <div className={styles.contact} data-reveal>
         <div>
