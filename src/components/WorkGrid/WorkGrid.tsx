@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useCallback, useRef, useState } from "react";
 
 import { Viewer, type ViewerSource } from "@/components/Viewer/Viewer";
+import { useAutoPlayInView } from "@/hooks/useAutoPlayInView";
 import type {
   BrandItem,
   CaseItem,
@@ -172,12 +173,19 @@ function GalleryPiece({
   item: GalleryItem;
   onOpen: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
+  /*
+    O vídeo roda sozinho enquanto a peça está no meio da tela. O ponteiro
+    continua valendo por cima disso: no desktop, passar o mouse numa peça que
+    está na borda da tela ainda a faz tocar.
+  */
+  const { ref: videoRef, noComando } = useAutoPlayInView<HTMLVideoElement>();
   const slides = item.slides?.length ?? (item.image ? 1 : 0);
 
   const setPlaying = (playing: boolean) => {
     const video = videoRef.current;
     if (!video) return;
+    // O ponteiro só manda parar se a rolagem não estiver mandando tocar.
+    if (!playing && noComando.current) return;
     if (playing) void video.play().catch(() => {});
     else video.pause();
   };
