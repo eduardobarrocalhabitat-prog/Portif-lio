@@ -206,8 +206,8 @@
   padding: 0;
   display: flex;
   flex-wrap: wrap;
-  /* O botão do WhatsApp é mais alto por ter duas linhas; sem isto os outros
-     três encostam no topo da fileira e ficam desalinhados com ele. */
+  /* Os botões têm alturas diferentes: um pílula com texto, três quadrados de
+     ícone. Sem isto eles encostam no topo da fileira e ficam desalinhados. */
   align-items: center;
   gap: 10px;
 }
@@ -240,32 +240,61 @@
   }
 }
 
-/*
-  O botão principal do contato. Preenchido e com o número embaixo do rótulo:
-  quem já decidiu chamar não deveria precisar de mais um clique para saber
-  para onde vai.
+/* -------------------------------------------------------------------------
+   Botões de contato
+------------------------------------------------------------------------- */
 
-  Escrito como `.links .primary` e não como `.primary`: a regra `.links a`
-  acima já pinta fundo e sombra, e com peso menor esta aqui perderia. Subir a
+/*
+  Escritos como `.links .algo` e não como `.algo`: a regra `.links a` acima
+  já pinta fundo e sombra, e com peso menor estas perderiam. Subir a
   especificidade resolve sem `!important`, que só empurraria o problema para
   a próxima regra.
 */
+
+/*
+  O principal: preenchido, com a marca ao lado do nome. Os outros três são só
+  a marca, então este precisa carregar sozinho o peso de ser o caminho
+  preferido.
+*/
 .links .primary {
   display: inline-flex;
-  flex-direction: column;
-  gap: 2px;
+  align-items: center;
+  gap: 9px;
   color: var(--c-paper);
   background: var(--c-ink);
   box-shadow: none;
 }
 
-.links .primary span {
-  font-size: 11.5px;
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  opacity: 0.72;
-}
-
 .links .primary:hover {
   background: #000;
+}
+
+.links .primary svg {
+  width: 17px;
+  height: 17px;
+  flex: none;
+}
+
+/*
+  Os secundários: quadrados, só a marca dentro.
+
+  Largura igual à altura para a fileira ficar regular, e não três pílulas de
+  tamanhos diferentes conforme o comprimento de um texto que nem aparece mais.
+*/
+.links .iconLink {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  color: var(--c-ink-soft);
+}
+
+.links .iconLink svg {
+  width: 19px;
+  height: 19px;
+}
+
+.links .iconLink:hover {
+  color: var(--c-ink);
 }

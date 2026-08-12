@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 
+import { ContactIcon } from "@/components/ContactIcon/ContactIcon";
 import { about } from "@/data/about";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { EASE, REVEAL, gsap, useGSAP } from "@/lib/motion";
@@ -96,9 +97,16 @@ export function AboutSection({ index, total }: { index: number; total: number })
         </div>
 
         {/*
-          O WhatsApp na frente e com peso próprio. As outras formas existem,
-          mas oferecer quatro botões iguais é empurrar a decisão para quem
-          chegou: uma lista de opções equivalentes convida a fechar a aba.
+          Só as marcas. O texto de cada canal mora no rodapé, e aqui o que
+          importa é a fileira ser lida de relance.
+
+          O WhatsApp continua na frente e com peso próprio, preenchido e com o
+          nome ao lado do ícone: quatro botões idênticos devolveriam a decisão
+          para quem chegou, e é ali que ele responde.
+
+          Cada link carrega `aria-label` e `title`. O primeiro dá nome a quem
+          usa leitor de tela ou teclado, o segundo revela o destino no mouse.
+          Ícone sem nenhum dos dois é adivinhação.
         */}
         <ul className={styles.links}>
           <li>
@@ -107,24 +115,32 @@ export function AboutSection({ index, total }: { index: number; total: number })
               href={about.contact.whatsapp.href}
               target="_blank"
               rel="noreferrer"
+              aria-label={`WhatsApp, ${about.contact.whatsapp.label}`}
+              title={about.contact.whatsapp.label}
             >
+              <ContactIcon name={about.contact.whatsapp.icon} />
               WhatsApp
-              <span>{about.contact.whatsapp.label}</span>
             </a>
           </li>
 
-          {about.contact.links.map((link) => (
-            <li key={link.label}>
-              <a
-                href={link.href}
-                // mailto abre o cliente de e-mail; o resto sai para outra aba.
-                target={link.href.startsWith("mailto:") ? undefined : "_blank"}
-                rel={link.href.startsWith("mailto:") ? undefined : "noreferrer"}
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
+          {about.contact.links.map((link) => {
+            const email = link.href.startsWith("mailto:");
+            return (
+              <li key={link.label}>
+                <a
+                  className={styles.iconLink}
+                  href={link.href}
+                  // mailto abre o cliente de e-mail; o resto sai para outra aba.
+                  target={email ? undefined : "_blank"}
+                  rel={email ? undefined : "noreferrer"}
+                  aria-label={email ? `E-mail, ${link.label}` : link.label}
+                  title={link.label}
+                >
+                  <ContactIcon name={link.icon} />
+                </a>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </section>

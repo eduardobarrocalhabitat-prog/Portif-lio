@@ -1,9 +1,9 @@
 import { AboutSection } from "@/components/AboutSection/AboutSection";
 import { Scene } from "@/components/Scene/Scene";
 import { ServicesMarquee } from "@/components/ServicesMarquee/ServicesMarquee";
+import { SiteFooter } from "@/components/SiteFooter/SiteFooter";
 import { SiteNav } from "@/components/SiteNav/SiteNav";
 import { WorkSection } from "@/components/WorkSection/WorkSection";
-import { about } from "@/data/about";
 import { folders } from "@/data/folders";
 
 export default function Home() {
@@ -41,10 +41,7 @@ export default function Home() {
 
       <SiteNav />
 
-      <footer className="srOnly">
-        Eduardo Barrocal · WhatsApp {about.contact.whatsapp.label} · e-mail{" "}
-        {about.contact.links[0].label}
-      </footer>
+      <SiteFooter />
     </>
   );
 }

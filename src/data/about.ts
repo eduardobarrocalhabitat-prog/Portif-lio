@@ -87,19 +87,29 @@ export const about = {
     whatsapp: {
       label: "+55 11 96184-8938",
       href: "https://wa.me/5511961848938",
+      icon: "whatsapp",
     },
+    /*
+      `label` continua aqui mesmo com os botões virando ícones. Ele não some:
+      vira o nome acessível do link e o texto do rodapé. Um botão de contato
+      sem nome é um botão perdido para quem navega por leitor de tela ou
+      teclado.
+    */
     links: [
       {
         label: "eduardo.barrocal@hotmail.com",
         href: "mailto:eduardo.barrocal@hotmail.com",
+        icon: "email",
       },
       {
         label: "LinkedIn",
         href: "https://www.linkedin.com/in/eduardo-barrocal",
+        icon: "linkedin",
       },
       {
         label: "Behance",
         href: "https://www.behance.net/eduardobarrocal",
+        icon: "behance",
       },
     ],
   },

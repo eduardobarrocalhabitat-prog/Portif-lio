@@ -1,0 +1,108 @@
+/*
+  Preto, como a barra do topo sobre a hero.
+
+  A página abre numa faixa escura e fecha em outra: o conteúdo claro fica entre
+  as duas, e o site ganha começo e fim em vez de terminar onde o texto acabou.
+*/
+.footer {
+  background: var(--c-ink);
+  color: var(--c-paper);
+}
+
+.inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: clamp(44px, 6vw, 76px) clamp(20px, 4vw, 56px);
+  /* No retrato a pílula de seções flutua na base; sem esta folga ela cobre a
+     última linha do rodapé. */
+  padding-bottom: max(clamp(44px, 6vw, 76px), 96px);
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: clamp(28px, 4vw, 56px);
+}
+
+.name {
+  margin: 0;
+  font-family: var(--f-serif);
+  font-size: clamp(22px, 2.2vw, 30px);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.role {
+  margin: 8px 0 0;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.46);
+}
+
+.canais {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(22px, 3.4vw, 52px);
+}
+
+.canais li {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rotulo {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.42);
+}
+
+.canais a {
+  font-size: 14.5px;
+  color: rgba(255, 255, 255, 0.88);
+  /*
+    Sublinhado deslocado e fino: num fundo escuro o sublinhado padrão corta as
+    descidas das letras e engorda a linha toda.
+  */
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.24);
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  transition:
+    color 0.18s var(--e-out),
+    text-decoration-color 0.18s var(--e-out);
+}
+
+.canais a:hover {
+  color: #fff;
+  text-decoration-color: rgba(255, 255, 255, 0.7);
+}
+
+.sociais {
+  display: flex;
+  gap: 18px;
+}
+
+/* O foco precisa aparecer no escuro: o anel padrão da página é azul-tinta. */
+.footer :where(a):focus-visible {
+  outline-color: rgba(255, 255, 255, 0.85);
+}
+
+@media (max-width: 700px) {
+  .inner {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .canais {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
