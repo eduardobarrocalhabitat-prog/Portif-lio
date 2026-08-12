@@ -485,11 +485,12 @@ export function Scene() {
 
         <CharacterMedia ref={characterRef} />
 
+        {/*
+          O nome saiu daqui: agora ele vive na barra do topo, que existe na
+          página inteira. Desenhá-lo também na cena punha dois "Eduardo
+          Barrocal" no mesmo canto da tela. Sobra a dica, que é da cena mesmo.
+        */}
         <div ref={chromeRef} className={styles.chrome}>
-          <p className={styles.wordmark}>
-            Eduardo Barrocal
-            <span>Design · UI/UX · IA</span>
-          </p>
           <p className={styles.hint}>Toque em uma pasta</p>
         </div>
 
