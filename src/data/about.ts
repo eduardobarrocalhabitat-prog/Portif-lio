@@ -76,31 +76,27 @@ export const about = {
   /*
     Empresas com quem ele trabalhou.
 
-    Os nomes não são chute: cada um saiu do próprio acervo do site. Lavaê, AND
-    Academy, Business Place, Pitqueens, Campo Mourão e Toth vêm dos manuais de
-    marca; as7 e MKZ Canaã, dos sites no ar; Pen Education e Campo Capital, das
-    peças de conteúdo. Ou seja, para cada um destes existe trabalho publicado
-    aqui, o que é o critério certo para uma lista dessas.
+    A lista saiu das logos entregues, e cada nome veio do que a logo mostra, e
+    não do nome do arquivo: `inovabra.png` é a marca da Khanum, e o inovabra de
+    verdade estava em `logo-inovabra-vermelho.png`. Confie na imagem.
 
-    TODO: `logo` está vazio em todos. Enquanto não chega o arquivo, o cartão
-    mostra o nome com tratamento tipográfico próprio, que lê como decisão e não
-    como imagem quebrada. Quando as logos chegarem, é preencher o campo: ponha
-    o arquivo em `public/empresas/` (SVG, ou PNG com fundo transparente) e
-    aponte aqui. Nada mais precisa mudar.
+    As PNG viraram WebP com 160px de altura, que cobre 4x de densidade sobre os
+    40px de exibição. O Toth é vetor limpo e ficou SVG: não tem tamanho de tela
+    para errar. Seis marcas em 60 KB.
+
+    Para acrescentar: ponha o arquivo em `public/empresas/` e some uma linha.
+    Sem `logo`, o cartão mostra só o nome, e continua inteiro.
   */
   companies: {
     label: "Empresas com quem trabalhei",
     items: [
-      { name: "Lavaê", logo: null },
-      { name: "AND Academy", logo: null },
-      { name: "Business Place", logo: null },
-      { name: "Pitqueens", logo: null },
-      { name: "Campo Mourão", logo: null },
-      { name: "Toth", logo: null },
-      { name: "as7 Comunicação", logo: null },
-      { name: "MKZ Canaã", logo: null },
-      { name: "Pen Education", logo: null },
-      { name: "Campo Capital", logo: null },
+      { name: "inovabra", logo: "/empresas/inovabra.webp" },
+      { name: "Khanum", logo: "/empresas/khanum.webp" },
+      { name: "Pen Education", logo: "/empresas/pen-education.webp" },
+      { name: "Rede Ronaldo Games", logo: "/empresas/rede-ronaldo-games.webp" },
+      { name: "as7 Comunicação", logo: "/empresas/as7.webp" },
+      { name: "Toth Innovation Marketing", logo: "/empresas/toth.svg" },
+      { name: "Whido", logo: "/empresas/whido.webp" },
     ] as { name: string; logo: string | null }[],
   },
 

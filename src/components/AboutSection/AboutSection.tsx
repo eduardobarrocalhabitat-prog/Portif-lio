@@ -106,20 +106,28 @@ export function AboutSection({ index, total }: { index: number; total: number })
           {about.companies.items.map((company) => (
             <li key={company.name} className={styles.logo} data-reveal>
               {company.logo ? (
+                /*
+                  `alt` vazio de propósito: o nome vem escrito logo abaixo, no
+                  mesmo cartão. Repetir aqui faria o leitor de tela anunciar a
+                  empresa duas vezes seguidas.
+                */
                 <Image
+                  className={styles.logoImagem}
                   src={company.logo}
-                  alt={company.name}
+                  alt=""
                   width={220}
                   height={80}
                 />
               ) : (
                 /*
-                  Sem arquivo, o nome ocupa o lugar da logo com tratamento
-                  próprio. Não é "imagem faltando": é como a marca se chama,
-                  escrita. Quando o arquivo chegar, ele entra no mesmo espaço.
+                  Sem arquivo, o nome sozinho segura o cartão. Não é "imagem
+                  faltando": quando o arquivo chegar, ele entra por cima e o
+                  nome continua onde está.
                 */
-                <span className={styles.logoNome}>{company.name}</span>
+                <span className={styles.semLogo} aria-hidden="true" />
               )}
+
+              <span className={styles.logoNome}>{company.name}</span>
             </li>
           ))}
         </ul>

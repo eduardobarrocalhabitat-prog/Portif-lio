@@ -332,7 +332,13 @@
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(clamp(130px, 15vw, 180px), 1fr));
+  /*
+    O mínimo é menor do que parece necessário de propósito: com 180px, as sete
+    marcas de hoje quebravam em 6+1 e a última ficava órfã numa fileira só
+    dela. Com 156px cabem as sete numa fileira em tela cheia, e o `auto-fill`
+    continua reagindo sozinho quando entrar a oitava.
+  */
+  grid-template-columns: repeat(auto-fill, minmax(clamp(124px, 12vw, 156px), 1fr));
   border-radius: 16px;
   overflow: hidden;
 }
@@ -342,10 +348,13 @@
   limpo que borda em cada item, que dobraria de espessura nos encontros.
 */
 .logo {
-  display: grid;
-  place-items: center;
-  min-height: clamp(76px, 8vw, 96px);
-  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: clamp(126px, 11vw, 148px);
+  padding: 18px 16px;
   background: var(--c-paper);
   /*
     O fio vem de cada célula, e não do fundo da grade aparecendo por um vão.
@@ -360,35 +369,62 @@
   box-shadow: 0 0 0 1px rgba(78, 90, 140, 0.14);
 }
 
-.logo img {
-  max-width: 100%;
-  height: auto;
-  max-height: 40px;
+/*
+  Altura fixa para a caixa da logo, largura livre.
+
+  As marcas chegam em proporções muito diferentes: o Pen Education é uma faixa
+  deitada de 2:1, a Rede Ronaldo Games é um quadrado. Sem uma altura comum, a
+  deitada apareceria minúscula ao lado da quadrada. Fixando a altura da caixa e
+  deixando a imagem caber dentro por `contain`, todas ocupam a mesma faixa
+  vertical e a fileira fica regular.
+*/
+/*
+  Caixa comum, e a imagem se acomoda dentro por `contain`.
+
+  As marcas chegam em proporções muito diferentes: o Pen Education é uma faixa
+  deitada de 2:1, a Toth é um quadrado com ilustração de linha fina. Fixando só
+  a altura, a quadrada ficava do tamanho da deitada e virava borrão. Com uma
+  caixa de largura e altura, a deitada esbarra na largura e a quadrada usa toda
+  a altura, que é exatamente a que precisa de mais.
+*/
+.logoImagem,
+.semLogo {
+  display: block;
+  width: 100%;
+  height: 64px;
   object-fit: contain;
+}
+
+.logoImagem {
   /*
     Logo de cliente vem em dez cores diferentes e transforma a fileira num
-    mostruário de tintas. Sem cor, o que sobra é a forma, e a grade lê como
-    uma coisa só. Recupera a cor no hover, para quem quiser ver.
+    mostruário de tintas. Sem cor, o que sobra é a forma, e a grade lê como uma
+    coisa só. Recupera a cor no hover, para quem quiser ver.
   */
   filter: grayscale(1);
-  opacity: 0.62;
+  opacity: 0.68;
   transition:
     filter 0.22s var(--e-out),
     opacity 0.22s var(--e-out);
 }
 
-.logo:hover img {
+.logo:hover .logoImagem {
   filter: grayscale(0);
   opacity: 1;
 }
 
+/* Guarda o mesmo espaço da logo quando ela ainda não existe. */
+.semLogo {
+  width: 0;
+}
+
 .logoNome {
-  font-size: clamp(12.5px, 1.1vw, 14px);
+  font-size: clamp(11px, 0.95vw, 12.5px);
   font-weight: 500;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.02em;
   text-align: center;
   text-wrap: balance;
-  color: var(--c-ink-soft);
+  color: var(--c-ink-faint);
   transition: color 0.22s var(--e-out);
 }
 
