@@ -80,12 +80,18 @@ export const about = {
     não do nome do arquivo: `inovabra.png` é a marca da Khanum, e o inovabra de
     verdade estava em `logo-inovabra-vermelho.png`. Confie na imagem.
 
-    As PNG viraram WebP com 160px de altura, que cobre 4x de densidade sobre os
-    40px de exibição. O Toth é vetor limpo e ficou SVG: não tem tamanho de tela
-    para errar. Seis marcas em 60 KB.
+    Os arquivos vêm prontos dele, já nos tamanhos que ele escolheu, com fundo
+    transparente e corte justo. NÃO normalize o tamanho de nenhuma: a diferença
+    de peso entre elas é decisão de quem desenhou, não defeito. Se precisar
+    reduzir, reduza todas pelo mesmo fator.
 
-    Para acrescentar: ponha o arquivo em `public/empresas/` e some uma linha.
-    Sem `logo`, o cartão mostra só o nome, e continua inteiro.
+    O preparo é só isso: colar cada uma em escala 1:1 no centro de uma tela
+    comum de 1320x840, que é a proporção 220:140 que o CSS usa, e reduzir a
+    tela por um fator único. Assim o tamanho relativo atravessa intacto e o
+    alinhamento vem de dentro do arquivo.
+
+    Para acrescentar: mesma tela, mesmo preparo, e some uma linha. Sem `logo`,
+    o cartão mostra só o nome e continua inteiro.
   */
   companies: {
     label: "Empresas com quem trabalhei",
@@ -95,7 +101,7 @@ export const about = {
       { name: "Pen Education", logo: "/empresas/pen-education.webp" },
       { name: "Rede Ronaldo Games", logo: "/empresas/rede-ronaldo-games.webp" },
       { name: "as7 Comunicação", logo: "/empresas/as7.webp" },
-      { name: "Toth Innovation Marketing", logo: "/empresas/toth.svg" },
+      { name: "Toth Innovation Marketing", logo: "/empresas/toth.webp" },
       { name: "Whido", logo: "/empresas/whido.webp" },
     ] as { name: string; logo: string | null }[],
   },
