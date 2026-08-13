@@ -276,27 +276,36 @@
 }
 
 /*
-  Os secundários: quadrados, só a marca dentro.
+  Os secundários: o emblema é o próprio botão.
 
-  Largura igual à altura para a fileira ficar regular, e não três pílulas de
-  tamanhos diferentes conforme o comprimento de um texto que nem aparece mais.
+  Como a marca já é uma forma cheia, a pílula clara de fundo viraria forma
+  dentro de forma. Então aqui o botão perde fundo e sombra, e o que se vê é só
+  o emblema. Ele acompanha a cor por `currentColor`, sem regra extra.
 */
 .links .iconLink {
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
   padding: 0;
-  color: var(--c-ink-soft);
+  background: none;
+  box-shadow: none;
+  color: var(--c-ink);
+  opacity: 0.82;
+  transition:
+    opacity 0.18s var(--e-out),
+    transform 0.18s var(--e-out);
 }
 
 .links .iconLink svg {
-  width: 19px;
-  height: 19px;
+  width: 100%;
+  height: 100%;
 }
 
 .links .iconLink:hover {
-  color: var(--c-ink);
+  /* A sombra da regra geral não serve num botão sem fundo. */
+  box-shadow: none;
+  opacity: 1;
 }
 
 /* -------------------------------------------------------------------------
