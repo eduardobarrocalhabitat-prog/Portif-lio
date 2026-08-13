@@ -393,9 +393,9 @@
 .semLogo {
   display: block;
   width: 100%;
-  max-width: 104px;
+  max-width: 132px;
   height: auto;
-  aspect-ratio: 1;
+  aspect-ratio: 190 / 120;
   /*
     ESTA LINHA É A QUE FALTAVA, e ela é a resposta para "por que sempre
     estica".
