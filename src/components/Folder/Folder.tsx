@@ -220,9 +220,26 @@ export function Folder({
               }
               aria-disabled={locked || undefined}
               tabIndex={disabled ? -1 : 0}
-              onPointerEnter={() => setHover(true)}
-              onPointerLeave={() => {
-                setHover(false);
+              /*
+                Hover só para quem tem ponteiro que passa por cima.
+
+                No toque o `pointerenter` dispara igual, e a animação de hover
+                sobe a pasta 12px e a aumenta 5,5%: cerca de 16px na borda de
+                baixo, com o dedo ainda encostado. Quando o dedo levanta, o
+                ponto de soltura pode já estar fora do botão, e aí o navegador
+                entrega o `click` ao ancestral em vez de ao botão. O segundo
+                toque funciona porque a pasta já está parada na posição de
+                hover, e é assim que isso vira "só abre com dois toques".
+
+                Não reproduzi em oito cenários de toque emulado, mas hover é
+                estado de ponteiro que paira, e paira ninguém faz com o dedo:
+                rodar essa animação no toque só pode atrapalhar.
+              */
+              onPointerEnter={(event) => {
+                if (event.pointerType === "mouse") setHover(true);
+              }}
+              onPointerLeave={(event) => {
+                if (event.pointerType === "mouse") setHover(false);
                 setPressed(false);
               }}
               onPointerDown={() => setPressed(true)}
