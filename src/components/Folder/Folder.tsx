@@ -42,6 +42,7 @@ export function Folder({
   const contentsRef = useRef<HTMLSpanElement>(null);
   const glowRef = useRef<HTMLSpanElement>(null);
   const previewRef = useRef<HTMLVideoElement>(null);
+  const pecasRef = useRef<HTMLSpanElement>(null);
   const hoverRef = useRef<gsap.core.Timeline | null>(null);
 
   const locked = Boolean(definition.comingSoon);
@@ -140,6 +141,11 @@ export function Folder({
       */
       if (previewRef.current) {
         timeline.to(previewRef.current, { opacity: 1, duration: 0.5 }, 0.04);
+      }
+
+      // As peças saem enquanto o loop entra: mesma área, uma coisa de cada vez.
+      if (pecasRef.current) {
+        timeline.to(pecasRef.current, { opacity: 0, duration: 0.34 }, 0);
       }
 
       hoverRef.current = timeline;
@@ -266,27 +272,6 @@ export function Folder({
               */}
               <span className={styles.shadow} aria-hidden="true" />
 
-              {/*
-                As peças espiando, entre a sombra e o vidro.
-
-                A ordem é o efeito inteiro: acima da sombra, para não ficarem
-                escuras; abaixo do vidro, para a metade de baixo delas ficar
-                atrás do fosco enquanto o topo escapa acima da aba. É assim que
-                se lê "tem coisa dentro" em vez de "tem adesivo colado".
-
-                Ficam dentro do botão de propósito. A timeline de abertura apaga
-                o botão inteiro, então elas somem junto com a pasta em vez de
-                boiarem sozinhas enquanto o painel cresce.
-              */}
-              {capas.length > 0 ? (
-                <span className={styles.pecas} aria-hidden="true">
-                  {capas.map((src, i) => (
-                    <span key={src} className={styles.peca} data-i={i}>
-                      <Image src={src} alt="" fill sizes="120px" />
-                    </span>
-                  ))}
-                </span>
-              ) : null}
 
               <span className={styles.glass} aria-hidden="true" />
 
@@ -294,6 +279,29 @@ export function Folder({
                 <span ref={contentsRef} className={styles.contents}>
                   {/* Abaixo do vídeo: o loop cobre o verniz ao entrar. */}
                   <span className={styles.sheen} aria-hidden="true" />
+
+                  {/*
+                    As peças na CARA da pasta, e não atrás do vidro.
+
+                    Aqui elas ficam nítidas e legíveis, apoiadas na face como
+                    fotos em cima de uma pasta fechada. Atrás do vidro, que era
+                    a versão anterior, elas viravam borrão e liam como sujeira
+                    no fosco.
+
+                    Vêm antes do vídeo na ordem, e o hover as apaga enquanto o
+                    loop aparece: em repouso a pasta mostra o trabalho, sob o
+                    ponteiro ela vira movimento. As duas coisas no mesmo lugar
+                    brigariam.
+                  */}
+                  {capas.length > 0 ? (
+                    <span ref={pecasRef} className={styles.pecas} aria-hidden="true">
+                      {capas.map((src, i) => (
+                        <span key={src} className={styles.peca} data-i={i}>
+                          <Image src={src} alt="" fill sizes="140px" />
+                        </span>
+                      ))}
+                    </span>
+                  ) : null}
 
                   {definition.preview.src ? (
                     <video

@@ -332,33 +332,43 @@
 }
 
 /* -------------------------------------------------------------------------
-   As peças espiando da pasta fechada
+   As peças na cara da pasta
 ------------------------------------------------------------------------- */
 
 /*
-  Existem para a pasta fechada não parecer vazia. Ficam à direita porque a aba
-  ocupa a metade esquerda do topo: é ali que a silhueta abre espaço para algo
-  escapar por cima.
+  Existem para a pasta fechada não parecer vazia.
 
-  `pointer-events: none` em tudo: o alvo do toque continua sendo o botão
-  inteiro, e uma peça interceptando o clique traria de volta o problema de
-  precisar tocar duas vezes.
+  Ficam na face, e não atrás do vidro: atrás elas viravam borrão e liam como
+  sujeira no fosco. Aqui são fotos apoiadas em cima de uma pasta fechada.
+
+  O rodapé livre deixa a etiqueta respirar. Sem ele o leque encosta no nome e
+  a pasta fica com cara de cartaz, não de pasta.
+
+  `pointer-events: none`: o alvo do toque continua sendo o botão inteiro. Uma
+  peça interceptando o clique traria de volta o problema dos dois toques.
 */
 .pecas {
   position: absolute;
-  inset: 0;
+  inset: 0 0 30% 0;
   pointer-events: none;
 }
 
 .peca {
   position: absolute;
-  width: 42%;
+  top: 50%;
+  width: 44%;
   aspect-ratio: 16 / 10;
-  border-radius: 5px;
+  border-radius: 6px;
   overflow: hidden;
   background: #fff;
-  /* Sombra curta: papel encostado no papel de baixo, não flutuando. */
-  box-shadow: 0 4px 10px -6px rgba(28, 38, 80, 0.55);
+  /*
+    Aro claro em vez de borda: a peça é clara sobre vidro claro, e sem ele as
+    três se fundem numa mancha só. A sombra é curta, de papel encostado no
+    papel de baixo, não de papel flutuando.
+  */
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.9),
+    0 5px 12px -6px rgba(28, 38, 80, 0.5);
 }
 
 .peca img {
@@ -368,24 +378,24 @@
 /*
   Três posições escritas à mão, e não uma conta.
 
-  São três peças e só, e o leque precisa parecer descuidado: rotações que não
-  formam progressão, e alturas que não formam escada. Uma fórmula deixaria
-  isso regular demais, que é o oposto de papel jogado dentro da pasta.
+  São três e só, e o leque precisa parecer descuidado: rotações que não formam
+  progressão e alturas que não formam escada. Fórmula deixaria regular demais,
+  que é o oposto de peça largada em cima da pasta.
+
+  O `translate(-50%, -50%)` centra cada uma no ponto, e a rotação vem depois
+  na mesma declaração para não brigar com ele.
 */
 .peca[data-i="0"] {
   left: 34%;
-  top: -5%;
-  transform: rotate(-9deg);
+  transform: translate(-50%, -54%) rotate(-11deg);
 }
 
 .peca[data-i="1"] {
-  left: 46%;
-  top: -9%;
-  transform: rotate(-1.5deg);
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-1deg);
 }
 
 .peca[data-i="2"] {
-  left: 57%;
-  top: -3.5%;
-  transform: rotate(8deg);
+  left: 66%;
+  transform: translate(-50%, -46%) rotate(9deg);
 }
