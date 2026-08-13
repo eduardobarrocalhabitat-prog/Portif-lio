@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useImperativeHandle, useRef } from "react";
+import Image from "next/image";
+import { useEffect, useImperativeHandle, useMemo, useRef } from "react";
 
 import { FolderIcon } from "@/components/FolderIcon/FolderIcon";
-import type { FolderDefinition } from "@/data/folders";
+import { coversOf, type FolderDefinition } from "@/data/folders";
 import { DUR, EASE, gsap, useGSAP } from "@/lib/motion";
 import styles from "./Folder.module.css";
 
@@ -44,6 +45,15 @@ export function Folder({
   const hoverRef = useRef<gsap.core.Timeline | null>(null);
 
   const locked = Boolean(definition.comingSoon);
+
+  /*
+    As capas que espiam da pasta fechada. Memorizadas porque a lista é fixa
+    para cada pasta e o componente re-renderiza a cada hover e a cada resize.
+  */
+  const capas = useMemo(
+    () => coversOf(definition.panel.content),
+    [definition.panel.content],
+  );
 
   useImperativeHandle(
     ref,
@@ -255,6 +265,29 @@ export function Folder({
                 Backdrop Root e o `backdrop-filter` passaria a amostrar o vazio.
               */}
               <span className={styles.shadow} aria-hidden="true" />
+
+              {/*
+                As peças espiando, entre a sombra e o vidro.
+
+                A ordem é o efeito inteiro: acima da sombra, para não ficarem
+                escuras; abaixo do vidro, para a metade de baixo delas ficar
+                atrás do fosco enquanto o topo escapa acima da aba. É assim que
+                se lê "tem coisa dentro" em vez de "tem adesivo colado".
+
+                Ficam dentro do botão de propósito. A timeline de abertura apaga
+                o botão inteiro, então elas somem junto com a pasta em vez de
+                boiarem sozinhas enquanto o painel cresce.
+              */}
+              {capas.length > 0 ? (
+                <span className={styles.pecas} aria-hidden="true">
+                  {capas.map((src, i) => (
+                    <span key={src} className={styles.peca} data-i={i}>
+                      <Image src={src} alt="" fill sizes="120px" />
+                    </span>
+                  ))}
+                </span>
+              ) : null}
+
               <span className={styles.glass} aria-hidden="true" />
 
               <span ref={bodyRef} className={styles.body}>
