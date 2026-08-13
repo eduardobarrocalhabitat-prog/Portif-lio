@@ -101,7 +101,6 @@ export const about = {
       { name: "Pen Education", logo: "/empresas/pen-education.webp" },
       { name: "Khanum", logo: "/empresas/khanum.webp" },
       { name: "Toth Innovation Marketing", logo: "/empresas/toth.webp" },
-      { name: "as7 Comunicação", logo: "/empresas/as7.webp" },
       { name: "Whido", logo: "/empresas/whido.webp" },
     ] as { name: string; logo: string | null }[],
   },
