@@ -638,17 +638,3 @@ export function describeContent(
       }));
   }
 }
-
-/**
- * Até três capas da pasta, para as peças que espiam da pasta fechada.
- *
- * Todos os quatro tipos de conteúdo guardam a capa no mesmo campo, então uma
- * leitura só serve para os quatro. Quem não tem imagem simplesmente não entra,
- * e uma pasta sem nenhuma capa fica sem peças em vez de mostrar buraco.
- */
-export function coversOf(content: PanelContent): string[] {
-  return (content.items as { image?: string }[])
-    .map((item) => item.image)
-    .filter((src): src is string => Boolean(src))
-    .slice(0, 3);
-}

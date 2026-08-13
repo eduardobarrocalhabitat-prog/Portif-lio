@@ -1,10 +1,9 @@
 "use client";
 
-import Image from "next/image";
-import { useEffect, useImperativeHandle, useMemo, useRef } from "react";
+import { useEffect, useImperativeHandle, useRef } from "react";
 
 import { FolderIcon } from "@/components/FolderIcon/FolderIcon";
-import { coversOf, type FolderDefinition } from "@/data/folders";
+import type { FolderDefinition } from "@/data/folders";
 import { DUR, EASE, gsap, useGSAP } from "@/lib/motion";
 import styles from "./Folder.module.css";
 
@@ -42,19 +41,9 @@ export function Folder({
   const contentsRef = useRef<HTMLSpanElement>(null);
   const glowRef = useRef<HTMLSpanElement>(null);
   const previewRef = useRef<HTMLVideoElement>(null);
-  const pecasRef = useRef<HTMLSpanElement>(null);
   const hoverRef = useRef<gsap.core.Timeline | null>(null);
 
   const locked = Boolean(definition.comingSoon);
-
-  /*
-    As capas que espiam da pasta fechada. Memorizadas porque a lista é fixa
-    para cada pasta e o componente re-renderiza a cada hover e a cada resize.
-  */
-  const capas = useMemo(
-    () => coversOf(definition.panel.content),
-    [definition.panel.content],
-  );
 
   useImperativeHandle(
     ref,
@@ -141,11 +130,6 @@ export function Folder({
       */
       if (previewRef.current) {
         timeline.to(previewRef.current, { opacity: 1, duration: 0.5 }, 0.04);
-      }
-
-      // As peças saem enquanto o loop entra: mesma área, uma coisa de cada vez.
-      if (pecasRef.current) {
-        timeline.to(pecasRef.current, { opacity: 0, duration: 0.34 }, 0);
       }
 
       hoverRef.current = timeline;
@@ -271,37 +255,12 @@ export function Folder({
                 Backdrop Root e o `backdrop-filter` passaria a amostrar o vazio.
               */}
               <span className={styles.shadow} aria-hidden="true" />
-
-
               <span className={styles.glass} aria-hidden="true" />
 
               <span ref={bodyRef} className={styles.body}>
                 <span ref={contentsRef} className={styles.contents}>
                   {/* Abaixo do vídeo: o loop cobre o verniz ao entrar. */}
                   <span className={styles.sheen} aria-hidden="true" />
-
-                  {/*
-                    As peças na CARA da pasta, e não atrás do vidro.
-
-                    Aqui elas ficam nítidas e legíveis, apoiadas na face como
-                    fotos em cima de uma pasta fechada. Atrás do vidro, que era
-                    a versão anterior, elas viravam borrão e liam como sujeira
-                    no fosco.
-
-                    Vêm antes do vídeo na ordem, e o hover as apaga enquanto o
-                    loop aparece: em repouso a pasta mostra o trabalho, sob o
-                    ponteiro ela vira movimento. As duas coisas no mesmo lugar
-                    brigariam.
-                  */}
-                  {capas.length > 0 ? (
-                    <span ref={pecasRef} className={styles.pecas} aria-hidden="true">
-                      {capas.map((src, i) => (
-                        <span key={src} className={styles.peca} data-i={i}>
-                          <Image src={src} alt="" fill sizes="140px" />
-                        </span>
-                      ))}
-                    </span>
-                  ) : null}
 
                   {definition.preview.src ? (
                     <video
