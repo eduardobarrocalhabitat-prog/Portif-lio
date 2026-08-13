@@ -396,6 +396,23 @@
   max-width: 104px;
   height: auto;
   aspect-ratio: 1;
+  /*
+    ESTA LINHA É A QUE FALTAVA, e ela é a resposta para "por que sempre
+    estica".
+
+    Um `<img>` sem `object-fit` usa `fill`, que deforma o conteúdo até
+    preencher a caixa. Enquanto o arquivo e a caixa tiverem a mesma proporção,
+    ninguém percebe. Só que a cada vez que eu troquei o formato dos arquivos, o
+    navegador dele ainda servia os antigos do cache dentro da caixa nova: um
+    arquivo 2,25:1 esticado num quadrado, que é exatamente o que ele via.
+
+    Eu media sempre com os arquivos recém-gerados, onde os dois batiam, e por
+    isso nunca reproduzi.
+
+    Com `contain` isso deixa de ser possível: proporção diferente sobra espaço,
+    nunca deforma. Não tire.
+  */
+  object-fit: contain;
 }
 
 .logoImagem {
