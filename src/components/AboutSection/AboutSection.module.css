@@ -342,12 +342,16 @@
   padding: 0;
   display: grid;
   /*
-    O mínimo é menor do que parece necessário de propósito: com 180px, as sete
-    marcas de hoje quebravam em 6+1 e a última ficava órfã numa fileira só
-    dela. Com 156px cabem as sete numa fileira em tela cheia, e o `auto-fill`
-    continua reagindo sozinho quando entrar a oitava.
+    `auto-fit` e não `auto-fill`: os dois criam o mesmo número de colunas, mas
+    o `fill` mantém as vazias ocupando espaço, e o `fit` as recolhe para as
+    que têm conteúdo dividirem a largura toda.
+
+    Com sete marcas dava no mesmo. Com seis, o `fill` deixava uma coluna vazia
+    no fim e a fileira parecia encostada à esquerda; o `fit` distribui as seis
+    e ela fica centrada sozinha, sem regra de alinhamento e sem depender de
+    quantas marcas existem hoje.
   */
-  grid-template-columns: repeat(auto-fill, minmax(clamp(124px, 12vw, 156px), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(clamp(124px, 12vw, 156px), 1fr));
   border-radius: 16px;
   overflow: hidden;
 }
