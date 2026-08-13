@@ -115,8 +115,9 @@ export function AboutSection({ index, total }: { index: number; total: number })
                   className={styles.logoImagem}
                   src={company.logo}
                   alt=""
+                  // Mesma tela em todas: a proporção vem do arquivo.
                   width={220}
-                  height={80}
+                  height={140}
                 />
               ) : (
                 /*
