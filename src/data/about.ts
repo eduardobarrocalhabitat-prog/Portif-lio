@@ -94,13 +94,14 @@ export const about = {
   */
   companies: {
     label: "Empresas com quem trabalhei",
+    /* A ordem é a dele, a mesma dos arquivos Frame 1 a 7. */
     items: [
       { name: "inovabra", logo: "/empresas/inovabra.webp" },
-      { name: "Khanum", logo: "/empresas/khanum.webp" },
-      { name: "Pen Education", logo: "/empresas/pen-education.webp" },
       { name: "Rede Ronaldo Games", logo: "/empresas/rede-ronaldo-games.webp" },
-      { name: "as7 Comunicação", logo: "/empresas/as7.webp" },
+      { name: "Pen Education", logo: "/empresas/pen-education.webp" },
+      { name: "Khanum", logo: "/empresas/khanum.webp" },
       { name: "Toth Innovation Marketing", logo: "/empresas/toth.webp" },
+      { name: "as7 Comunicação", logo: "/empresas/as7.webp" },
       { name: "Whido", logo: "/empresas/whido.webp" },
     ] as { name: string; logo: string | null }[],
   },
