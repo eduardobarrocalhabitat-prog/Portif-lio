@@ -80,18 +80,17 @@ export const about = {
     não do nome do arquivo: `inovabra.png` é a marca da Khanum, e o inovabra de
     verdade estava em `logo-inovabra-vermelho.png`. Confie na imagem.
 
-    Os arquivos vêm prontos dele, já nos tamanhos que ele escolheu, com fundo
-    transparente e corte justo. NÃO normalize o tamanho de nenhuma: a diferença
-    de peso entre elas é decisão de quem desenhou, não defeito. Se precisar
-    reduzir, reduza todas pelo mesmo fator.
+    Os arquivos chegam prontos: sete quadrados de 1496x1496, com o
+    enquadramento resolvido por quem desenhou. A ÚNICA operação daqui até a
+    tela é reduzir os sete pelo mesmo número, para 448.
 
-    O preparo é só isso: colar cada uma em escala 1:1 no centro de uma tela
-    comum de 1320x840, que é a proporção 220:140 que o CSS usa, e reduzir a
-    tela por um fator único. Assim o tamanho relativo atravessa intacto e o
-    alinhamento vem de dentro do arquivo.
+    NÃO recorte, NÃO preencha tela, NÃO normalize tamanho. Três tentativas
+    minhas de melhorar isso por conta própria terminaram com a fileira torta:
+    a decisão de enquadramento é de quem desenha, e ela já veio tomada dentro
+    do arquivo.
 
-    Para acrescentar: mesma tela, mesmo preparo, e some uma linha. Sem `logo`,
-    o cartão mostra só o nome e continua inteiro.
+    Para acrescentar: mesma tela quadrada, mesmo lado, e some uma linha. Sem
+    `logo`, o cartão mostra só o nome e continua inteiro.
   */
   companies: {
     label: "Empresas com quem trabalhei",

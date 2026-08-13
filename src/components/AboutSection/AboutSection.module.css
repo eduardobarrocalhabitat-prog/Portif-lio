@@ -362,7 +362,7 @@
   align-items: center;
   justify-content: center;
   gap: 12px;
-  min-height: clamp(122px, 10.5vw, 144px);
+  min-height: clamp(150px, 13vw, 176px);
   padding: 16px 10px;
   background: var(--c-paper);
   /*
@@ -379,24 +379,23 @@
 }
 
 /*
-  Só a largura, sem `object-fit` e sem altura fixa.
+  Quadrado, e nada além disso.
 
-  O alinhamento vem de dentro dos arquivos, e não daqui. Cada marca foi
-  centralizada numa tela de 220x140 e escalada para todas terem o mesmo peso
-  óptico, medido pela média geométrica das dimensões da tinta. Uma faixa 3:1
-  fica larga e baixa, um quadrado fica menor de lado, e as duas pesam igual no
-  olho, que é o que uma caixa comum sozinha nunca dá.
+  Os arquivos chegam prontos, todos na mesma tela quadrada, com o
+  enquadramento já resolvido por quem desenhou. Aqui não há `object-fit`, não
+  há altura calculada e não há nada que dependa do formato de cada marca: sete
+  quadrados idênticos, e o que estiver dentro é decisão do arquivo.
 
-  Como todos os arquivos compartilham a mesma proporção, dar a largura basta:
-  nenhuma regra precisa saber o formato de nenhuma marca, e a próxima que
-  entrar só precisa passar pelo mesmo preparo.
+  Foi tentar ser esperto aqui, ajustando caixa e escala por marca, que
+  distorceu a fileira nas versões anteriores.
 */
 .logoImagem,
 .semLogo {
   display: block;
   width: 100%;
+  max-width: 104px;
   height: auto;
-  aspect-ratio: 220 / 140;
+  aspect-ratio: 1;
 }
 
 .logoImagem {
