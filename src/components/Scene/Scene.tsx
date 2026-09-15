@@ -36,6 +36,12 @@ export function Scene() {
   const [activeId, setActiveId] = useState<string | null>(null);
   /** Incrementado quando a viewport muda de tamanho com um painel aberto. */
   const [geometryToken, setGeometryToken] = useState(0);
+  /**
+   * A hero está na tela? Fora de vista, o respiro das pastas e o parallax
+   * param. Ninguém está olhando, e cada quadro deles custa CPU e obriga o vidro
+   * das pastas a reamostrar o fundo enquanto a pessoa lê as seções de baixo.
+   */
+  const [heroNaTela, setHeroNaTela] = useState(true);
 
   const active = activeId
     ? (folders.find((folder) => folder.id === activeId) ?? null)
@@ -437,7 +443,17 @@ export function Scene() {
   ---------------------------------------------------------------------- */
   useEffect(() => {
     const hero = heroRef.current;
-    if (!hero || reducedMotion) return;
+    if (!hero) return;
+    const observer = new IntersectionObserver(([entrada]) =>
+      setHeroNaTela(entrada.isIntersecting),
+    );
+    observer.observe(hero);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const hero = heroRef.current;
+    if (!hero || reducedMotion || !heroNaTela) return;
     if (window.matchMedia("(hover: none)").matches) return;
 
     const setX = gsap.quickSetter(hero, "--pointer-x", "px");
@@ -467,7 +483,7 @@ export function Scene() {
       window.removeEventListener("pointermove", onPointerMove);
       gsap.ticker.remove(tick);
     };
-  }, [reducedMotion]);
+  }, [reducedMotion, heroNaTela]);
 
   return (
     <div ref={sceneRef} data-open={activeId !== null}>
@@ -475,14 +491,6 @@ export function Scene() {
       <FolderShape />
 
       <section ref={heroRef} id="topo" className={styles.hero}>
-        <div className={styles.backdrop} aria-hidden="true">
-          <span className={`${styles.blob} ${styles.blobA}`} />
-          <span className={`${styles.blob} ${styles.blobB}`} />
-          <span className={`${styles.blob} ${styles.blobC}`} />
-          <span className={`${styles.blob} ${styles.blobD}`} />
-          <span className={styles.grain} />
-        </div>
-
         <CharacterMedia ref={characterRef} />
 
         {/*
@@ -501,6 +509,8 @@ export function Scene() {
               ref={registerHandles.get(folder.id)}
               definition={folder}
               disabled={activeId !== null}
+              // Painel aberto também congela: o scrim borra o que se mexe atrás dele.
+              paused={activeId !== null || !heroNaTela}
               reducedMotion={reducedMotion}
               onOpen={handleOpen}
             />

@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+
 import { about } from "@/data/about";
 import styles from "./ServicesMarquee.module.css";
 
@@ -19,8 +23,27 @@ import styles from "./ServicesMarquee.module.css";
 --------------------------------------------------------------------------- */
 
 export function ServicesMarquee() {
+  const bandRef = useRef<HTMLElement>(null);
+
+  /*
+    Fora da tela, a faixa para. A animação é barata por quadro, mas corre a
+    visita inteira, e quem está lendo o Sobre ou olhando as marcas não a vê.
+
+    O atributo é escrito direto no elemento, sem estado: entrar e sair da tela
+    não tem por que re-renderizar a lista.
+  */
+  useEffect(() => {
+    const band = bandRef.current;
+    if (!band) return;
+    const observer = new IntersectionObserver(([entrada]) => {
+      band.dataset.parado = String(!entrada.isIntersecting);
+    });
+    observer.observe(band);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className={styles.band} aria-label="Serviços">
+    <section ref={bandRef} className={styles.band} aria-label="Serviços">
       <div className={styles.track}>
         <ul className={styles.list}>
           {about.marquee.map((item) => (

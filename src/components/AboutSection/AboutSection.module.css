@@ -146,8 +146,10 @@
 .service {
   padding: clamp(20px, 2.4vw, 28px);
   border-radius: 18px;
-  -webkit-backdrop-filter: blur(13px) saturate(58%) brightness(1.18);
-  backdrop-filter: blur(13px) saturate(58%) brightness(1.18);
+  /*
+    Sem backdrop-filter: atrás destes cartões só existe a página branca, e
+    borrar branco dá branco. O desenho vem do aro e da sombra, não do vidro.
+  */
   background: rgba(255, 255, 255, 0.6);
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.75),

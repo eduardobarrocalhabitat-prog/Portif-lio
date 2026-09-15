@@ -89,9 +89,13 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: rgba(28, 34, 56, 0.72);
-  background: rgba(255, 255, 255, 0.72);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+  /*
+    Branco quase opaco, sem backdrop-filter. Os três selos das peças ficam sobre
+    imagem e sobre vídeo tocando, e vidro ali reamostrava o fundo a cada quadro
+    do vídeo e a cada passo da rolagem, para um borrão de 8px num selo de 20px
+    que ninguém distingue de branco.
+  */
+  background: rgba(255, 255, 255, 0.9);
 }
 
 .itemName {
@@ -109,13 +113,11 @@
   color: var(--c-ink-faint);
 }
 
-/* Cada peça entra pelo ScrollTrigger da seção. */
-.brand,
-.shot,
-.site,
-.case {
-  will-change: transform;
-}
+/*
+  Sem `will-change` fixo nas peças. Cada uma entra uma vez pelo ScrollTrigger,
+  e o navegador promove a camada sozinho durante a animação. Declarado para
+  sempre, eram dezenas de camadas vivas na memória da GPU pelo resto da visita.
+*/
 
 /* Selo de vídeo na peça parada. Some no hover, quando o loop já se explica. */
 .playBadge {
@@ -127,9 +129,7 @@
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.78);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.92);
   transition: opacity 0.18s var(--e-out);
 }
 
@@ -199,9 +199,7 @@
   font-family: var(--f-mono);
   font-size: 11px;
   color: rgba(28, 34, 56, 0.78);
-  background: rgba(255, 255, 255, 0.8);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.92);
 }
 
 /* -------------------------------------------------------------------------

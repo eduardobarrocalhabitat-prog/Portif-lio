@@ -10,128 +10,16 @@
   height: 100svh;
   min-height: 540px;
   overflow: hidden;
-  background: var(--c-paper);
-}
+  /*
+    O branco da própria imagem, rgb(254,254,254), e não o #fff da página. O
+    `contain` deixa sobra acima e abaixo da figura, e com a mesma cor a sobra
+    não tem borda para aparecer.
 
-/* -------------------------------------------------------------------------
-   Fundo: branco com difusores lentos. É o estado de carregamento — assim que
-   o vídeo entra, ele cobre tudo isto.
-   Sem filter: blur — os gradientes radiais já nascem suaves, então a única
-   coisa que anima é transform e nada precisa ser rasterizado de novo.
-------------------------------------------------------------------------- */
-
-.backdrop {
-  position: absolute;
-  inset: var(--bar-h) 0 0 0;
-  z-index: 0;
-  overflow: hidden;
-}
-
-.blob {
-  position: absolute;
-  border-radius: 50%;
-  will-change: transform;
-}
-
-.blobA {
-  width: 74vw;
-  height: 74vw;
-  left: -18vw;
-  top: -22vw;
-  background: radial-gradient(
-    closest-side,
-    rgba(var(--tint-peach), 0.5),
-    rgba(var(--tint-peach), 0) 72%
-  );
-  animation: driftA 46s ease-in-out infinite;
-}
-
-.blobB {
-  width: 82vw;
-  height: 82vw;
-  right: -24vw;
-  top: -16vw;
-  background: radial-gradient(
-    closest-side,
-    rgba(var(--tint-lilac), 0.45),
-    rgba(var(--tint-lilac), 0) 72%
-  );
-  animation: driftB 58s ease-in-out infinite;
-}
-
-.blobC {
-  width: 70vw;
-  height: 70vw;
-  left: -12vw;
-  bottom: -26vw;
-  background: radial-gradient(
-    closest-side,
-    rgba(var(--tint-mint), 0.42),
-    rgba(var(--tint-mint), 0) 70%
-  );
-  animation: driftC 52s ease-in-out infinite;
-}
-
-.blobD {
-  width: 78vw;
-  height: 78vw;
-  right: -20vw;
-  bottom: -30vw;
-  background: radial-gradient(
-    closest-side,
-    rgba(var(--tint-sky), 0.5),
-    rgba(var(--tint-sky), 0) 72%
-  );
-  animation: driftD 64s ease-in-out infinite;
-}
-
-@keyframes driftA {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(7vw, 5vh, 0) scale(1.14);
-  }
-}
-
-@keyframes driftB {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1.06);
-  }
-  50% {
-    transform: translate3d(-6vw, 7vh, 0) scale(0.94);
-  }
-}
-
-@keyframes driftC {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(0.96);
-  }
-  50% {
-    transform: translate3d(8vw, -6vh, 0) scale(1.1);
-  }
-}
-
-@keyframes driftD {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1.08);
-  }
-  50% {
-    transform: translate3d(-7vw, -5vh, 0) scale(0.96);
-  }
-}
-
-/* Textura fina: tira o aspecto plástico dos gradientes grandes. */
-.grain {
-  position: absolute;
-  inset: 0;
-  opacity: 0.032;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    Aqui existiam quatro difusores de cor animados em loop e uma textura de
+    ruído. Ficavam atrás da mídia, então nunca eram vistos, e rodavam o tempo
+    todo mesmo assim.
+  */
+  background: #fefefe;
 }
 
 /* -------------------------------------------------------------------------
@@ -159,14 +47,12 @@
   color: var(--c-ink-soft);
   white-space: nowrap;
   /*
-    Cai em cima da grama do vídeo, onde texto solto some. Vira uma pastilha de
-    vidro — resolve o contraste e ainda fala a mesma língua das pastas.
+    Pastilha clara, sem vidro. Ela cai perto dos pés do personagem, e branco
+    quase opaco dá o contraste que o vidro dava, sem reamostrar o fundo.
   */
   padding: 8px 15px;
   border-radius: 999px;
-  -webkit-backdrop-filter: blur(12px) saturate(110%) brightness(1.1);
-  backdrop-filter: blur(12px) saturate(110%) brightness(1.1);
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.86);
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.65),
     0 10px 24px -12px rgba(28, 38, 80, 0.45);
@@ -278,8 +164,8 @@
   backdrop-filter: blur(12px) saturate(170%) brightness(1.08);
 
   background-image:
-    /* Mais leitoso que antes: o fundo agora tem grama e letreiro preto, e o
-       texto do painel precisa de uma base estável. */
+    /* Leitoso de propósito: o texto do painel precisa de uma base estável
+       sobre o que quer que esteja atrás. */
     radial-gradient(
       130% 100% at 20% 4%,
       rgba(255, 255, 255, 0.92) 0%,
@@ -341,8 +227,3 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .blob {
-    animation: none;
-  }
-}

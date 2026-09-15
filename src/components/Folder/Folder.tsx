@@ -21,6 +21,12 @@ type Props = {
   definition: FolderDefinition;
   /** Verdadeiro quando um painel está aberto: a pasta para de aceitar input. */
   disabled: boolean;
+  /**
+   * Congela o respiro. A Scene liga quando a hero sai de vista ou um painel
+   * abre: nos dois casos ninguém vê a pasta se mexer, e cada quadro do
+   * respiro obriga o vidro a reamostrar o que está atrás.
+   */
+  paused: boolean;
   reducedMotion: boolean;
   onOpen: (id: string) => void;
   ref?: React.Ref<FolderHandle>;
@@ -29,6 +35,7 @@ type Props = {
 export function Folder({
   definition,
   disabled,
+  paused,
   reducedMotion,
   onOpen,
   ref,
@@ -42,6 +49,7 @@ export function Folder({
   const glowRef = useRef<HTMLSpanElement>(null);
   const previewRef = useRef<HTMLVideoElement>(null);
   const hoverRef = useRef<gsap.core.Timeline | null>(null);
+  const idleRef = useRef<gsap.core.Tween[]>([]);
 
   const locked = Boolean(definition.comingSoon);
 
@@ -72,6 +80,7 @@ export function Folder({
   ---------------------------------------------------------------------- */
   useGSAP(
     () => {
+      idleRef.current = [];
       const drift = driftRef.current;
       if (!drift || reducedMotion) return;
 
@@ -103,6 +112,7 @@ export function Folder({
       ];
 
       oscillators.forEach((tween, i) => tween.totalTime(phase + i * 1.37));
+      idleRef.current = oscillators;
     },
     { scope: rootRef, dependencies: [reducedMotion] },
   );
@@ -136,6 +146,18 @@ export function Folder({
     },
     { scope: rootRef, dependencies: [locked] },
   );
+
+  /*
+    Pausa e retoma, sem recriar. Recriar o respiro a cada entrada na tela
+    faria a pasta saltar para a fase inicial; pausado, ela continua de onde
+    parou. Roda depois do useGSAP, então vale também para tweens recém-criados.
+  */
+  useEffect(() => {
+    for (const tween of idleRef.current) {
+      if (paused) tween.pause();
+      else tween.resume();
+    }
+  }, [paused, reducedMotion]);
 
   // Painel aberto: recolhe o hover e para o loop, que ninguém está vendo.
   useEffect(() => {
@@ -271,7 +293,8 @@ export function Folder({
                       muted
                       loop
                       playsInline
-                      preload="metadata"
+                      // Só toca no hover; pré-carregar três cópias no load era peso sem uso.
+                      preload="none"
                       disablePictureInPicture
                       tabIndex={-1}
                       aria-hidden="true"

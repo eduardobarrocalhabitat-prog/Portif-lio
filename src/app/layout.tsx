@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     title: "Eduardo Barrocal · Design, UI/UX e soluções com IA",
     description:
       "Identidade visual, design de interface e soluções com IA.",
-    images: ["/media/stage-poster.jpg"],
+    images: ["/media/og.jpg"],
   },
 };
 

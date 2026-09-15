@@ -11,50 +11,32 @@
   will-change: transform;
 }
 
-.media {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: var(--fit, contain);
-  object-position: var(--object-position, 50% 45%);
-
-  opacity: 0;
-  transition: opacity 0.9s var(--e-out);
-}
-
-.root[data-ready="true"] .media {
-  opacity: 1;
+/* O `<picture>` não pode virar caixa: a imagem precisa ser item da grade. */
+.frame {
+  display: contents;
 }
 
 /*
-  Dissolve a borda da mídia no branco da página. É isto que devolve o fundo
-  branco com gradientes: o vídeo preenche a tela, mas some antes das bordas,
-  e o que sobra ao redor é a página.
+  `contain`, e não `cover`, em qualquer tela.
+
+  O fundo da imagem é branco sobre página branca, então a sobra de um `contain`
+  simplesmente não aparece, e ele nunca corta o personagem. Com `cover`, uma
+  janela larga e baixa cortava a cabeça e os pés, e um tablet em pé cortava de
+  novo na vertical.
 */
-.root[data-feather="true"] .media {
-  -webkit-mask-image: radial-gradient(
-    104% 96% at 50% 44%,
-    #000 34%,
-    rgba(0, 0, 0, 0.92) 58%,
-    rgba(0, 0, 0, 0.5) 82%,
-    transparent 99%
-  );
-  mask-image: radial-gradient(
-    104% 96% at 50% 44%,
-    #000 34%,
-    rgba(0, 0, 0, 0.92) 58%,
-    rgba(0, 0, 0, 0.5) 82%,
-    transparent 99%
-  );
-}
-
-/* Em viewport estreita o corte já é agressivo; não vale ampliar mais. */
-@media (max-aspect-ratio: 1 / 1) {
-  .media {
-    object-fit: cover;
-  }
-
-  .root {
-    transform: scale(1);
-  }
+.media {
+  /*
+    Absoluta, e não item da grade. Como item, o `height: 100%` resolvia contra
+    uma linha de altura automática, ou seja, não prendia nada: a imagem crescia
+    até a largura mandar e o `contain` virava um `cover` disfarçado, cortando a
+    cabeça e os pés em tela larga e baixa, em tablet em pé e em celular baixo.
+    Com `inset: 0` a caixa é exatamente a da camada.
+  */
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: 50% 50%;
 }

@@ -37,10 +37,17 @@
   /* Metade da largura: quando reinicia, a segunda cópia caiu onde a primeira
      estava. Só transform anima — nada de layout por frame. */
   animation: desliza 42s linear infinite;
-  will-change: transform;
 }
 
-.band:hover .track {
+/*
+  Parada sob o ponteiro, para dar leitura, e fora da tela, onde ninguém a vê.
+  O segundo caso é escrito pelo componente, via IntersectionObserver.
+
+  Sem `will-change` fixo: a animação rodando já ganha camada própria, e
+  declarado para sempre a camada ficaria viva também com a faixa parada.
+*/
+.band:hover .track,
+.band[data-parado="true"] .track {
   animation-play-state: paused;
 }
 

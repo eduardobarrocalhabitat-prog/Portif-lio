@@ -1,62 +1,42 @@
 /* ---------------------------------------------------------------------------
-   A camada de mídia atrás das pastas.
+   A figura atrás das pastas.
 
-   O vídeo atual já traz a cena inteira composta — sala, piso, o letreiro
-   "EDUARDO BARROCAL" e o personagem —, então ele é o fundo da página, não um
-   elemento sobre um fundo. É por isso que `featherEdges` está desligado: a
-   composição tem moldura própria e dissolver as bordas comeria a parede e a
-   grama.
+   Uma imagem parada: o personagem sozinho sobre branco. O vídeo que existia
+   aqui saiu por desempenho, e com ele o interruptor imagem/vídeo e o
+   placeholder vetorial, que só serviam à fase em que o vídeo não existia.
 
-   O interruptor da fase 1 -> fase 2 continua valendo:
-   `mode: "image"` valida layout, animação e responsividade com um still.
-   `mode: "video"` troca SÓ o elemento de mídia por um loop.
-   Cena, timeline, geometria e responsividade são idênticas nos dois modos,
-   porque os dois renderizam exatamente a mesma caixa (`.media`).
+   Duas versões, trocadas pelo <picture> do CharacterMedia:
+   · paisagem: a composição 16:9 inteira, para telas mais largas que altas;
+   · retrato: um recorte 9:16 centrado no personagem, para telas em pé. Com a
+     16:9 inteira num celular, a figura ficaria minúscula.
+
+   Tudo sai de um PNG de 3840x2160 com 3,2 MB. A maior largura pesa 71 KB,
+   porque quase tudo na imagem é branco liso. Para trocar a imagem, gere as
+   mesmas larguras com os mesmos nomes e nada mais precisa mudar.
 --------------------------------------------------------------------------- */
 
-export type CharacterMode = "image" | "video";
+const larguras = (base: string, ws: number[]) =>
+  ws.map((w) => `${base}-${w}.webp ${w}w`).join(", ");
 
 export const characterConfig = {
-  mode: "video" as CharacterMode,
-
-  image: {
-    /** `null` => usa o placeholder vetorial embutido, útil antes do still final. */
-    src: null as string | null,
-    width: 2560,
-    height: 1440,
+  paisagem: {
+    /** Para navegador sem suporte a `srcset`: a largura do meio. */
+    src: "/media/hero-2560.webp",
+    srcSet: larguras("/media/hero", [1280, 1920, 2560, 3840]),
+    width: 3840,
+    height: 2160,
   },
 
-  video: {
-    src: "/media/stage.mp4",
-    /** Opcional: um .webm entra como primeira <source> se você adicionar aqui. */
-    webmSrc: null as string | null,
+  retrato: {
     /**
-     * Primeiro frame do vídeo. Sem ele a hero abre em branco até o primeiro
-     * frame decodificar, e é a hero que define o LCP da página.
+     * Recorte x 1289..2504 da origem, altura inteira. O personagem ocupa de
+     * 40% a 58% da largura original, então sobra folga dos dois lados.
      */
-    poster: "/media/stage-poster.jpg" as string | null,
-    width: 2560,
-    height: 1440,
+    srcSet: larguras("/media/hero-retrato", [640, 960, 1215]),
+    width: 1215,
+    height: 2160,
   },
 
-  /**
-   * `cover` porque a composição é feita para sangrar até a borda da tela.
-   * Atenção: em retrato o corte lateral é forte e o letreiro do vídeo fica
-   * fora de quadro — por isso a Scene reexibe o wordmark abaixo do breakpoint.
-   */
-  fit: "cover" as "contain" | "cover",
-
-  /** Qual parte sobrevive ao corte. */
-  objectPosition: "50% 48%",
-
-  /** Escala de repouso. >1 aproxima. */
-  restScale: 1.02,
-
-  /**
-   * Desligado: a cena do vídeo já tem enquadramento próprio. Ligue de novo se
-   * um dia a mídia voltar a ser um recorte solto sobre o branco da página.
-   */
-  featherEdges: false,
-
-  alt: "Eduardo Barrocal em uma sala branca com piso de grama",
+  /** Escala de repouso da camada. A Scene parte dela ao abrir um painel. */
+  restScale: 1,
 } as const;
