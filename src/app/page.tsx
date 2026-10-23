@@ -1,5 +1,5 @@
 import { AboutSection } from "@/components/AboutSection/AboutSection";
-import { Scene } from "@/components/Scene/Scene";
+import { CanvasHero } from "@/components/CanvasHero/CanvasHero";
 import { ServicesMarquee } from "@/components/ServicesMarquee/ServicesMarquee";
 import { SiteFooter } from "@/components/SiteFooter/SiteFooter";
 import { SiteNav } from "@/components/SiteNav/SiteNav";
@@ -11,21 +11,17 @@ export default function Home() {
 
   return (
     <>
-      <h1 className="srOnly">
-        Eduardo Barrocal · Design, UI/UX e soluções com IA
-      </h1>
-
       <main>
-        {/* Hero: o vídeo, as pastas e o painel que uma pasta abre. */}
-        <Scene />
+        {/* Hero: o canvas com as peças, e o nome como camada de texto. */}
+        <CanvasHero />
 
-        {/* Transição: o que você faz que não vira pasta. */}
+        {/* Transição: o que você faz que não vira peça. */}
         <ServicesMarquee />
 
         {/*
-          As seções. Cada pasta tem a sua, e o botão "Explorar" do painel leva
-          direto para cá. O conteúdo é HTML de verdade — a hero é opaca para
-          crawlers e leitores de tela, estas seções não são.
+          As seções. Cada tipo de trabalho tem a sua, e os artboards do canvas
+          levam direto para cá. O acervo completo mora aqui, em HTML de
+          verdade; a hero mostra só uma amostra.
         */}
         <AboutSection index={1} total={total} />
 

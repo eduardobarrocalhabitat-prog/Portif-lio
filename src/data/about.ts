@@ -36,9 +36,9 @@ export const about = {
   /**
    * A faixa entre a hero e o Sobre.
    *
-   * Existe porque as pastas mostram *artefatos* — marca, conteúdo, site,
+   * Existe porque as seções mostram *artefatos* — marca, conteúdo, site,
    * caso — e há serviço seu que não vira artefato nenhum: análise de métricas
-   * e apresentação comercial não têm pasta e sumiriam da página inteira.
+   * e apresentação comercial não têm seção e sumiriam da página inteira.
    * A faixa é o lugar de baixa hierarquia onde a amplitude cabe sem competir
    * com a hero.
    *

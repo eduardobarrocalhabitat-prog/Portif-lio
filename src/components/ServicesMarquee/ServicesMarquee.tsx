@@ -8,7 +8,7 @@ import styles from "./ServicesMarquee.module.css";
 /* ---------------------------------------------------------------------------
    A faixa de serviços, entre a hero e o Sobre.
 
-   As pastas mostram artefatos; esta faixa mostra o que você faz que não vira
+   As seções mostram artefatos; esta faixa mostra o que você faz que não vira
    artefato. É deliberadamente de baixa hierarquia — textura de transição, não
    manchete: quem está descendo a página passa por ela e absorve a amplitude
    sem parar para ler.

@@ -1,18 +1,11 @@
-import type { IconName } from "@/components/FolderIcon/FolderIcon";
-
 export type Tint = "lilac" | "peach" | "mint" | "sky";
 
 /* ---------------------------------------------------------------------------
-   Conteúdo dos painéis.
+   Conteúdo das seções de trabalho.
 
-   Quatro pastas, e não é coincidência serem quatro: a fileira do desktop e a
-   grade 2×2 do celular são desenhadas para esse número. Três delas espelham as
-   pernas da narrativa — identidade, UI/UX e IA — e a quarta é a produção que
-   sustenta as outras.
-
-   Cada pasta guarda um tipo diferente de trabalho, então cada uma abre num
-   layout diferente: a casca do painel é a mesma, o miolo não. O `kind` é o que
-   o PanelTeaser e o WorkGrid usam para escolher o layout.
+   Cada seção guarda um tipo diferente de trabalho, então cada uma abre num
+   layout diferente. O `kind` é o que o WorkGrid usa para escolher o layout.
+   O nome do arquivo ficou da época em que cada seção era uma pasta na hero.
 
    Em todos os itens o asset é opcional. Sem ele, o layout desenha um
    placeholder tintado no lugar exato e com a proporção certa. Caminhos são
@@ -112,42 +105,13 @@ export type FolderDefinition = {
   label: string;
   /** Linha curta na etiqueta, à direita do nome. */
   count: string;
-  icon: IconName;
   tint: Tint;
 
-  /** Pasta anunciada, mas ainda sem conteúdo: não abre. */
-  comingSoon?: boolean;
-
   /**
-   * Fora do site inteiro: some da cena, do menu e das seções. A definição
-   * continua aqui, inteira. Para trazer de volta, apague esta linha na pasta.
+   * Fora do site inteiro: some do menu e das seções. A definição continua
+   * aqui, inteira. Para trazer de volta, apague esta linha.
    */
   hidden?: boolean;
-
-  /**
-   * O loop que roda dentro da pasta no hover. Fica parado e invisível em
-   * repouso — a pasta fechada é branca, como no rascunho —, e só toca
-   * enquanto o ponteiro está em cima.
-   */
-  preview: {
-    src: string | null;
-    poster: string | null;
-  };
-
-  /**
-   * Centro da pasta, em % da cena. O CSS troca o par no breakpoint.
-   *
-   * O `size` do retrato tem teto em px de propósito: em `38vw` puro, um
-   * tablet 768×1024 desenha pastas de 292px enquanto as linhas continuam em
-   * 56%/82% da altura — as duas fileiras se encontram e as etiquetas somem.
-   */
-  desktop: { x: string; y: string; size: string };
-  mobile: { x: string; y: string; size: string };
-
-  /** Profundidade do parallax. Numa fileira, mantenha os valores próximos. */
-  depth: number;
-  /** Desencontra o idle para as pastas não respirarem juntas. */
-  phase: number;
 
   /*
     Sem CTA: a seção da pasta JÁ é o acervo completo. Um botão "ver tudo"
@@ -161,68 +125,12 @@ export type FolderDefinition = {
   };
 };
 
-/*
-  TODO: as peças de Conteúdo e os casos de IA ainda apontam para o mesmo clipe
-  de placeholder, para o efeito ficar visível. Troque pelos arquivos reais — e
-  aí `public/media/preview-placeholder.mp4` pode sair do repositório.
-*/
-const PLACEHOLDER = "/media/preview-placeholder.mp4";
-const PLACEHOLDER_PREVIEW = { src: PLACEHOLDER, poster: null };
-
-const MOBILE_SIZE = "clamp(118px, 38vw, 186px)";
-const DESKTOP_SIZE = "clamp(148px, 13.6vw, 208px)";
-
-/*
-  As coordenadas não são escritas à mão: elas vêm da quantidade de pastas
-  visíveis. Antes eram oito valores fixos, e esconder uma pasta deixava um
-  buraco na fileira que só se via rodando o site.
-
-  Desktop: fileira única, vão constante de 18,6% e o conjunto centrado.
-  Retrato: duas colunas; se sobrar uma pasta sozinha na última fileira, ela
-  vai para o meio em vez de ficar encostada na esquerda.
-*/
-const VAO = 18.6;
-const COLUNAS_RETRATO = [28, 72];
-
-type FolderSource = Omit<FolderDefinition, "desktop" | "mobile">;
-
-function posicionar(fontes: FolderSource[]): FolderDefinition[] {
-  const largura = (fontes.length - 1) * VAO;
-  const fileiras = Math.ceil(fontes.length / COLUNAS_RETRATO.length);
-  // Com uma fileira só, 56%/82% deixaria tudo colado no topo da cena.
-  const alturas = fileiras === 1 ? [70] : [56, 82];
-
-  return fontes.map((fonte, i) => {
-    const fileira = Math.floor(i / COLUNAS_RETRATO.length);
-    const naFileira = fontes.length - fileira * COLUNAS_RETRATO.length;
-    const sozinha = naFileira === 1;
-
-    return {
-      ...fonte,
-      desktop: {
-        x: `${(50 - largura / 2 + i * VAO).toFixed(1)}%`,
-        y: "77%",
-        size: DESKTOP_SIZE,
-      },
-      mobile: {
-        x: `${sozinha ? 50 : COLUNAS_RETRATO[i % COLUNAS_RETRATO.length]}%`,
-        y: `${alturas[Math.min(fileira, alturas.length - 1)]}%`,
-        size: MOBILE_SIZE,
-      },
-    };
-  });
-}
-
-const fontes: FolderSource[] = [
+const fontes: FolderDefinition[] = [
   {
     id: "marcas",
     label: "Marcas",
     count: "06",
-    icon: "tag",
     tint: "peach",
-    preview: PLACEHOLDER_PREVIEW,
-    depth: 0.5,
-    phase: 0,
     panel: {
       kicker: "Identidade",
       title: "Marcas",
@@ -307,11 +215,7 @@ const fontes: FolderSource[] = [
     id: "conteudo",
     label: "Conteúdo",
     count: "16",
-    icon: "image",
     tint: "lilac",
-    preview: PLACEHOLDER_PREVIEW,
-    depth: 0.62,
-    phase: 1.9,
     panel: {
       kicker: "Peças e social",
       title: "Conteúdo",
@@ -460,11 +364,7 @@ const fontes: FolderSource[] = [
     id: "sites",
     label: "Sites",
     count: "02",
-    icon: "globe",
     tint: "sky",
-    preview: PLACEHOLDER_PREVIEW,
-    depth: 0.62,
-    phase: 3.7,
     panel: {
       kicker: "Interface",
       title: "Sites",
@@ -512,7 +412,6 @@ const fontes: FolderSource[] = [
     id: "ia",
     label: "IA",
     count: "03",
-    icon: "spark",
     tint: "mint",
     /*
       Escondida até existir caso real. Os três casos abaixo são exemplos de
@@ -521,9 +420,6 @@ const fontes: FolderSource[] = [
       linha: a fileira se reorganiza sozinha para quatro pastas de novo.
     */
     hidden: true,
-    preview: PLACEHOLDER_PREVIEW,
-    depth: 0.5,
-    phase: 5.4,
     panel: {
       kicker: "Soluções com IA",
       title: "IA",
@@ -602,8 +498,8 @@ const fontes: FolderSource[] = [
  * As pastas que o site desenha. Quem some por `hidden` não chega aqui, então
  * cena, menu e seções ficam coerentes sem cada um precisar filtrar de novo.
  */
-export const folders: FolderDefinition[] = posicionar(
-  fontes.filter((fonte) => !fonte.hidden),
+export const folders: FolderDefinition[] = fontes.filter(
+  (fonte) => !fonte.hidden,
 );
 
 /**

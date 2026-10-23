@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# referências visuais (arte de terceiros, não versionar)
+/referencias/
+
+# taste skill (fichas e screenshots de inspeção)
+/.taste-skill/

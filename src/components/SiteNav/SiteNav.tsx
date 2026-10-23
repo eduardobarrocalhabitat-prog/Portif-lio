@@ -97,7 +97,7 @@ export function SiteNav() {
 
       {/*
         Só no retrato. Aparece junto com o vidro da barra, pelo mesmo motivo:
-        sobre a hero as pastas já são a navegação, e uma pílula ali seria uma
+        sobre a hero o canvas já é a vitrine, e uma pílula ali seria uma
         segunda proposta competindo com elas.
       */}
       <nav
