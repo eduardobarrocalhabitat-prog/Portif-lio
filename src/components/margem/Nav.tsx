@@ -14,7 +14,7 @@ const LINKS = [
 /**
  * Nome no canto e quatro pílulas. Some ao rolar para baixo (passada meia tela)
  * e volta ao rolar para cima; quando volta no meio da página, traz um véu
- * off-white atrás, para nunca cobrir título, filtro ou nota.
+ * branco atrás, para nunca cobrir título, filtro ou nota.
  */
 export function Nav() {
   const [hidden, setHidden] = useState(false);

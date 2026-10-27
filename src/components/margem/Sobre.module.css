@@ -41,6 +41,8 @@
   border-radius: 6px;
   overflow: hidden;
   background: #fff;
+  /* Contorno fino: placa branca sobre fundo branco precisa de borda. */
+  box-shadow: inset 0 0 0 1px var(--line);
   transition: transform 0.4s var(--e-out);
 }
 

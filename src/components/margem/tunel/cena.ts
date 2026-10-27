@@ -18,7 +18,7 @@ export const FIM_Z = -88;
 const DW = 6;
 const DH = (6 * 1080) / 1920;
 const PAREDES = 78;
-const BG = 0xf2f0eb;
+const BG = 0xffffff;
 
 /** `puxar` é um objeto por destaque: o GSAP trataria números soltos num array como alvos. */
 export type Estado = { camZ: number; puxar: { v: number }[] };

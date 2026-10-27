@@ -53,7 +53,7 @@
 }
 
 .filtro:hover {
-  background: #e7e3da;
+  background: #e6e6e6;
 }
 
 .filtro[aria-pressed="true"] {

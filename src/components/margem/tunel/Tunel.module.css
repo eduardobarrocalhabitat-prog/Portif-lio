@@ -30,8 +30,8 @@
   padding: 3.2em 4.4em;
   background: radial-gradient(
     closest-side,
-    rgba(242, 240, 235, 0.94) 35%,
-    rgba(242, 240, 235, 0)
+    rgba(255, 255, 255, 0.94) 35%,
+    rgba(255, 255, 255, 0)
   );
   font-size: clamp(24px, 2.9vw, 52px);
   line-height: 1.12;
@@ -160,8 +160,8 @@
   height: 48%;
   background: linear-gradient(
     to top,
-    rgba(242, 240, 235, 0.92) 18%,
-    rgba(242, 240, 235, 0)
+    rgba(255, 255, 255, 0.92) 18%,
+    rgba(255, 255, 255, 0)
   );
 }
 
@@ -229,8 +229,8 @@
   padding: 1.2em 2.4em;
   background: radial-gradient(
     closest-side,
-    rgba(242, 240, 235, 0.94) 40%,
-    rgba(242, 240, 235, 0)
+    rgba(255, 255, 255, 0.94) 40%,
+    rgba(255, 255, 255, 0)
   );
   font-size: clamp(36px, 5vw, 92px);
   font-weight: 500;

@@ -1,17 +1,18 @@
 /* ---------------------------------------------------------------------------
    Tokens + reset
 
-   A paleta da Margem: papel off-white, tinta quase preta, um cinza para o
-   secundário, fio claro e pílula branca. Acento só em um detalhe por seção:
+   A paleta da Margem sobre branco absoluto: tinta quase preta, um cinza para o
+   secundário, fio claro e pílula cinza-clara. Acento só em um detalhe por seção:
    terracota ou verde-mata. Geist 400 e 500 em tudo.
 --------------------------------------------------------------------------- */
 
 :root {
-  --bg: #f2f0eb;
+  --bg: #ffffff;
   --ink: #141414;
-  --ink-2: #5d5b56;
-  --line: #dcd8cf;
-  --pill: #ffffff;
+  --ink-2: #5e5e5e;
+  --line: #e6e6e6;
+  /* Pílula em cinza bem claro: branca, sumiria no fundo branco. */
+  --pill: #f1f1f1;
   --terracota: #d9653b;
   --mata: #2f4a3a;
 
@@ -19,7 +20,7 @@
   --c-paper: var(--bg);
   --c-ink: var(--ink);
   --c-ink-soft: var(--ink-2);
-  --c-ink-faint: #6e6b65;
+  --c-ink-faint: #6e6e6e;
 
   --f-sans: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
   --f-mono: var(--font-geist-mono), ui-monospace, monospace;
