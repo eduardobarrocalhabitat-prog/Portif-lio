@@ -1,0 +1,219 @@
+.redes {
+  padding: clamp(120px, 16vh, 200px) var(--m) clamp(100px, 14vh, 180px);
+  overflow: hidden;
+}
+
+.topo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+  align-items: end;
+  gap: 32px;
+  margin-bottom: clamp(48px, 7vh, 88px);
+}
+
+.titulo {
+  font-size: clamp(44px, 5.4vw, 92px);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.lado {
+  display: grid;
+  gap: 20px;
+  justify-items: end;
+}
+
+.texto {
+  max-width: 40ch;
+  font-size: clamp(16px, 1.3vw, 19px);
+  line-height: 1.45;
+  text-align: right;
+  color: var(--ink-2);
+}
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.filtro {
+  height: 32px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--pill);
+  font-size: 13px;
+  cursor: pointer;
+  transition:
+    background 0.2s var(--e-out),
+    color 0.2s var(--e-out);
+}
+
+.filtro:hover {
+  background: #e7e3da;
+}
+
+.filtro[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+/* -------------------------------------------------------------------------
+   A parede: colunas que andam em velocidades diferentes
+------------------------------------------------------------------------- */
+
+.parede {
+  display: grid;
+  grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr));
+  gap: clamp(14px, 1.6vw, 28px);
+  align-items: start;
+}
+
+.coluna {
+  display: grid;
+  gap: clamp(28px, 3vw, 48px);
+  will-change: transform;
+}
+
+/* A segunda e a quarta colunas começam mais baixo: a parede não vira régua. */
+.coluna:nth-child(2n) {
+  margin-top: clamp(40px, 8vw, 140px);
+}
+
+.peca {
+  display: grid;
+  gap: 12px;
+}
+
+.quadro {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--line);
+  cursor: pointer;
+}
+
+.quadro img,
+.quadro video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--e-out);
+}
+
+@media (hover: hover) {
+  .quadro:hover img,
+  .quadro:hover video {
+    transform: scale(1.035);
+  }
+}
+
+.quadro:active {
+  transform: scale(0.99);
+}
+
+.quadro:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+/* O formato, como pílula sobre a peça. O verde só nos vídeos. */
+.selo {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: rgba(242, 240, 235, 0.88);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  font-size: 12px;
+  color: var(--ink);
+}
+
+.selo[data-video="true"] {
+  background: var(--mata);
+  color: #fff;
+}
+
+.selo svg {
+  width: 9px;
+  height: 9px;
+  fill: currentColor;
+}
+
+.legenda {
+  display: grid;
+  gap: 2px;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.cliente {
+  font-weight: 500;
+}
+
+.detalhe {
+  color: var(--ink-2);
+}
+
+/* -------------------------------------------------------------------------
+   Chamada
+------------------------------------------------------------------------- */
+
+.chamada {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: clamp(80px, 12vh, 140px);
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+}
+
+.chamada p {
+  font-size: clamp(26px, 2.6vw, 44px);
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+}
+
+@media (max-width: 899px) {
+  .topo {
+    grid-template-columns: 1fr;
+  }
+
+  .lado {
+    justify-items: start;
+  }
+
+  .texto {
+    text-align: left;
+  }
+
+  .filtros {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 759px) {
+  .coluna:nth-child(2n) {
+    margin-top: 48px;
+  }
+
+  .legenda {
+    font-size: 13px;
+  }
+}

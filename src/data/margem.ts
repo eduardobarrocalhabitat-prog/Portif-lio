@@ -121,12 +121,27 @@ export const ROTULO_FILTRO: Record<Filtro, string> = {
   sites: "Site",
 };
 
+/*
+  "Lavaê · nova unidade": o cliente vem antes do ponto. Quando o título começa
+  pelo formato ("Key visual · academia"), o cliente é o que vem depois.
+*/
+function separar(g: GalleryItem): { cliente: string; detalhe?: string } {
+  const [antes, ...resto] = g.title.split(" · ");
+  if (resto.length && antes.toLowerCase() === g.kind.toLowerCase()) {
+    const c = resto.join(" · ");
+    return { cliente: c.charAt(0).toUpperCase() + c.slice(1) };
+  }
+  const detalhe = resto.join(" · ");
+  // "Elva Garden · story" num Story: o detalhe só repetiria o selo.
+  const repete = detalhe.toLowerCase() === g.kind.toLowerCase();
+  return { cliente: antes, detalhe: detalhe && !repete ? detalhe : undefined };
+}
+
 function peca(g: GalleryItem): Projeto | null {
   const foto = g.image ?? g.poster;
   if (!foto) return null;
-  // "Lavaê · nova unidade": o cliente é o que vem antes do ponto.
-  const [cliente, ...resto] = g.title.split(" · ");
-  const disciplina = resto.length ? `${g.kind}, ${resto.join(" · ")}` : g.kind;
+  const { cliente, detalhe } = separar(g);
+  const disciplina = detalhe ? `${g.kind}, ${detalhe}` : g.kind;
   const abrir: Abrir = g.video
     ? { kind: "video", src: g.video, poster: g.poster, label: g.kind }
     : {
@@ -182,3 +197,74 @@ function montar(): Projeto[] {
 }
 
 export const PROJETOS = montar();
+
+/* ---------------------------------------------------------------------------
+   Redes sociais: as peças de conteúdo, na proporção em que foram feitas.
+   Muita gente chega até o Eduardo por causa delas, então elas têm seção
+   própria, além das linhas no índice.
+--------------------------------------------------------------------------- */
+
+export type GrupoRede = "videos" | "carrosseis" | "posts";
+
+export type PecaRede = {
+  cliente: string;
+  /** "Reel", "Carrossel · 8 telas", "Post". */
+  formato: string;
+  detalhe?: string;
+  /** "3/4", "9/16"... vira o aspect-ratio do quadro. */
+  ratio: string;
+  foto: string;
+  /** Loop mudo para tocar na parede. */
+  previa?: string;
+  grupo: GrupoRede;
+  abrir: Abrir;
+};
+
+export const FILTROS_REDES: { id: GrupoRede | "tudo"; rotulo: string }[] = [
+  { id: "tudo", rotulo: "Tudo" },
+  { id: "videos", rotulo: "Reels e vídeos" },
+  { id: "carrosseis", rotulo: "Carrosséis" },
+  { id: "posts", rotulo: "Posts e stories" },
+];
+
+function montarRedes(): PecaRede[] {
+  const out: PecaRede[] = [];
+  for (const folder of folders) {
+    const c = folder.panel.content;
+    if (c.kind !== "gallery") continue;
+    for (const g of c.items) {
+      const foto = g.image ?? g.poster;
+      if (!foto) continue;
+      const { cliente, detalhe } = separar(g);
+      const grupo: GrupoRede = g.video
+        ? "videos"
+        : g.slides
+          ? "carrosseis"
+          : "posts";
+      const formato = g.slides
+        ? `${g.kind} · ${g.slides.length} telas`
+        : g.kind;
+      const abrir: Abrir = g.video
+        ? { kind: "video", src: g.video, poster: g.poster, label: g.kind }
+        : {
+            kind: "document",
+            pages: g.slides ?? [foto],
+            label: g.kind,
+            axis: g.slides ? "x" : undefined,
+          };
+      out.push({
+        cliente,
+        formato,
+        detalhe,
+        ratio: g.ratio,
+        foto,
+        previa: g.previa,
+        grupo,
+        abrir,
+      });
+    }
+  }
+  return out;
+}
+
+export const REDES = montarRedes();

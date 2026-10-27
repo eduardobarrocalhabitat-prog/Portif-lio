@@ -6,12 +6,13 @@ import styles from "./Nav.module.css";
 
 const LINKS = [
   { href: "#projetos", label: "Projetos" },
+  { href: "#redes", label: "Redes" },
   { href: "#sobre", label: "Sobre" },
   { href: "#contato", label: "Contato" },
 ];
 
 /**
- * Nome no canto e três pílulas. Some ao rolar para baixo (passada meia tela)
+ * Nome no canto e quatro pílulas. Some ao rolar para baixo (passada meia tela)
  * e volta ao rolar para cima; quando volta no meio da página, traz um véu
  * off-white atrás, para nunca cobrir título, filtro ou nota.
  */
@@ -43,8 +44,13 @@ export function Nav() {
 
   return (
     <header className={styles.nav} data-hidden={hidden} data-veil={veil}>
-      <a className={styles.name} href="#topo">
-        Eduardo Barrocal
+      <a
+        className={styles.name}
+        href="#topo"
+        aria-label="Eduardo Barrocal, voltar ao início"
+      >
+        {/* No celular só o sobrenome: com quatro pílulas, o nome inteiro não cabe. */}
+        <span className={styles.first}>Eduardo </span>Barrocal
       </a>
       <nav aria-label="Seções">
         <ul className={styles.pills}>

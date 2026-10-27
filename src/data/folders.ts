@@ -52,6 +52,11 @@ export type GalleryItem = {
   /** Quando existe, a peça é um vídeo mudo que roda sob o ponteiro. */
   video?: string;
   poster?: string;
+  /**
+   * Loop curto e mudo (8 s, 480 px) que toca na parede de Redes. O vídeo
+   * inteiro só baixa quando a pessoa abre: o da Pen tem 31 MB e 5 minutos.
+   */
+  previa?: string;
 };
 
 export type SiteItem = {
@@ -81,8 +86,7 @@ export type ArticleBlock =
   | { type: "image"; src: string; caption?: string };
 
 export type CaseDetail =
-  | { kind: "site"; url: string }
-  | { kind: "article"; blocks: ArticleBlock[] };
+  { kind: "site"; url: string } | { kind: "article"; blocks: ArticleBlock[] };
 
 export type CaseItem = {
   title: string;
@@ -254,6 +258,7 @@ const fontes: FolderDefinition[] = [
             kind: "Reel",
             ratio: "9/16",
             video: "/conteudo/reel-campo.mp4",
+            previa: "/conteudo/reel-campo-previa.mp4",
             poster: "/conteudo/reel-campo.webp",
           },
           {
@@ -291,6 +296,7 @@ const fontes: FolderDefinition[] = [
             kind: "Reel",
             ratio: "9/16",
             video: "/conteudo/reel-0722.mp4",
+            previa: "/conteudo/reel-0722-previa.mp4",
             poster: "/conteudo/reel-0722.webp",
           },
           {
@@ -326,6 +332,7 @@ const fontes: FolderDefinition[] = [
             kind: "Vídeo",
             ratio: "9/16",
             video: "/conteudo/reel-pen.mp4",
+            previa: "/conteudo/reel-pen-previa.mp4",
             poster: "/conteudo/reel-pen.webp",
           },
           {
@@ -449,7 +456,11 @@ const fontes: FolderDefinition[] = [
                   type: "p",
                   text: "Metade das mensagens que chegavam ao comercial eram as mesmas seis perguntas. Cada uma custava alguns minutos de alguém que deveria estar vendendo.",
                 },
-                { type: "stat", value: "6", label: "perguntas concentravam metade do volume" },
+                {
+                  type: "stat",
+                  value: "6",
+                  label: "perguntas concentravam metade do volume",
+                },
                 { type: "h", text: "O que foi feito" },
                 {
                   type: "p",
@@ -472,7 +483,11 @@ const fontes: FolderDefinition[] = [
                   type: "p",
                   text: "O relatório mensal era montado à mão: exportar, limpar, colar no template, escrever a leitura. Um dia de trabalho todo mês, sempre igual.",
                 },
-                { type: "stat", value: "1 dia → 10 min", label: "por ciclo de relatório" },
+                {
+                  type: "stat",
+                  value: "1 dia → 10 min",
+                  label: "por ciclo de relatório",
+                },
                 { type: "h", text: "O que foi feito" },
                 {
                   type: "p",

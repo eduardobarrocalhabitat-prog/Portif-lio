@@ -8,7 +8,8 @@ npm run build
 ```
 
 A estrutura vem do site de estúdio "Margem" (túnel de trabalhos, manifesto com
-marginália, método, índice e fecho), com o conteúdo do Eduardo.
+marginália, método, índice e fecho), com o conteúdo do Eduardo. A seção de
+redes sociais é dele: muita gente o procura por isso.
 
 ---
 
@@ -20,6 +21,7 @@ marginália, método, índice e fecho), com o conteúdo do Eduardo.
 | As peças, marcas e sites (de onde o índice sai) | [src/data/folders.ts](src/data/folders.ts) |
 | Contatos e empresas | [src/data/about.ts](src/data/about.ts) |
 | As fotos das paredes do túnel | `public/tunel/` + [src/data/tunel.json](src/data/tunel.json) |
+| A seção de redes sociais | [src/components/margem/Redes.tsx](src/components/margem/Redes.tsx) |
 | O túnel em si (Three.js) | [src/components/margem/tunel/cena.ts](src/components/margem/tunel/cena.ts) |
 | A linha do tempo do túnel | [src/components/margem/tunel/Tunel.tsx](src/components/margem/tunel/Tunel.tsx) |
 | Cores, fonte e margens | [src/app/globals.css](src/app/globals.css) |
@@ -28,6 +30,7 @@ marginália, método, índice e fecho), com o conteúdo do Eduardo.
 
 ```
 #topo      hero + túnel: 78 fotos nas paredes, 4 destaques que viram case (preso por 11 telas)
+#redes     posts, carrosséis, stories e reels, com os reels tocando na tela
 #sobre     manifesto com fotos no lugar de palavras e notas na margem
 #metodo    a AND Academy do conceito à aplicação (preso por 2,6 telas)
 #projetos  todos os projetos, com filtro e a foto seguindo o cursor
@@ -37,6 +40,17 @@ marginália, método, índice e fecho), com o conteúdo do Eduardo.
 Não há ano em lugar nenhum e não há depoimento de cliente: data errada é pior
 que ausente, e depoimento inventado não entra. As notas do "Sobre" e o "24
 projetos" são contagens do próprio acervo.
+
+## Reels
+
+Na seção de redes cada reel toca um loop curto e mudo (`*-previa.mp4`, 8 s,
+480 px, ~500 KB); o vídeo inteiro só baixa quando a pessoa abre. Para um reel
+novo, gere a prévia e aponte `previa` no item em `folders.ts`:
+
+```bash
+ffmpeg -ss 1 -t 8 -i reel.mp4 -vf "scale=480:-2,fps=30" -an -c:v libx264 \
+  -crf 27 -preset slow -pix_fmt yuv420p -movflags +faststart reel-previa.mp4
+```
 
 ## Trocar uma foto do túnel
 

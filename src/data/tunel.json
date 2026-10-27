@@ -42,6 +42,10 @@
   { "src": "/tunel/41-extra-layover.webp", "w": 900, "h": 506 },
   { "src": "/tunel/42-extra-lis-liranco.webp", "w": 900, "h": 506 },
   { "src": "/tunel/43-extra-osgi.webp", "w": 900, "h": 506 },
-  { "src": "/tunel/44-extra-sustentabilidade-em-blocos.webp", "w": 900, "h": 542 },
+  {
+    "src": "/tunel/44-extra-sustentabilidade-em-blocos.webp",
+    "w": 900,
+    "h": 542
+  },
   { "src": "/tunel/45-extra-viabilizza.webp", "w": 900, "h": 506 }
 ]
