@@ -16,7 +16,7 @@ import styles from "./Sobre.module.css";
 --------------------------------------------------------------------------- */
 
 const FRASE =
-  "Já passei por inovação, games, educação, marketing e e-sports. Não importa o nicho: eu desenrolo.";
+  "Já entreguei para inovação, games, educação, marketing e e-sports. O seu nicho é o próximo: eu desenrolo.";
 
 export function Sobre() {
   const rootRef = useRef<HTMLElement>(null);

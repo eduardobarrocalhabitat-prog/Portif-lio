@@ -93,7 +93,7 @@ export const about = {
     `logo`, o cartão mostra só o nome e continua inteiro.
   */
   companies: {
-    label: "Empresas com quem trabalhei",
+    label: "Quem já confiou no meu trabalho",
     /* A ordem é a dele, a mesma dos arquivos Frame 1 a 7. */
     items: [
       { name: "inovabra", logo: "/empresas/inovabra.webp" },

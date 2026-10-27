@@ -8,7 +8,7 @@ const LINKS = [
   { href: "#redes", label: "Redes" },
   { href: "#marcas", label: "Marcas" },
   { href: "#sites", label: "Sites" },
-  { href: "#contato", label: "Contato" },
+  { href: "#contato", label: "Orçamento" },
 ];
 
 /**

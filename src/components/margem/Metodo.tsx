@@ -77,9 +77,11 @@ export function Metodo() {
     >
       <div className={styles.topo}>
         <h2 id="metodo-titulo" className={styles.titulo}>
-          Como uma marca nasce aqui
+          Como a sua marca sai do papel
         </h2>
-        <p className={styles.legenda}>AND Academy, do conceito à aplicação.</p>
+        <p className={styles.legenda}>
+          Exemplo real: AND Academy, do conceito à aplicação.
+        </p>
       </div>
 
       <div className={styles.janela}>

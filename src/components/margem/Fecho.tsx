@@ -3,6 +3,7 @@
 import { useRef } from "react";
 
 import { about } from "@/data/about";
+import { MENSAGEM, whatsapp } from "@/data/margem";
 import fotos from "@/data/tunel.json";
 import { gsap, useGSAP } from "@/lib/motion";
 import styles from "./Fecho.module.css";
@@ -135,8 +136,8 @@ export function Fecho() {
 
         <blockquote className={styles.frase}>
           <p>
-            Comecei desenhando marcas e descobri que o desenho só termina quando
-            ele roda.
+            Marca bonita que ninguém lembra é só enfeite. Eu desenho para o seu
+            cliente lembrar e voltar.
           </p>
           <footer>Eduardo Barrocal</footer>
         </blockquote>
@@ -145,18 +146,18 @@ export function Fecho() {
       <footer className={styles.rodape} data-rodape>
         <div className={styles.colunas}>
           <div className={styles.chamada}>
-            <h2 id="contato-titulo">Qual é o seu projeto?</h2>
+            <h2 id="contato-titulo">Vamos tirar seu projeto do papel?</h2>
             <p className={styles.convite}>
-              Marca, redes, site ou tudo junto. Me conta o que você quer
-              construir e onde quer chegar.
+              Me conta o que você precisa: marca, redes, site ou tudo junto.
+              Respondo em até um dia útil com os próximos passos.
             </p>
             <a
               className={`pillDark ${styles.grande}`}
-              href={about.contact.whatsapp.href}
+              href={whatsapp(MENSAGEM.geral)}
               target="_blank"
               rel="noreferrer"
             >
-              Chamar no WhatsApp
+              Pedir orçamento no WhatsApp
             </a>
           </div>
 

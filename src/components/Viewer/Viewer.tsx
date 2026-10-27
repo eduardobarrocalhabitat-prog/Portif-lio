@@ -152,7 +152,9 @@ export function Viewer({ title, source, cover, onClose }: Props) {
         data-fit={kind}
         data-axis={horizontal ? "x" : undefined}
         style={
-          ratio ? ({ "--doc-ratio": String(ratio) } as React.CSSProperties) : undefined
+          ratio
+            ? ({ "--doc-ratio": String(ratio) } as React.CSSProperties)
+            : undefined
         }
       >
         <header className={styles.bar}>

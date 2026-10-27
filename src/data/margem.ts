@@ -1,3 +1,4 @@
+import { about } from "@/data/about";
 import { folders, type GalleryItem } from "@/data/folders";
 
 /* ---------------------------------------------------------------------------
@@ -68,22 +69,23 @@ export const paginas = (dir: string, count: number) =>
 export const METODO = [
   {
     rotulo: "Conceito",
-    frase: "Antes do traço, o porquê: o que a marca precisa dizer.",
+    frase: "Primeiro eu entendo o seu negócio e o que a marca precisa dizer.",
     foto: "/marcas/and-academy/paginas/005.webp",
   },
   {
     rotulo: "Construção",
-    frase: "Geometria até a forma se sustentar sozinha.",
+    frase: "Depois, a forma: um símbolo que funciona em qualquer tamanho.",
     foto: "/marcas/and-academy/paginas/006.webp",
   },
   {
     rotulo: "Sistema",
-    frase: "Cor, letra e regra para a marca andar sem mim.",
+    frase:
+      "Cor, letra e regra para a marca andar sozinha, sem depender de mim.",
     foto: "/marcas/and-academy/paginas/010.webp",
   },
   {
     rotulo: "Aplicação",
-    frase: "Fachada, tela, crachá: onde a marca trabalha.",
+    frase: "Fachada, tela, uniforme: a marca pronta para trabalhar por você.",
     foto: "/marcas/and-academy/paginas/019.webp",
   },
 ];
@@ -300,3 +302,18 @@ function montarSites(): SiteCase[] {
 }
 
 export const SITES = montarSites();
+
+/* ---------------------------------------------------------------------------
+   WhatsApp com a mensagem já escrita: a pessoa só aperta enviar. Cada chamada
+   do site manda uma mensagem que diz de onde ela veio.
+--------------------------------------------------------------------------- */
+
+export const whatsapp = (mensagem: string) =>
+  `${about.contact.whatsapp.href}?text=${encodeURIComponent(mensagem)}`;
+
+export const MENSAGEM = {
+  geral:
+    "Oi, Eduardo! Vi seu portfólio e quero um orçamento para o meu projeto.",
+  redes:
+    "Oi, Eduardo! Vi seu portfólio e quero conteúdo para as redes da minha marca.",
+};

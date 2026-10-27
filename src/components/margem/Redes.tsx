@@ -4,9 +4,10 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import { useAbrir } from "@/components/margem/ViewerHost";
-import { about } from "@/data/about";
 import {
   FILTROS_REDES,
+  MENSAGEM,
+  whatsapp,
   REDES,
   type GrupoRede,
   type PecaRede,
@@ -156,8 +157,8 @@ export function Redes() {
         </h2>
         <div className={styles.lado}>
           <p className={styles.texto}>
-            Post, carrossel, story e reel. As peças que fazem a marca aparecer
-            todo dia, paradas e em movimento.
+            Conteúdo que segura o dedo no feed. Post, carrossel, story e reel
+            para a sua marca aparecer todo dia e virar conversa.
           </p>
           <div
             className={styles.filtros}
@@ -235,14 +236,14 @@ export function Redes() {
       </div>
 
       <div className={styles.chamada}>
-        <p>Precisa de alguém para as suas redes?</p>
+        <p>Sua marca aparece pouco nas redes?</p>
         <a
           className="pillDark"
-          href={about.contact.whatsapp.href}
+          href={whatsapp(MENSAGEM.redes)}
           target="_blank"
           rel="noreferrer"
         >
-          Chamar no WhatsApp
+          Quero conteúdo para as minhas redes
         </a>
       </div>
     </section>

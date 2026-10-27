@@ -109,7 +109,9 @@ export function Indice() {
         ))}
       </ul>
 
-      <p className={styles.total}>{MARCAS.length} marcas</p>
+      <p className={styles.total}>
+        {MARCAS.length} marcas. A próxima pode ser a sua.
+      </p>
 
       <div ref={fotoRef} className={styles.foto} aria-hidden>
         {/* eslint-disable-next-line @next/next/no-img-element */}

@@ -92,7 +92,8 @@ export function Sites() {
           Sites no ar
         </h2>
         <p className={styles.conta}>
-          {SITES.length} {SITES.length === 1 ? "site" : "sites"}
+          {SITES.length} {SITES.length === 1 ? "site" : "sites"} · quer o seu no
+          ar?
         </p>
       </div>
 

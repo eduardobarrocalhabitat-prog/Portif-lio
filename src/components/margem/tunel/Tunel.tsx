@@ -131,9 +131,9 @@ export function Tunel() {
       {/* A hero, por cima do começo do túnel. */}
       <p className={styles.frase} data-hero>
         <span>
-          Desenho marcas e as telas
+          Design que faz o cliente
           <br />
-          onde elas vivem.
+          parar, lembrar e chamar.
         </span>
       </p>
 
@@ -144,9 +144,9 @@ export function Tunel() {
       </h1>
 
       <div className={styles.rotulos} data-hero>
-        <span className={styles.rotulo}>Role para entrar</span>
+        <span className={styles.rotulo}>Role para ver os projetos</span>
         <span className={styles.rotulo}>
-          Brasil · {PROJETOS.length} projetos
+          Brasil · {PROJETOS.length} projetos entregues
         </span>
       </div>
 
@@ -186,7 +186,7 @@ export function Tunel() {
                 })
               }
             >
-              Abrir o case →
+              Ver o projeto completo →
             </button>
           </div>
         </div>

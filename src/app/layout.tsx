@@ -24,14 +24,14 @@ export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   ),
-  title: "Eduardo Barrocal · Marcas e interfaces",
+  title: "Eduardo Barrocal · Designer de marcas, redes sociais e sites",
   description:
-    "Identidade visual, conteúdo e sites de Eduardo Barrocal. Manuais de marca, peças para redes e sites no ar.",
+    "Marcas, conteúdo para redes e sites que fazem o cliente lembrar de você. Veja os projetos e peça seu orçamento pelo WhatsApp.",
   openGraph: {
     type: "website",
     locale: "pt_BR",
-    title: "Eduardo Barrocal · Marcas e interfaces",
-    description: "Desenho marcas e as telas onde elas vivem.",
+    title: "Eduardo Barrocal · Designer de marcas, redes sociais e sites",
+    description: "Design que faz o cliente parar, lembrar e chamar.",
     images: ["/media/og.jpg"],
   },
 };
