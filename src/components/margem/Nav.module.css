@@ -1,0 +1,86 @@
+.nav {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--nav-h);
+  padding: 0 var(--m);
+  transition: transform 0.45s var(--e-out);
+}
+
+/* O véu: só quando a barra reaparece no meio da página. */
+.nav::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 -24px;
+  z-index: -1;
+  background: linear-gradient(to bottom, var(--bg) 55%, rgba(242, 240, 235, 0));
+  opacity: 0;
+  transition: opacity 0.3s var(--e-out);
+  pointer-events: none;
+}
+
+.nav[data-veil="true"]::before {
+  opacity: 1;
+}
+
+.nav[data-hidden="true"] {
+  transform: translateY(-110%);
+}
+
+:global(body[data-viewer-open="true"]) .nav {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.name {
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+}
+
+.pills {
+  display: flex;
+  gap: 8px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: var(--pill);
+  font-size: 13px;
+  transition:
+    background 0.2s var(--e-out),
+    color 0.2s var(--e-out);
+}
+
+.pill:hover {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+@media (max-width: 640px) {
+  .nav {
+    --nav-h: 64px;
+  }
+
+  .name {
+    font-size: 15px;
+  }
+
+  .pills {
+    gap: 4px;
+  }
+
+  .pill {
+    height: 30px;
+    padding: 0 11px;
+    font-size: 12.5px;
+  }
+}

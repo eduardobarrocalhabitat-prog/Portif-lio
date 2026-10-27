@@ -531,3 +531,26 @@
     animation-duration: 2s;
   }
 }
+
+/* -------------------------------------------------------------------------
+   Vídeo: a janela veste o reel em vez de esticar até 1180px.
+------------------------------------------------------------------------- */
+
+.window[data-fit="video"] {
+  width: auto;
+  max-width: 100%;
+}
+
+.videoStage {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  background: #0d0d0d;
+}
+
+.video {
+  display: block;
+  max-width: 100%;
+  max-height: calc(min(860px, 100vh - 2 * clamp(12px, 3vw, 40px)) - 62px);
+}

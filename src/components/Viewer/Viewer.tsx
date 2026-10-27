@@ -47,7 +47,9 @@ export type ViewerSource =
       axis?: "x" | "y";
     }
   | { kind: "article"; blocks: ArticleBlock[]; label: string }
-  | { kind: "site"; url: string; label: string };
+  | { kind: "site"; url: string; label: string }
+  /** Reel ou vídeo: toca com som e controles, que no índice não dá. */
+  | { kind: "video"; src: string; poster?: string; label: string };
 
 type Props = {
   title: string;
@@ -139,6 +141,8 @@ export function Viewer({ title, source, cover, onClose }: Props) {
       data-entered={entered}
       role="dialog"
       aria-modal="true"
+      /* A rolagem suave da página não pode sequestrar a rolagem do leitor. */
+      data-lenis-prevent
       aria-label={`${title} · ${source.label}`}
     >
       <div className={styles.scrim} onClick={onClose} aria-hidden="true" />
@@ -258,6 +262,17 @@ export function Viewer({ title, source, cover, onClose }: Props) {
                 </button>
               </>
             ) : null}
+          </div>
+        ) : source.kind === "video" ? (
+          <div className={styles.videoStage}>
+            <video
+              className={styles.video}
+              src={source.src}
+              poster={source.poster}
+              controls
+              autoPlay
+              playsInline
+            />
           </div>
         ) : source.kind === "article" ? (
           <div className={styles.article}>

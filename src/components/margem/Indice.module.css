@@ -1,0 +1,190 @@
+.indice {
+  padding: clamp(120px, 16vh, 200px) 0 clamp(80px, 12vh, 140px);
+}
+
+.topo {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+  padding: 0 var(--m) clamp(28px, 4vh, 48px);
+}
+
+.titulo {
+  font-size: clamp(44px, 5.4vw, 92px);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filtro {
+  height: 32px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--pill);
+  font-size: 13px;
+  cursor: pointer;
+  transition:
+    background 0.2s var(--e-out),
+    color 0.2s var(--e-out);
+}
+
+.filtro:hover {
+  background: #e7e3da;
+}
+
+.filtro[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+/* -------------------------------------------------------------------------
+   Linhas
+------------------------------------------------------------------------- */
+
+.linhas {
+  border-top: 1px solid var(--line);
+}
+
+.linhas li {
+  border-bottom: 1px solid var(--line);
+}
+
+.linha {
+  position: relative;
+  display: grid;
+  grid-template-columns: 46% minmax(0, 1fr) 16%;
+  align-items: baseline;
+  gap: 24px;
+  width: 100%;
+  padding: clamp(14px, 1.8vw, 24px) var(--m);
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  isolation: isolate;
+}
+
+/* A faixa terracota cresce do centro, de borda a borda da página. */
+.faixa {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--terracota);
+  transform: scaleY(0);
+  transition: transform 0.35s var(--e-out);
+}
+
+.linha:hover .faixa,
+.linha:focus-visible .faixa {
+  transform: scaleY(1);
+}
+
+.linha:hover,
+.linha:focus-visible {
+  color: #fff;
+}
+
+.linha:focus-visible {
+  outline: none;
+}
+
+.cliente {
+  font-size: clamp(26px, 2.9vw, 46px);
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+}
+
+.disciplina,
+.tipo {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.tipo {
+  text-align: right;
+}
+
+.mini {
+  display: none;
+}
+
+.total {
+  padding: 18px var(--m) 0;
+  font-size: 13px;
+  color: var(--ink-2);
+  text-align: right;
+}
+
+/* A foto que segue o cursor: retrato 4:5, girada ao acaso. */
+.foto {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 30;
+  width: 19vw;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--line);
+  box-shadow: 0 30px 60px -30px rgba(20, 20, 20, 0.45);
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Celular e toque: sem foto flutuante; miniatura quadrada na linha. */
+@media (max-width: 760px), (hover: none) {
+  .foto {
+    display: none;
+  }
+
+  .linha {
+    grid-template-columns: minmax(0, 1fr) 64px;
+    grid-template-rows: auto auto;
+    align-items: center;
+    column-gap: 16px;
+    row-gap: 4px;
+  }
+
+  .cliente {
+    grid-column: 1;
+  }
+
+  .disciplina {
+    grid-column: 1;
+    color: var(--ink-2);
+  }
+
+  .tipo {
+    display: none;
+  }
+
+  .mini {
+    display: block;
+    grid-column: 2;
+    grid-row: 1 / 3;
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+
+  .linha:hover .disciplina {
+    color: inherit;
+  }
+}

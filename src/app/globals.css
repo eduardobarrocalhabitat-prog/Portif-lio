@@ -1,49 +1,37 @@
 /* ---------------------------------------------------------------------------
    Tokens + reset
-   Tudo que é global mora aqui. Estilo de componente fica no .module.css dele.
+
+   A paleta da Margem: papel off-white, tinta quase preta, um cinza para o
+   secundário, fio claro e pílula branca. Acento só em um detalhe por seção:
+   terracota ou verde-mata. Geist 400 e 500 em tudo.
 --------------------------------------------------------------------------- */
 
 :root {
-  /* Paleta — base branca com difusores frios/quentes bem dessaturados */
-  --c-paper: #ffffff;
-  /*
-    Contraste sobre branco: 18.1:1, 6.3:1 e 4.9:1. O `faint` era #8f95a6, que
-    dava 2.99:1 e reprovava no WCAG AA — e ele é a cor dos kickers, metadados
-    e contadores, texto pequeno onde a régua é mais dura, não mais frouxa.
-  */
-  --c-ink: #14161d;
-  --c-ink-soft: #5a6070;
-  --c-ink-faint: #6b7185;
+  --bg: #f2f0eb;
+  --ink: #141414;
+  --ink-2: #5d5b56;
+  --line: #dcd8cf;
+  --pill: #ffffff;
+  --terracota: #d9653b;
+  --mata: #2f4a3a;
 
-  --c-glass-line: rgba(255, 255, 255, 0.72);
-  --c-glass-shadow: rgba(88, 100, 152, 0.36);
+  /* Os nomes antigos, que o visualizador ainda usa. */
+  --c-paper: var(--bg);
+  --c-ink: var(--ink);
+  --c-ink-soft: var(--ink-2);
+  --c-ink-faint: #6e6b65;
 
-  --tint-lilac: 196, 186, 255;
-  --tint-peach: 255, 206, 184;
-  --tint-mint: 178, 235, 219;
-  --tint-sky: 186, 216, 255;
-
-  /* Tipografia */
   --f-sans: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
-  --f-serif: var(--font-instrument-serif), Georgia, "Times New Roman", serif;
   --f-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --f-serif: var(--f-sans);
 
-  /* Ritmo de movimento — num lugar só, para o timing ficar coeso */
-  --d-fast: 0.28s;
-  --d-base: 0.55s;
+  /* Margem lateral da página: a mesma em todas as seções. */
+  --m: clamp(20px, 2.6vw, 40px);
+  --nav-h: 80px;
+
   --e-out: cubic-bezier(0.22, 1, 0.36, 1);
 
   color-scheme: light;
-}
-
-/*
-  Registrada para ser interpolável: sem isso o hover que endireita uma peça
-  jogada saltaria em vez de girar.
-*/
-@property --tilt {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: 0deg;
 }
 
 *,
@@ -56,56 +44,58 @@ html,
 body {
   margin: 0;
   padding: 0;
-  min-height: 100%;
 }
 
-html {
-  /*
-    Reserva a calha da barra de rolagem sempre. Sem isso, travar o scroll ao
-    abrir o visualizador remove a barra e a página inteira salta alguns pixels.
-  */
-  scrollbar-gutter: stable;
-  scroll-behavior: smooth;
+/* O Lenis cuida da rolagem suave; o CSS não pode competir com ele. */
+html.lenis,
+html.lenis body {
+  height: auto;
 }
 
-/*
-  Altura da barra do topo, aqui em cima porque duas partes distantes precisam
-  dela: a própria barra, e a hero, que começa logo abaixo em vez de passar por
-  baixo. Enquanto a barra era transparente, o vídeo atrás dela era o certo;
-  opaca, ela virou uma tampa preta sobre o topo do quadro e cortava a cabeça
-  do personagem.
-*/
-:root {
-  --bar-h: 64px;
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
 }
 
-@media (max-width: 760px) {
-  :root {
-    --bar-h: 56px;
-  }
+.lenis.lenis-stopped {
+  overflow: clip;
 }
 
 body {
-  background: var(--c-paper);
-  color: var(--c-ink);
+  background: var(--bg);
+  color: var(--ink);
   font-family: var(--f-sans);
+  font-weight: 400;
   font-synthesis-weight: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* Visualizador aberto: o documento atrás não rola. */
 body[data-viewer-open="true"] {
   overflow: hidden;
-  touch-action: none;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+figure {
+  margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
 }
 
 button {
@@ -118,10 +108,14 @@ a {
   text-decoration: none;
 }
 
-:where(button, a):focus-visible {
-  outline: 2px solid rgba(88, 100, 152, 0.75);
-  outline-offset: 4px;
-  border-radius: 8px;
+:where(button, a, [tabindex]):focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: var(--ink);
+  color: var(--bg);
 }
 
 .srOnly {
@@ -133,4 +127,32 @@ a {
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
+}
+
+/* A pílula preta das ações principais. Um formato só no site inteiro. */
+.pillDark {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background 0.2s var(--e-out),
+    transform 0.16s var(--e-out);
+}
+
+.pillDark:hover {
+  background: #2c2c2a;
+}
+
+.pillDark:active {
+  transform: scale(0.97);
 }

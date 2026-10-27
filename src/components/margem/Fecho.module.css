@@ -1,0 +1,145 @@
+/* -------------------------------------------------------------------------
+   A frase com as peças flutuando em volta
+------------------------------------------------------------------------- */
+
+.palco {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 120svh;
+  padding: 0 var(--m);
+  overflow: hidden;
+}
+
+.flutua {
+  position: absolute;
+  border-radius: 3px;
+  overflow: hidden;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.flutua img {
+  width: 100%;
+  height: auto;
+}
+
+.frase {
+  position: relative;
+  z-index: 20;
+  max-width: 24em;
+  margin: 0;
+  padding: 3em 4em;
+  background: radial-gradient(
+    closest-side,
+    rgba(242, 240, 235, 0.95) 45%,
+    rgba(242, 240, 235, 0)
+  );
+  font-size: clamp(28px, 2.7vw, 46px);
+  line-height: 1.18;
+  letter-spacing: -0.025em;
+  text-align: center;
+}
+
+.frase footer {
+  margin-top: 0.9em;
+  font-size: 15px;
+  letter-spacing: 0;
+  color: var(--ink-2);
+}
+
+/* -------------------------------------------------------------------------
+   Rodapé
+------------------------------------------------------------------------- */
+
+.rodape {
+  padding: clamp(60px, 10vh, 120px) var(--m) 0;
+  overflow: hidden;
+}
+
+.colunas {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 0.6fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.chamada h2 {
+  margin-bottom: 24px;
+  font-size: clamp(28px, 2.6vw, 44px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+.grande {
+  height: 56px;
+  padding: 0 28px;
+  font-size: 17px;
+}
+
+.endereco {
+  display: grid;
+  gap: 6px;
+  font-size: 15px;
+  font-style: normal;
+  line-height: 1.5;
+}
+
+.endereco span {
+  color: var(--ink-2);
+}
+
+.redes {
+  display: grid;
+  gap: 6px;
+  justify-items: end;
+  font-size: 15px;
+}
+
+/* Sublinhado que cresce no hover. */
+.redes a,
+.endereco a {
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px
+    no-repeat;
+  transition: background-size 0.35s var(--e-out);
+}
+
+.redes a:hover,
+.endereco a:hover {
+  background-size: 100% 1px;
+}
+
+/* O nome de borda a borda, subindo por baixo. */
+.nomeJanela {
+  margin-top: clamp(60px, 10vh, 120px);
+  overflow: hidden;
+}
+
+.nome {
+  font-size: calc((100vw - 2 * var(--m)) / 7.1);
+  font-weight: 500;
+  line-height: 0.82;
+  letter-spacing: -0.06em;
+  white-space: nowrap;
+  padding-bottom: 0.08em;
+}
+
+@media (max-width: 760px) {
+  .colunas {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .redes {
+    justify-items: start;
+  }
+
+  .flutua {
+    transform: scale(1.6);
+  }
+
+  .frase {
+    padding: 2em 1.2em;
+  }
+}
