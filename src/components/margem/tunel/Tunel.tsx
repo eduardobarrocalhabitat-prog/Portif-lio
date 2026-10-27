@@ -17,7 +17,20 @@ import styles from "./Tunel.module.css";
    caminho para o índice.
 --------------------------------------------------------------------------- */
 
-const TELAS = 11;
+/* Comprimento do túnel em alturas de tela. Era 11: longo demais, parecia lento. */
+const TELAS = 8;
+
+/* O primeiro case fica aberto por volta de 1,2 tela de rolagem dentro do túnel. */
+function irParaOPrimeiroCase() {
+  const alvo = window.innerHeight * 1.2;
+  const lenis = (
+    window as Window & {
+      __lenis?: { scrollTo: (y: number, o?: object) => void };
+    }
+  ).__lenis;
+  if (lenis) lenis.scrollTo(alvo, { duration: 1.6 });
+  else window.scrollTo({ top: alvo, behavior: "smooth" });
+}
 
 export function Tunel() {
   const rootRef = useRef<HTMLElement>(null);
@@ -143,8 +156,26 @@ export function Tunel() {
         Barrocal
       </h1>
 
+      {/*
+        O túnel parece uma tela parada à primeira vista. O aviso é um botão de
+        verdade: clicar rola até o primeiro case.
+      */}
+      <button
+        type="button"
+        className={styles.dica}
+        data-hero
+        onClick={irParaOPrimeiroCase}
+      >
+        <span className={styles.seta} aria-hidden>
+          <svg viewBox="0 0 24 24">
+            <path d="M12 5v14M6 13l6 6 6-6" />
+          </svg>
+        </span>
+        Role para ver os projetos
+      </button>
+
       <div className={styles.rotulos} data-hero>
-        <span className={styles.rotulo}>Role para ver os projetos</span>
+        <span />
         <span className={styles.rotulo}>
           Brasil · {PROJETOS.length} projetos entregues
         </span>

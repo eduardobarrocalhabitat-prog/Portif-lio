@@ -44,7 +44,7 @@ export function Metodo() {
         scrollTrigger: {
           trigger: root,
           start: "top top",
-          end: () => `+=${window.innerHeight * 2.6}`,
+          end: () => `+=${window.innerHeight * 2}`,
           pin: true,
           scrub: true,
           invalidateOnRefresh: true,

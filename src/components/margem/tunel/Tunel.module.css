@@ -64,11 +64,79 @@
 .rotulo {
   padding: 6px 12px;
   border-radius: 999px;
-  background: rgba(242, 240, 235, 0.82);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  /* Fundo sólido, sem desfoque: o desfoque sobre o 3D em movimento fazia a pílula tremer. */
+  background: var(--bg);
   font-size: 13px;
   white-space: nowrap;
+}
+
+/* -------------------------------------------------------------------------
+   O aviso de rolar: centro de baixo, escuro, com a seta pulando. Sobe e some
+   junto com a hero no primeiro movimento da rolagem.
+------------------------------------------------------------------------- */
+
+.dica {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--m) + 8px);
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 48px;
+  padding: 0 20px 0 14px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  /* `translate`, não `transform`: a saída da hero anima o transform pelo GSAP. */
+  translate: -50% 0;
+  transition: background 0.2s var(--e-out);
+}
+
+.dica:hover {
+  background: #2c2c2a;
+}
+
+.seta {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.seta svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  animation: pula 1.4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+@keyframes pula {
+  0%,
+  100% {
+    transform: translateY(-2px);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .seta svg {
+    animation: none;
+  }
 }
 
 /* -------------------------------------------------------------------------
@@ -205,6 +273,12 @@
 ------------------------------------------------------------------------- */
 
 @media (max-aspect-ratio: 4 / 5) {
+  /* Folga menor no halo: com a do desktop a frase quebrava em quatro linhas. */
+  .frase span {
+    padding: 2.2em 0.6em;
+    font-size: clamp(24px, 6.4vw, 34px);
+  }
+
   .pergunta {
     padding: 0.8em 0.4em;
     font-size: 10.4vw;
@@ -213,6 +287,10 @@
   .marca {
     right: var(--m);
     font-size: 21vw;
+  }
+
+  .dica {
+    bottom: calc(var(--m) * 0.7 + 2 * 21vw * 0.86 + 56px);
   }
 
   .rotulos {

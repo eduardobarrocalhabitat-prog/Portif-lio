@@ -136,9 +136,7 @@
   height: 26px;
   padding: 0 10px;
   border-radius: 999px;
-  background: rgba(242, 240, 235, 0.88);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+  background: var(--bg);
   font-size: 12px;
   color: var(--ink);
 }

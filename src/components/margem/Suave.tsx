@@ -24,8 +24,11 @@ export function Suave() {
       return;
     }
 
-    const lenis = new Lenis({ anchors: true });
+    // lerp 0,14: suave sem parecer que a página arrasta atrás do dedo.
+    const lenis = new Lenis({ anchors: true, lerp: 0.14 });
     lenis.on("scroll", ScrollTrigger.update);
+    // Para o aviso de rolar da hero levar a página pelo mesmo caminho suave.
+    (window as Window & { __lenis?: Lenis }).__lenis = lenis;
     const tick = (t: number) => lenis.raf(t * 1000);
     gsap.ticker.add(tick);
     gsap.ticker.lagSmoothing(0);
@@ -49,6 +52,7 @@ export function Suave() {
     return () => {
       mo.disconnect();
       gsap.ticker.remove(tick);
+      delete (window as Window & { __lenis?: Lenis }).__lenis;
       lenis.destroy();
     };
   }, []);

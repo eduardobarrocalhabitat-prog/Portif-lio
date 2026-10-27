@@ -89,12 +89,18 @@ export function criarCena(
   destaques: string[],
   opts: { reduzido: boolean },
 ): Cena {
+  /*
+    Densidade limitada a 1,5 e antialias só em tela comum. Em retina, 2× de
+    densidade com antialias desenhava quatro vezes mais pixels por quadro e a
+    rolagem travava; a 1,5 a diferença não se vê, a fluidez sim.
+  */
+  const dpr = Math.min(window.devicePixelRatio, 1.5);
   const renderer = new THREE.WebGLRenderer({
     canvas,
-    antialias: true,
+    antialias: dpr < 1.5,
     powerPreference: "high-performance",
   });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setPixelRatio(dpr);
   renderer.setClearColor(BG, 1);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
 
@@ -209,7 +215,11 @@ export function criarCena(
 
   /* ---- Quadro ---------------------------------------------------------- */
 
-  const k = opts.reduzido ? 1 : 0.14;
+  /*
+    O Lenis já suaviza a rolagem. Uma segunda suavização lenta aqui fazia a
+    câmera chegar sempre atrasada; 0,3 só arredonda os degraus.
+  */
+  const k = opts.reduzido ? 1 : 0.3;
 
   function quadro() {
     raf = 0;
@@ -219,8 +229,8 @@ export function criarCena(
     camera.position.z += (estado.camZ - camera.position.z) * k;
     ptr.x += (alvo.x - ptr.x) * 0.06;
     ptr.y += (alvo.y - ptr.y) * 0.06;
-    camera.position.x = ptr.x * 0.55 * forca;
-    camera.position.y = ptr.y * 0.35 * forca;
+    camera.position.x = ptr.x * 0.32 * forca;
+    camera.position.y = ptr.y * 0.2 * forca;
     camera.lookAt(
       camera.position.x * 0.3,
       camera.position.y * 0.3,

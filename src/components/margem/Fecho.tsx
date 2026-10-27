@@ -123,7 +123,7 @@ export function Fecho() {
                 width: `${f.w}vw`,
                 opacity: 0.45 + f.p * 0.55,
                 filter:
-                  f.p < 0.6 ? `blur(${((0.6 - f.p) / 0.6) * 6}px)` : undefined,
+                  f.p < 0.6 ? `blur(${((0.6 - f.p) / 0.6) * 3}px)` : undefined,
                 zIndex: Math.round(f.p * 10),
               } as React.CSSProperties
             }
