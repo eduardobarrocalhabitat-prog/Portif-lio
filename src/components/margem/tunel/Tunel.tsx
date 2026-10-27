@@ -192,12 +192,18 @@ export function Tunel() {
         </div>
       ))}
 
-      <div className={styles.fim} data-fim>
-        <p>Quatro de {PROJETOS.length}.</p>
-        <a className="pillDark" href="#projetos">
-          Ver todos os projetos
+      {/* O fim do corredor não diz nada: só leva ao resto do trabalho. */}
+      <nav className={styles.fim} data-fim aria-label="Ver mais trabalhos">
+        <a className="pillDark" href="#redes">
+          Ver redes sociais
         </a>
-      </div>
+        <a className="pillDark" href="#marcas">
+          Ver todas as marcas
+        </a>
+        <a className="pillDark" href="#sites">
+          Ver sites
+        </a>
+      </nav>
 
       <div className={styles.progresso} aria-hidden>
         <span data-progresso />

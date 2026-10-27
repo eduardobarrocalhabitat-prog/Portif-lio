@@ -68,6 +68,8 @@ export type SiteItem = {
   status: "live" | "wip";
   /** Captura da home, proporção 16:10. */
   image?: string;
+  /** Uma linha sobre o case: para quem é e o que o site faz. Sem promessa que ninguém confere. */
+  resumo?: string;
 };
 
 /* ---------------------------------------------------------------------------
@@ -403,6 +405,7 @@ const fontes: FolderDefinition[] = [
             url: "https://as7.framer.website/",
             status: "live",
             image: "/sites/as7.webp",
+            resumo: "Site da agência as7 Comunicação, feito em Framer.",
           },
           {
             name: "MKZ Canaã",
@@ -410,6 +413,8 @@ const fontes: FolderDefinition[] = [
             url: "https://mkzcanaabuffet.com.br/",
             status: "live",
             image: "/sites/mkz-canaa.webp",
+            resumo:
+              "Site do buffet MKZ Canaã, escrito à mão e animado em GSAP.",
           },
         ],
       },

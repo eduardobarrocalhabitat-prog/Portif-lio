@@ -17,8 +17,8 @@ redes sociais é dele: muita gente o procura por isso.
 
 | Quero mudar | Arquivo |
 | --- | --- |
-| Os 4 cases do túnel, a tira do método e o índice | [src/data/margem.ts](src/data/margem.ts) |
-| As peças, marcas e sites (de onde o índice sai) | [src/data/folders.ts](src/data/folders.ts) |
+| Os 4 cases do túnel e a tira do método | [src/data/margem.ts](src/data/margem.ts) |
+| As peças, marcas e sites (de onde as seções saem) | [src/data/folders.ts](src/data/folders.ts) |
 | Contatos e empresas | [src/data/about.ts](src/data/about.ts) |
 | As fotos das paredes do túnel | `public/tunel/` + [src/data/tunel.json](src/data/tunel.json) |
 | A seção de redes sociais | [src/components/margem/Redes.tsx](src/components/margem/Redes.tsx) |
@@ -31,15 +31,22 @@ redes sociais é dele: muita gente o procura por isso.
 ```
 #topo      hero + túnel: 78 fotos nas paredes, 4 destaques que viram case (preso por 11 telas)
 #redes     posts, carrosséis, stories e reels, com os reels tocando na tela
-#sobre     manifesto com fotos no lugar de palavras e notas na margem
+#empresas  a frase sobre transitar entre nichos e as 6 empresas
 #metodo    a AND Academy do conceito à aplicação (preso por 2,6 telas)
-#projetos  todos os projetos, com filtro e a foto seguindo o cursor
+#marcas    todas as marcas, com a capa seguindo o cursor
+#sites     os sites no ar, em palco alternado (cresce sozinho com mais sites)
 #contato   a frase, o contato e o nome de borda a borda
 ```
 
 Não há ano em lugar nenhum e não há depoimento de cliente: data errada é pior
-que ausente, e depoimento inventado não entra. As notas do "Sobre" e o "24
-projetos" são contagens do próprio acervo.
+que ausente, e depoimento inventado não entra. O "24 projetos" da abertura é
+a contagem do próprio acervo.
+
+## Acrescentar um site
+
+Um item novo em `folders.ts`, na pasta "sites": `name`, `stack`, `url`,
+`status: "live"`, `image` (captura 16:10 em `public/sites/`) e, se quiser,
+`resumo` (uma linha sobre o case). A seção de sites se ajusta sozinha.
 
 ## Reels
 

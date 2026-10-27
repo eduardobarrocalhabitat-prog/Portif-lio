@@ -18,34 +18,6 @@
   letter-spacing: -0.045em;
 }
 
-.filtros {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.filtro {
-  height: 32px;
-  padding: 0 16px;
-  border: 0;
-  border-radius: 999px;
-  background: var(--pill);
-  font-size: 13px;
-  cursor: pointer;
-  transition:
-    background 0.2s var(--e-out),
-    color 0.2s var(--e-out);
-}
-
-.filtro:hover {
-  background: #e7e3da;
-}
-
-.filtro[aria-pressed="true"] {
-  background: var(--ink);
-  color: var(--bg);
-}
-
 /* -------------------------------------------------------------------------
    Linhas
 ------------------------------------------------------------------------- */
@@ -73,12 +45,12 @@
   isolation: isolate;
 }
 
-/* A faixa terracota cresce do centro, de borda a borda da página. */
+/* A faixa preta cresce do centro, de borda a borda da página: o contraponto do papel. */
 .faixa {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: var(--terracota);
+  background: var(--ink);
   transform: scaleY(0);
   transition: transform 0.35s var(--e-out);
 }
@@ -90,7 +62,7 @@
 
 .linha:hover,
 .linha:focus-visible {
-  color: #fff;
+  color: var(--bg);
 }
 
 .linha:focus-visible {

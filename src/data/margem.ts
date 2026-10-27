@@ -108,19 +108,6 @@ export type Projeto = {
   abrir: Abrir;
 };
 
-export const FILTROS: { id: Filtro | "todos"; rotulo: string }[] = [
-  { id: "todos", rotulo: "Todos" },
-  { id: "identidade", rotulo: "Identidade" },
-  { id: "conteudo", rotulo: "Conteúdo" },
-  { id: "sites", rotulo: "Sites" },
-];
-
-export const ROTULO_FILTRO: Record<Filtro, string> = {
-  identidade: "Identidade",
-  conteudo: "Conteúdo",
-  sites: "Site",
-};
-
 /*
   "Lavaê · nova unidade": o cliente vem antes do ponto. Quando o título começa
   pelo formato ("Key visual · academia"), o cliente é o que vem depois.
@@ -268,3 +255,48 @@ function montarRedes(): PecaRede[] {
 }
 
 export const REDES = montarRedes();
+
+/* ---------------------------------------------------------------------------
+   Marcas e sites, cada um na sua seção.
+--------------------------------------------------------------------------- */
+
+/** O índice mostra só as marcas: os sites têm seção própria. */
+export const MARCAS = PROJETOS.filter((p) => p.filtro === "identidade");
+
+export type SiteCase = {
+  nome: string;
+  stack: string;
+  url: string;
+  /** "as7.framer.website", sem protocolo nem barra. */
+  dominio: string;
+  /** Captura 16:10. */
+  foto: string;
+  resumo?: string;
+};
+
+/*
+  Para acrescentar um site: um item novo em `folders.ts`, na pasta "sites",
+  com `url`, `image` (captura 16:10 em /public/sites) e, se quiser, `resumo`.
+  A seção se ajusta sozinha à quantidade.
+*/
+function montarSites(): SiteCase[] {
+  const out: SiteCase[] = [];
+  for (const folder of folders) {
+    const c = folder.panel.content;
+    if (c.kind !== "sites") continue;
+    for (const s of c.items) {
+      if (!s.url || !s.image) continue;
+      out.push({
+        nome: s.name,
+        stack: s.stack,
+        url: s.url,
+        dominio: s.url.replace(/^https?:\/\//, "").replace(/\/$/, ""),
+        foto: s.image,
+        resumo: s.resumo,
+      });
+    }
+  }
+  return out;
+}
+
+export const SITES = montarSites();

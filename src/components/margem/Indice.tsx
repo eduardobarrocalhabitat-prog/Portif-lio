@@ -3,37 +3,31 @@
 import { useRef, useState } from "react";
 
 import { useAbrir } from "@/components/margem/ViewerHost";
-import {
-  FILTROS,
-  PROJETOS,
-  ROTULO_FILTRO,
-  type Filtro,
-  type Projeto,
-} from "@/data/margem";
+import { MARCAS, type Projeto } from "@/data/margem";
 import { gsap, useGSAP } from "@/lib/motion";
 import styles from "./Indice.module.css";
 
 /* ---------------------------------------------------------------------------
-   Seção 4: todos os projetos.
+   Todas as marcas.
 
-   Uma tabela tipográfica. No hover (e no foco pelo teclado) a linha inteira
-   vira terracota de borda a borda e a foto do projeto segue o cursor, girada
-   de leve. Clicar abre o manual, o carrossel, o vídeo ou o site.
+   Uma tabela tipográfica, só de marcas: os sites têm seção própria logo
+   abaixo, e as peças de conteúdo estão em Redes. No hover (e no foco pelo
+   teclado) a linha inteira vira preta de borda a borda e a capa segue o
+   cursor, girada de leve. Clicar abre o manual.
 --------------------------------------------------------------------------- */
+
+const paginasDe = (p: Projeto) =>
+  p.abrir.kind === "document" ? p.abrir.pages.length : 0;
 
 export function Indice() {
   const rootRef = useRef<HTMLElement>(null);
   const fotoRef = useRef<HTMLDivElement>(null);
-  const [filtro, setFiltro] = useState<Filtro | "todos">("todos");
   const [foto, setFoto] = useState<string | null>(null);
   const abrir = useAbrir();
   const segue = useRef<{
     x: (v: number) => void;
     y: (v: number) => void;
   } | null>(null);
-
-  const lista =
-    filtro === "todos" ? PROJETOS : PROJETOS.filter((p) => p.filtro === filtro);
 
   useGSAP(
     () => {
@@ -71,42 +65,22 @@ export function Indice() {
       ease: "power2.in",
     });
 
-  const abrirProjeto = (p: Projeto) =>
-    abrir({ title: p.cliente, cover: p.foto, source: p.abrir });
-
   return (
     <section
       ref={rootRef}
-      id="projetos"
+      id="marcas"
       className={styles.indice}
-      aria-labelledby="projetos-titulo"
+      aria-labelledby="marcas-titulo"
     >
       <div className={styles.topo}>
-        <h2 id="projetos-titulo" className={styles.titulo}>
-          Todos os projetos
+        <h2 id="marcas-titulo" className={styles.titulo}>
+          Todas as marcas
         </h2>
-        <div
-          className={styles.filtros}
-          role="group"
-          aria-label="Filtrar projetos"
-        >
-          {FILTROS.map((f) => (
-            <button
-              key={f.id}
-              type="button"
-              className={styles.filtro}
-              aria-pressed={filtro === f.id}
-              onClick={() => setFiltro(f.id)}
-            >
-              {f.rotulo}
-            </button>
-          ))}
-        </div>
       </div>
 
       <ul className={styles.linhas} onMouseLeave={esconder}>
-        {lista.map((p) => (
-          <li key={`${p.cliente}-${p.disciplina}`}>
+        {MARCAS.map((p) => (
+          <li key={p.cliente}>
             <button
               type="button"
               className={styles.linha}
@@ -120,12 +94,14 @@ export function Indice() {
                 });
               }}
               onBlur={esconder}
-              onClick={() => abrirProjeto(p)}
+              onClick={() =>
+                abrir({ title: p.cliente, cover: p.foto, source: p.abrir })
+              }
             >
               <span className={styles.faixa} aria-hidden />
               <span className={styles.cliente}>{p.cliente}</span>
               <span className={styles.disciplina}>{p.disciplina}</span>
-              <span className={styles.tipo}>{ROTULO_FILTRO[p.filtro]}</span>
+              <span className={styles.tipo}>{paginasDe(p)} páginas</span>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img className={styles.mini} src={p.foto} alt="" loading="lazy" />
             </button>
@@ -133,9 +109,7 @@ export function Indice() {
         ))}
       </ul>
 
-      <p className={styles.total} aria-live="polite">
-        {lista.length} de {PROJETOS.length} projetos
-      </p>
+      <p className={styles.total}>{MARCAS.length} marcas</p>
 
       <div ref={fotoRef} className={styles.foto} aria-hidden>
         {/* eslint-disable-next-line @next/next/no-img-element */}
