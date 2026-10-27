@@ -148,13 +148,34 @@
   position: absolute;
   inset: 0;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  align-content: center;
-  gap: 10px;
+  gap: clamp(24px, 4vh, 40px);
   padding: 0 var(--m);
   pointer-events: none;
+}
+
+/* A pergunta, com o mesmo halo da frase da abertura. */
+.pergunta {
+  padding: 1.2em 2.4em;
+  background: radial-gradient(
+    closest-side,
+    rgba(242, 240, 235, 0.94) 40%,
+    rgba(242, 240, 235, 0)
+  );
+  font-size: clamp(36px, 5vw, 92px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.045em;
+  text-align: center;
+}
+
+.atalhos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
 }
 
 .fim a {
@@ -184,6 +205,11 @@
 ------------------------------------------------------------------------- */
 
 @media (max-aspect-ratio: 4 / 5) {
+  .pergunta {
+    padding: 0.8em 0.4em;
+    font-size: 10.4vw;
+  }
+
   .marca {
     right: var(--m);
     font-size: 21vw;

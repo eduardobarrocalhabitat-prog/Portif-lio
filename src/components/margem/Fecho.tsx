@@ -145,7 +145,11 @@ export function Fecho() {
       <footer className={styles.rodape} data-rodape>
         <div className={styles.colunas}>
           <div className={styles.chamada}>
-            <h2 id="contato-titulo">Tem uma marca para desenhar?</h2>
+            <h2 id="contato-titulo">Qual é o seu projeto?</h2>
+            <p className={styles.convite}>
+              Marca, redes, site ou tudo junto. Me conta o que você quer
+              construir e onde quer chegar.
+            </p>
             <a
               className={`pillDark ${styles.grande}`}
               href={about.contact.whatsapp.href}

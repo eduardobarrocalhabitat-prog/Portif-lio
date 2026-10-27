@@ -192,18 +192,25 @@ export function Tunel() {
         </div>
       ))}
 
-      {/* O fim do corredor não diz nada: só leva ao resto do trabalho. */}
-      <nav className={styles.fim} data-fim aria-label="Ver mais trabalhos">
-        <a className="pillDark" href="#redes">
-          Ver redes sociais
-        </a>
-        <a className="pillDark" href="#marcas">
-          Ver todas as marcas
-        </a>
-        <a className="pillDark" href="#sites">
-          Ver sites
-        </a>
-      </nav>
+      {/* O fim do corredor provoca, e leva ao resto do trabalho. */}
+      <div className={styles.fim} data-fim>
+        <p className={styles.pergunta}>
+          Seu projeto é lembrado
+          <br />
+          ou só visto?
+        </p>
+        <nav className={styles.atalhos} aria-label="Ver mais trabalhos">
+          <a className="pillDark" href="#redes">
+            Ver redes sociais
+          </a>
+          <a className="pillDark" href="#marcas">
+            Ver todas as marcas
+          </a>
+          <a className="pillDark" href="#sites">
+            Ver sites
+          </a>
+        </nav>
+      </div>
 
       <div className={styles.progresso} aria-hidden>
         <span data-progresso />

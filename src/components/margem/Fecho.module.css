@@ -72,6 +72,14 @@
   letter-spacing: -0.035em;
 }
 
+.convite {
+  max-width: 34ch;
+  margin: -8px 0 24px;
+  font-size: clamp(16px, 1.3vw, 19px);
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
 .grande {
   height: 56px;
   padding: 0 28px;
