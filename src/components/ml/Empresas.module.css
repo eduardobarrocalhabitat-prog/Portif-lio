@@ -49,13 +49,13 @@
   background:
     radial-gradient(
       ellipse 70% 55% at 50% 85%,
-      rgba(208, 197, 171, 0.12),
-      rgba(208, 197, 171, 0) 70%
+      rgb(var(--rgb-fg) / 0.12),
+      rgb(var(--rgb-fg) / 0) 70%
     ),
-    rgba(21, 20, 16, 0.98);
+    rgb(var(--rgb-bg2) / 0.98);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
-  box-shadow: inset 0 0 0 1px rgba(208, 197, 171, 0.1);
+  box-shadow: inset 0 0 0 1px rgb(var(--rgb-fg) / 0.1);
 }
 
 .numero {
@@ -63,7 +63,7 @@
   line-height: calc(96 * var(--u));
   font-weight: 700;
   letter-spacing: calc(-3.2 * var(--u));
-  color: rgb(207, 197, 171);
+  color: rgb(var(--rgb-fg));
 }
 
 .texto {

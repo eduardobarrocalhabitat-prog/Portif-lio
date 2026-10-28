@@ -30,7 +30,7 @@
   line-height: calc(72 * var(--u));
   font-weight: 600;
   letter-spacing: calc(-2 * var(--u));
-  color: rgb(207, 197, 171);
+  color: rgb(var(--rgb-fg));
 }
 
 .sub {

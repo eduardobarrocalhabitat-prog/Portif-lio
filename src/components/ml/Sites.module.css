@@ -78,7 +78,7 @@
   width: calc(10 * var(--u));
   height: calc(10 * var(--u));
   border-radius: 50%;
-  background: rgba(208, 197, 171, 0.22);
+  background: rgb(var(--rgb-fg) / 0.22);
 }
 
 .endereco {
@@ -87,7 +87,7 @@
   margin: 0 auto;
   padding: calc(5 * var(--u)) calc(14 * var(--u));
   border-radius: 4px;
-  background: rgba(208, 197, 171, 0.07);
+  background: rgb(var(--rgb-fg) / 0.07);
   font-size: calc(12 * var(--u));
   line-height: calc(16 * var(--u));
   text-align: center;

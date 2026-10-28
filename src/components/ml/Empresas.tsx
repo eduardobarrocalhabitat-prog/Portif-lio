@@ -6,7 +6,7 @@ import styles from "./Empresas.module.css";
 
    Medido: título de 264/237.6, peso 700, −10px, centralizado e preso; cards de
    480×480 em x=480, de 900 em 900px, subindo por cima dele; fundo
-   rgba(21,20,16,0.98) com desfoque de 8px, raio 6; número de 80/96; texto de
+   a superfície a 98% com desfoque de 8px, raio 6; número de 80/96; texto de
    24/28.8; assinatura com quadrado de 56px, nome de 22px e cargo de 14px.
 
    No lugar de depoimentos, o que o Eduardo entregou para cada empresa: não há

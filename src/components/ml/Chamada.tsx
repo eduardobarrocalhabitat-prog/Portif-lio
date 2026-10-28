@@ -10,7 +10,7 @@ import styles from "./Chamada.module.css";
 /* ---------------------------------------------------------------------------
    Chamada final (o "Let's build something together." da referência).
 
-   Medido: fundo rgb(14,14,11), presa por ~1250px; título em Urbanist 72/74,
+   Medido: o fundo mais fundo da paleta (--rgb-bg3), presa por ~1250px; título em Urbanist 72/74,
    peso 600; dois botões de 52px lado a lado. As imagens em volta sobem, cada
    uma na sua velocidade e opacidade, enquanto a seção está presa: as mais
    lentas e apagadas parecem mais longe.

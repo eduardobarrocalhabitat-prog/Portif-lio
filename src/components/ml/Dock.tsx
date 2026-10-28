@@ -3,9 +3,9 @@ import { WhatsAppIcone } from "@/components/ml/WhatsApp";
 import styles from "./Dock.module.css";
 
 /*
-  O dock fixo no pé da tela. Medido: 67px de altura, fundo rgb(22,21,17),
+  O dock fixo no pé da tela. Medido: 67px de altura, fundo de superfície (--rgb-bg2),
   raio 4, a 17px da borda de baixo; itens em 12/12 peso 600, caixa alta, com
-  32px entre eles; botão creme de 52px com o ícone do WhatsApp.
+  32px entre eles; botão principal de 52px com o ícone do WhatsApp.
 */
 const LINKS = [
   { href: "#projetos", label: "Projetos" },

@@ -1,19 +1,36 @@
 /* ---------------------------------------------------------------------------
    Tokens + reset
 
-   Valores medidos na página rodando de marcuslorenzet.com (computed style,
-   1440×900). Fundo #11100d, creme rgb(208,197,171) e o mesmo creme a 80% nos
-   textos secundários.
+   As cores vivem só aqui, como canais RGB, para os componentes poderem usar
+   transparência: rgb(var(--rgb-fg) / 0.12). Trocar a paleta é trocar este
+   bloco.
 --------------------------------------------------------------------------- */
 
 :root {
-  --bg: #11100d;
-  --bg-2: rgb(22, 21, 17);
-  --bg-cta: rgb(14, 14, 11);
-  --cream: rgb(208, 197, 171);
-  --cream-80: rgba(208, 197, 171, 0.8);
-  --cream-70: rgba(208, 197, 171, 0.7);
-  --line: rgba(208, 197, 171, 0.12);
+  /* Paleta cobalto: azul-noite, branco e o botão azul-elétrico. */
+  /* Fundo, superfície (cards, dock) e o fundo mais fundo da chamada final. */
+  --rgb-bg: 10 15 36;
+  --rgb-bg2: 18 25 54;
+  --rgb-bg3: 8 12 30;
+  /* Texto e o texto aceso (logo, hover). */
+  --rgb-fg: 232 236 246;
+  --rgb-hi: 255 255 255;
+  /* O degradê que escurece a foto da abertura. */
+  --rgb-sombra: 6 10 26;
+  /* O botão principal. */
+  --btn: rgb(77 107 255);
+  --btn-hi: rgb(100 128 255);
+  --btn-ink: rgb(255 255 255);
+  /* O tom da foto da abertura. */
+  --foto: grayscale(1) brightness(0.55) contrast(1.1);
+
+  --bg: rgb(var(--rgb-bg));
+  --bg-2: rgb(var(--rgb-bg2));
+  --bg-cta: rgb(var(--rgb-bg3));
+  --cream: rgb(var(--rgb-fg));
+  --cream-80: rgb(var(--rgb-fg) / 0.8);
+  --cream-70: rgb(var(--rgb-fg) / 0.7);
+  --line: rgb(var(--rgb-fg) / 0.12);
 
   /* Nomes que o visualizador usa. */
   --c-paper: #ffffff;
@@ -134,7 +151,7 @@ a {
   font-weight: 400;
   letter-spacing: 0.96px;
   text-transform: uppercase;
-  color: rgb(207, 196, 170);
+  color: rgb(var(--rgb-fg));
 }
 
 /* Botão creme (LET'S TALK): 52px de altura, raio 4, texto 12/800 na cor do fundo. */
@@ -159,16 +176,16 @@ a {
 }
 
 .btnCreme {
-  background: rgb(207, 196, 170);
-  color: var(--bg);
+  background: var(--btn);
+  color: var(--btn-ink);
   font-weight: 800;
 }
 
 .btnCreme:hover {
-  background: rgb(225, 216, 194);
+  background: var(--btn-hi);
 }
 
-/* Botão escuro (EXPLORE THE ARCHIVE / DOWNLOAD RESUME): fundo #11100d, fio fino. */
+/* Botão escuro (EXPLORE THE ARCHIVE / DOWNLOAD RESUME): fundo rgb(var(--rgb-bg)), fio fino. */
 .btnEscuro {
   background: var(--bg);
   color: var(--cream);

@@ -20,7 +20,7 @@
   line-height: calc(80 * var(--u)) !important;
   letter-spacing: 0.19em !important;
   margin-top: calc(27 * var(--u));
-  color: rgb(236, 225, 199);
+  color: rgb(var(--rgb-hi));
 }
 
 .contato {
@@ -37,7 +37,7 @@
 }
 
 .contato a:hover {
-  color: rgb(236, 225, 199);
+  color: rgb(var(--rgb-hi));
 }
 
 .pronto {
@@ -54,7 +54,7 @@
   grid-template-columns: calc(416 * var(--u)) calc(416 * var(--u)) 1fr;
   margin-top: calc(160 * var(--u));
   padding-bottom: calc(60 * var(--u));
-  border-bottom: 1px solid rgba(208, 197, 171, 0.1);
+  border-bottom: 1px solid rgb(var(--rgb-fg) / 0.1);
 }
 
 .rot {
@@ -79,7 +79,7 @@
 }
 
 .meio ul a:hover {
-  color: rgb(236, 225, 199);
+  color: rgb(var(--rgb-hi));
 }
 
 .cards {
@@ -97,11 +97,11 @@
   background:
     radial-gradient(
       ellipse 90% 55% at 50% 100%,
-      rgba(208, 197, 171, 0.16),
-      rgba(208, 197, 171, 0) 70%
+      rgb(var(--rgb-fg) / 0.16),
+      rgb(var(--rgb-fg) / 0) 70%
     ),
-    linear-gradient(rgb(21, 20, 16) 0%, rgba(21, 20, 16, 0.4) 100%);
-  box-shadow: inset 0 0 0 1px rgba(208, 197, 171, 0.14);
+    linear-gradient(rgb(var(--rgb-bg2)) 0%, rgb(var(--rgb-bg2) / 0.4) 100%);
+  box-shadow: inset 0 0 0 1px rgb(var(--rgb-fg) / 0.14);
   font-size: calc(16 * var(--u));
   line-height: calc(24 * var(--u));
   font-weight: 700;

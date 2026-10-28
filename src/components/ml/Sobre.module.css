@@ -12,7 +12,7 @@
   line-height: calc(72 * var(--u));
   font-weight: 600;
   letter-spacing: calc(-2 * var(--u));
-  color: rgb(207, 197, 171);
+  color: rgb(var(--rgb-fg));
 }
 
 .frase1 {
@@ -64,7 +64,7 @@
   column-gap: calc(130 * var(--u));
   margin-top: calc(120 * var(--u));
   padding-bottom: calc(60 * var(--u));
-  border-bottom: 1px solid rgba(208, 197, 171, 0.1);
+  border-bottom: 1px solid rgb(var(--rgb-fg) / 0.1);
 }
 
 .lista {

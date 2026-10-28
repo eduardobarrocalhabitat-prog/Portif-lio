@@ -26,14 +26,18 @@
     A foto do Eduardo é clara (estúdio branco) e a da referência é escura e
     quente. Escurecer e aquecer é o que leva uma à outra; decisão registrada.
   */
-  filter: grayscale(1) sepia(0.35) brightness(0.62) contrast(1.08);
+  filter: var(--foto);
 }
 
 /* Degradê medido: transparente até 53%, preto em 96%, da esquerda para a direita. */
 .escuro {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(0, 0, 0, 0) 53%, rgb(0, 0, 0) 96%);
+  background: linear-gradient(
+    90deg,
+    rgb(var(--rgb-sombra) / 0) 53%,
+    rgb(var(--rgb-sombra)) 96%
+  );
 }
 
 .hero > *:not(.foto) {
@@ -57,7 +61,7 @@
   font-size: calc(24 * var(--u));
   line-height: calc(19.5 * var(--u));
   letter-spacing: 0.19em;
-  color: rgb(236, 225, 199);
+  color: rgb(var(--rgb-hi));
 }
 
 /* O quadrado no lugar do O, como o de L■RENZET. */
