@@ -71,8 +71,16 @@
     height: 100svh;
   }
 
+  /* Seis peças em volta da frase: três acima, três abaixo. */
   .flutua {
-    opacity: 0.35 !important;
+    left: calc(var(--mx) * 1vw);
+    top: calc(var(--my) * 1svh);
+    width: calc(var(--mw) * 1vw);
+    opacity: 0.6 !important;
+  }
+
+  .soDesktop {
+    display: none;
   }
 
   .centro {

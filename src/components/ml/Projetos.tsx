@@ -3,12 +3,13 @@
 import { useRef } from "react";
 
 import { useAbrir } from "@/components/margem/ViewerHost";
+import { useEmpilha } from "@/components/ml/empilha";
 import { CASES } from "@/data/ml";
-import { gsap, useGSAP } from "@/lib/motion";
 import styles from "./Projetos.module.css";
 
 /* ---------------------------------------------------------------------------
-   Projetos (o FEATURED. da referência).
+   Projetos (o FEATURED. da referência): as quatro marcas. Os sites têm a
+   seção deles logo depois.
 
    Medido: título de 144/129.6, peso 700, −4px; cada case é uma tela presa
    (sticky) com 972px de passo; card de 594×594 em x=110; número de 72px a
@@ -21,28 +22,7 @@ export function Projetos() {
   const rootRef = useRef<HTMLElement>(null);
   const abrir = useAbrir();
 
-  useGSAP(
-    () => {
-      if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      if (!matchMedia("(min-width: 768px)").matches) return;
-      const blocos = gsap.utils.toArray<HTMLElement>("[data-case]");
-      blocos.forEach((bloco, i) => {
-        const proximo = blocos[i + 1];
-        if (!proximo) return;
-        gsap.to(bloco.querySelector("[data-palco]"), {
-          scale: 0.8,
-          ease: "none",
-          scrollTrigger: {
-            trigger: proximo,
-            start: "top bottom",
-            end: "top top",
-            scrub: true,
-          },
-        });
-      });
-    },
-    { scope: rootRef },
-  );
+  useEmpilha(rootRef);
 
   return (
     <section
@@ -74,12 +54,7 @@ export function Projetos() {
               aria-label={`Abrir ${c.abrir.title}`}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={c.foto}
-                alt=""
-                loading="lazy"
-                style={{ objectPosition: c.pos ?? "center" }}
-              />
+              <img src={c.foto} alt="" loading="lazy" />
             </button>
 
             <p className={styles.numero} aria-hidden>
@@ -89,7 +64,7 @@ export function Projetos() {
             <p className={styles.tags}>{c.tags}</p>
             <a
               className={styles.proximo}
-              href={i < CASES.length - 1 ? undefined : "#empresas"}
+              href={i < CASES.length - 1 ? undefined : "#sites"}
               onClick={(e) => {
                 if (i < CASES.length - 1) {
                   e.preventDefault();
@@ -101,7 +76,7 @@ export function Projetos() {
               role={i < CASES.length - 1 ? "button" : undefined}
               tabIndex={0}
             >
-              {i < CASES.length - 1 ? "Próximo projeto" : "Empresas"}
+              {i < CASES.length - 1 ? "Próximo projeto" : "Sites"}
               <svg viewBox="0 0 20 20" aria-hidden>
                 <path d="M10 3v13M4.5 10.5 10 16l5.5-5.5" />
               </svg>

@@ -2,7 +2,7 @@ import { ENTREGAS } from "@/data/ml";
 import styles from "./Empresas.module.css";
 
 /* ---------------------------------------------------------------------------
-   Nicho não importa (o RESULTS SPEAK LOUDER da referência).
+   Feito para vender (o RESULTS SPEAK LOUDER da referência).
 
    Medido: título de 264/237.6, peso 700, −10px, centralizado e preso; cards de
    480×480 em x=480, de 900 em 900px, subindo por cima dele; fundo
@@ -25,11 +25,11 @@ export function Empresas() {
         <h2
           id="empresas-titulo"
           className={styles.titulo}
-          aria-label="Nicho não importa"
+          aria-label="Feito para vender"
         >
-          <span aria-hidden>NICHO</span>
-          <span aria-hidden>NÃO</span>
-          <span aria-hidden>IMPORTA</span>
+          <span aria-hidden>FEITO</span>
+          <span aria-hidden>PARA</span>
+          <span aria-hidden>VENDER</span>
         </h2>
       </div>
 

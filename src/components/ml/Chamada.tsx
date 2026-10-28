@@ -24,6 +24,8 @@ export function Chamada() {
     () => {
       const root = rootRef.current!;
       if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      /* No celular as peças ficam paradas, emoldurando a frase. */
+      if (!matchMedia("(min-width: 768px)").matches) return;
       const u = () => window.innerWidth / 1440;
       root.querySelectorAll<HTMLElement>("[data-v]").forEach((el) => {
         const v = Number(el.dataset.v);
@@ -54,7 +56,7 @@ export function Chamada() {
           // eslint-disable-next-line @next/next/no-img-element
           <img
             key={f.src}
-            className={styles.flutua}
+            className={`${styles.flutua} ${f.m ? "" : styles.soDesktop}`}
             src={f.src}
             alt=""
             loading="lazy"
@@ -64,6 +66,9 @@ export function Chamada() {
                 "--x": f.x,
                 "--y": f.y,
                 "--w": f.w,
+                "--mx": f.m?.x,
+                "--my": f.m?.y,
+                "--mw": f.m?.w,
                 opacity: f.op,
               } as React.CSSProperties
             }

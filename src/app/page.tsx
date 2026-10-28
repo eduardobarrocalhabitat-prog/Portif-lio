@@ -7,11 +7,12 @@ import { Hero } from "@/components/ml/Hero";
 import { OQueFaco } from "@/components/ml/OQueFaco";
 import { Projetos } from "@/components/ml/Projetos";
 import { Rodape } from "@/components/ml/Rodape";
+import { Sites } from "@/components/ml/Sites";
 import { Sobre } from "@/components/ml/Sobre";
 
 /*
   Réplica da estrutura de marcuslorenzet.com com o conteúdo do Eduardo:
-  abertura, o que eu faço, projetos, empresas, sobre, chamada e rodapé.
+  abertura, o que eu faço, projetos, sites, empresas, sobre, chamada e rodapé.
 */
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
         <Hero />
         <OQueFaco />
         <Projetos />
+        <Sites />
         <Empresas />
         <Sobre />
         <Chamada />

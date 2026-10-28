@@ -32,14 +32,12 @@ export const NUMEROS = {
   projetos: `${PROJETOS.length} projetos`,
 };
 
-/* ---- Cases: as quatro marcas em destaque e os dois sites ---------------- */
+/* ---- Cases: as quatro marcas em destaque -------------------------------- */
 
 export type Case = {
   titulo: string;
   tags: string;
   foto: string;
-  /** Recorte da foto no quadro quadrado. */
-  pos?: string;
   abrir: { title: string; source: Abrir };
 };
 
@@ -50,33 +48,32 @@ const TITULOS: Record<string, string> = {
   Pitqueens: "Uma marca nascida de duas pitbulls, Skadi e Maeve",
 };
 
-export const CASES: Case[] = [
-  ...DESTAQUES.map((d) => ({
-    titulo: TITULOS[d.cliente] ?? d.cliente,
-    tags: d.disciplina.startsWith("Manual")
-      ? "Identidade visual, Manual de marca"
-      : `Identidade visual, ${d.disciplina.split(" · ")[0]}`,
-    foto: d.foto,
-    abrir: {
-      title: d.cliente,
-      source: {
-        kind: "document" as const,
-        pages: paginas(d.manual.dir, d.manual.pages),
-        label: d.disciplina,
-      },
+export const CASES: Case[] = DESTAQUES.map((d) => ({
+  titulo: TITULOS[d.cliente] ?? d.cliente,
+  tags: d.disciplina.startsWith("Manual")
+    ? "Identidade visual, Manual de marca"
+    : `Identidade visual, ${d.disciplina.split(" · ")[0]}`,
+  foto: d.foto,
+  abrir: {
+    title: d.cliente,
+    source: {
+      kind: "document" as const,
+      pages: paginas(d.manual.dir, d.manual.pages),
+      label: d.disciplina,
     },
-  })),
-  ...SITES.map((s) => ({
-    titulo: s.resumo ?? s.nome,
-    tags: `Site no ar, ${s.stack}`,
-    foto: s.foto,
-    pos: "0% 0%",
-    abrir: {
-      title: s.nome,
-      source: { kind: "site" as const, url: s.url, label: s.stack },
-    },
-  })),
-];
+  },
+}));
+
+/* ---- Sites no ar, com seção própria -------------------------------------- */
+
+export const SITES_NO_AR = SITES.map((s) => ({
+  ...s,
+  titulo: s.resumo ?? s.nome,
+  abrir: {
+    title: s.nome,
+    source: { kind: "site" as const, url: s.url, label: s.stack },
+  },
+}));
 
 /* ---- Empresas, no lugar dos depoimentos --------------------------------- */
 
@@ -121,20 +118,49 @@ export const ENTREGAS: Entrega[] = [
 
 /* ---- Peças que sobem na seção "O que eu faço" --------------------------- */
 
-const peca = (titulo: string) =>
-  REDES.find(
-    (r) =>
-      r.cliente.startsWith(titulo) ||
-      `${r.cliente} · ${r.detalhe}`.includes(titulo),
-  )!;
+const peca = (foto: string) => REDES.find((r) => r.foto === foto)!;
+const grupo = (...fotos: string[]) =>
+  fotos.map((f) => peca(`/conteudo/${f}.webp`));
 
-/* Coluna (0 esquerda, 1 meio, 2 direita) e topo no documento da seção, medidos. */
+/*
+  Primeiro os três reels, inteiros em 9:16; depois as imagens de quatro em
+  quatro, duas colunas de duas, no mesmo quadro. Coluna (0 esquerda, 1 meio,
+  2 direita) e topo no documento da seção, em px de 1440.
+*/
 export const SUBINDO = [
-  { peca: peca("Campo Capital"), col: 0, top: 1012 },
-  { peca: peca("Lavaê"), col: 2, top: 1152 },
-  { peca: peca("Gemini"), col: 1, top: 1736 },
-  { peca: peca("HUB CNA"), col: 2, top: 2320 },
-  { peca: peca("Pen Education · 5"), col: 0, top: 2460 },
+  { pecas: [peca("/conteudo/reel-campo.webp")], col: 0, top: 1012 },
+  { pecas: [peca("/conteudo/reel-0722.webp")], col: 2, top: 1152 },
+  { pecas: [peca("/conteudo/reel-pen.webp")], col: 1, top: 1736 },
+  {
+    pecas: grupo(
+      "lavae-nova-unidade",
+      "hub-cna-futuro",
+      "pen-essa-crianca-01",
+      "lc-perfumes",
+    ),
+    col: 0,
+    top: 1900,
+  },
+  {
+    pecas: grupo(
+      "sura-community-day",
+      "bar-do-cuscuz",
+      "pen-eu-me-viro-01",
+      "lugares-ver-o-mundo",
+    ),
+    col: 2,
+    top: 2000,
+  },
+  {
+    pecas: grupo(
+      "hub-cna-agro",
+      "key-visual-academia",
+      "sura-deck-guide",
+      "elva-garden",
+    ),
+    col: 1,
+    top: 2600,
+  },
 ];
 
 /* ---- Peças flutuando na chamada final ----------------------------------- */
@@ -143,6 +169,10 @@ export const SUBINDO = [
   Posição na tela quando a seção prende, largura, opacidade e velocidade
   (px de subida por 400 px de rolagem), medidas na referência. As imagens são
   do Eduardo; a altura sai da proporção de cada uma.
+
+  `m` é a posição no celular, em % da largura (x, w) e da altura (y) da tela:
+  seis peças em volta da frase, três acima e três abaixo, deixando a faixa do
+  meio livre. As outras não aparecem no celular.
 */
 export const FLUTUANDO = [
   {
@@ -152,6 +182,7 @@ export const FLUTUANDO = [
     w: 260,
     op: 1,
     v: 33,
+    m: { x: 60, y: 4, w: 36 },
   },
   {
     src: "/conteudo/elva-garden-story.webp",
@@ -160,6 +191,7 @@ export const FLUTUANDO = [
     w: 281,
     op: 1,
     v: 32,
+    m: { x: 72, y: 66, w: 24 },
   },
   {
     src: "/marcas/business-place/paginas/012.webp",
@@ -168,6 +200,7 @@ export const FLUTUANDO = [
     w: 275,
     op: 1,
     v: 40,
+    m: { x: 4, y: 72, w: 34 },
   },
   {
     src: "/conteudo/lc-perfumes.webp",
@@ -176,6 +209,7 @@ export const FLUTUANDO = [
     w: 209,
     op: 0.5,
     v: 71,
+    m: { x: 4, y: 3, w: 26 },
   },
   { src: "/conteudo/reel-pen.webp", x: 41, y: 280, w: 251, op: 0.5, v: 71 },
   {
@@ -186,7 +220,15 @@ export const FLUTUANDO = [
     op: 0.5,
     v: 71,
   },
-  { src: "/conteudo/hub-cna-futuro.webp", x: 661, y: 94, w: 220, op: 1, v: 71 },
+  {
+    src: "/conteudo/hub-cna-futuro.webp",
+    x: 661,
+    y: 94,
+    w: 220,
+    op: 1,
+    v: 71,
+    m: { x: 33, y: 9, w: 24 },
+  },
   {
     src: "/conteudo/bar-do-cuscuz.webp",
     x: 193,
@@ -220,7 +262,15 @@ export const FLUTUANDO = [
     op: 0.52,
     v: 71,
   },
-  { src: "/sites/mkz-canaa.webp", x: 622, y: 833, w: 196, op: 1, v: 71 },
+  {
+    src: "/sites/mkz-canaa.webp",
+    x: 622,
+    y: 833,
+    w: 196,
+    op: 1,
+    v: 71,
+    m: { x: 41, y: 78, w: 28 },
+  },
 ];
 
 export const HABILIDADES =

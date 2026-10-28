@@ -14,6 +14,7 @@ import styles from "./Rodape.module.css";
 const SITE = [
   { href: "#topo", label: "Início" },
   { href: "#projetos", label: "Projetos" },
+  { href: "#sites", label: "Sites" },
   { href: "#o-que-faco", label: "Redes" },
   { href: "#empresas", label: "Empresas" },
   { href: "#sobre", label: "Sobre" },

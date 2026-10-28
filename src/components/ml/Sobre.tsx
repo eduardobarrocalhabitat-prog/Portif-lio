@@ -5,7 +5,8 @@ import styles from "./Sobre.module.css";
 /* ---------------------------------------------------------------------------
    Sobre.
 
-   Medido: duas frases de 72/72 peso 600 que acendem com a rolagem, a segunda
+   Medido: duas frases de 72/72 peso 600 que acendem ao passar pelo meio da
+   tela, a segunda
    numa coluna de ~700px com uma imagem de 384px à direita (x=945); rótulos
    entre colchetes; lista de 14/21; parágrafo em Urbanist 18/27; um fio e, no
    pé, uma linha de 14/21 e o botão escuro de 52px.
@@ -24,8 +25,6 @@ export function Sobre() {
 
       <Acende
         className={styles.frase1}
-        inicio={780}
-        fim={80}
         texto="Sou o Eduardo, designer de marca e interface com 5+ anos criando projetos digitais."
       />
 
@@ -48,8 +47,6 @@ export function Sobre() {
       <div className={styles.foco}>
         <Acende
           className={styles.frase2}
-          inicio={700}
-          fim={-350}
           texto="Hoje meu foco é claro: marcas, redes e sites para empresas que querem trabalhar tão bem quanto parecem."
         />
         {/* eslint-disable-next-line @next/next/no-img-element */}

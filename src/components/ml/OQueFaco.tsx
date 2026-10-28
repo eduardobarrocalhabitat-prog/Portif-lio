@@ -12,8 +12,9 @@ import styles from "./OQueFaco.module.css";
 
    Medido: a seção tem 3464px de altura em 1440 e prende o bloco de texto; a
    frase de 72/72, peso 600, acende entre 300 e 2100 px de rolagem da página
-   (topo da seção a 600px e a −1200px do topo da tela). Os quadros de 384×384
-   sobem no ritmo normal, por cima do texto, nas colunas x=112, 528 e 944.
+   (topo da seção a 600px e a −1200px do topo da tela). Os quadros de 384px
+   de largura sobem no ritmo normal, por cima do texto, nas colunas x=112, 528
+   e 944: primeiro os reels inteiros, depois as imagens em grades de 2×2.
 --------------------------------------------------------------------------- */
 
 const COLUNAS = [112, 528, 944];
@@ -62,44 +63,45 @@ export function OQueFaco() {
         </p>
       </div>
 
-      {SUBINDO.map(({ peca, col, top }) => (
-        <button
-          key={peca.foto}
-          type="button"
-          className={styles.quadro}
+      {SUBINDO.map(({ pecas, col, top }) => (
+        <div
+          key={pecas[0].foto}
+          className={pecas.length > 1 ? styles.grade : styles.quadro}
           style={{ "--x": COLUNAS[col], "--y": top } as React.CSSProperties}
-          onClick={() =>
-            abrir({
-              title: peca.detalhe
-                ? `${peca.cliente} · ${peca.detalhe}`
-                : peca.cliente,
-              cover: peca.foto,
-              source: peca.abrir,
-            })
-          }
-          aria-label={`Abrir ${peca.formato.toLowerCase()}: ${peca.cliente}`}
         >
-          {/* O fundo é a própria peça, desfocada: a peça fica inteira no meio. */}
-          <span
-            className={styles.fundo}
-            style={{ backgroundImage: `url(${peca.foto})` }}
-            aria-hidden
-          />
-          {peca.previa ? (
-            <video
-              src={peca.previa}
-              poster={peca.foto}
-              muted
-              loop
-              playsInline
-              preload="none"
-              aria-hidden
-            />
-          ) : (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={peca.foto} alt="" loading="lazy" />
-          )}
-        </button>
+          {pecas.map((peca) => (
+            <button
+              key={peca.foto}
+              type="button"
+              className={styles.peca}
+              onClick={() =>
+                abrir({
+                  title: peca.detalhe
+                    ? `${peca.cliente} · ${peca.detalhe}`
+                    : peca.cliente,
+                  cover: peca.foto,
+                  source: peca.abrir,
+                })
+              }
+              aria-label={`Abrir ${peca.formato.toLowerCase()}: ${peca.cliente}`}
+            >
+              {peca.previa ? (
+                <video
+                  src={peca.previa}
+                  poster={peca.foto}
+                  muted
+                  loop
+                  playsInline
+                  preload="none"
+                  aria-hidden
+                />
+              ) : (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={peca.foto} alt="" loading="lazy" />
+              )}
+            </button>
+          ))}
+        </div>
       ))}
     </section>
   );
