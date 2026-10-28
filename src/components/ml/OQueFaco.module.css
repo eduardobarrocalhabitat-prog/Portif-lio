@@ -1,0 +1,131 @@
+.secao {
+  --u: calc(100vw / 1440);
+  position: relative;
+  z-index: 1;
+  height: calc(3464 * var(--u));
+  background: var(--bg);
+}
+
+/* O bloco de texto preso: começa a 266px do topo da seção. */
+.preso {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  pointer-events: none;
+}
+
+.rotulo {
+  position: absolute;
+  left: calc(113 * var(--u));
+  top: calc(277 * var(--u));
+}
+
+.frase {
+  position: absolute;
+  left: calc(425 * var(--u));
+  top: calc(266 * var(--u));
+  width: calc(880 * var(--u));
+  font-size: calc(72 * var(--u));
+  line-height: calc(72 * var(--u));
+  font-weight: 600;
+  letter-spacing: calc(-2 * var(--u));
+  color: rgb(207, 197, 171);
+}
+
+.sub {
+  position: absolute;
+  left: calc(425 * var(--u));
+  top: calc(599 * var(--u));
+  font-family: var(--urbanist);
+  font-size: calc(18 * var(--u));
+  line-height: calc(27 * var(--u));
+  letter-spacing: calc(-0.18 * var(--u));
+  color: var(--cream-70);
+}
+
+/* Os quadros: 384×384, por cima do texto, subindo com a página. */
+.quadro {
+  position: absolute;
+  z-index: 2;
+  left: calc(var(--x) * var(--u));
+  top: calc(var(--y) * var(--u));
+  display: grid;
+  place-items: center;
+  width: calc(384 * var(--u));
+  height: calc(384 * var(--u));
+  padding: calc(28 * var(--u));
+  border: 0;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--bg-2);
+  cursor: pointer;
+}
+
+.fundo {
+  position: absolute;
+  inset: -20%;
+  background-size: cover;
+  background-position: center;
+  filter: blur(28px) brightness(0.55) saturate(1.2);
+}
+
+.quadro img,
+.quadro video {
+  position: relative;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 3px;
+  transition: transform 0.6s var(--e-out);
+}
+
+.quadro:hover img,
+.quadro:hover video {
+  transform: scale(1.03);
+}
+
+@media (max-width: 767px) {
+  .secao {
+    --u: calc(100vw / 390);
+    height: auto;
+    padding: 96px 20px 120px;
+  }
+
+  .preso {
+    position: static;
+    height: auto;
+  }
+
+  .rotulo,
+  .frase,
+  .sub {
+    position: static;
+    width: auto;
+  }
+
+  .frase {
+    margin-top: 16px;
+    font-size: 36px;
+    line-height: 38px;
+    letter-spacing: -1px;
+  }
+
+  .sub {
+    margin-top: 20px;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .quadro {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    margin-top: 16px;
+    padding: 24px;
+  }
+}

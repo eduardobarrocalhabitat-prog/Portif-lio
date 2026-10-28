@@ -1,26 +1,24 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans, Urbanist } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+/*
+  As duas famílias medidas na referência (marcuslorenzet.com): Plus Jakarta
+  Sans no corpo e nos títulos, Urbanist em algumas frases e no rodapé.
+*/
+const jakarta = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
   subsets: ["latin", "latin-ext"],
-  weight: ["400", "500"],
+  weight: ["400", "600", "700", "800"],
 });
 
-/* Só o contador de páginas do visualizador usa. */
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-  preload: false,
+const urbanist = Urbanist({
+  variable: "--font-urbanist",
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "600"],
 });
 
 export const metadata: Metadata = {
-  /*
-    Troque pelo domínio final antes de publicar. Sem `metadataBase`, qualquer
-    imagem de compartilhamento vira caminho relativo — e aí o card do WhatsApp
-    e do LinkedIn não resolve a URL e não mostra nada.
-  */
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   ),
@@ -37,7 +35,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#ffffff",
+  themeColor: "#11100d",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -45,10 +43,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="pt-BR"
-      className={`${geistSans.variable} ${geistMono.variable}`}
-    >
+    <html lang="pt-BR" className={`${jakarta.variable} ${urbanist.variable}`}>
       <body>{children}</body>
     </html>
   );

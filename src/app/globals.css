@@ -1,38 +1,38 @@
 /* ---------------------------------------------------------------------------
    Tokens + reset
 
-   A paleta da Margem sobre branco absoluto: tinta quase preta, um cinza para o
-   secundário, fio claro e pílula cinza-clara. Acento só em um detalhe por seção:
-   terracota ou verde-mata. Geist 400 e 500 em tudo.
+   Valores medidos na página rodando de marcuslorenzet.com (computed style,
+   1440×900). Fundo #11100d, creme rgb(208,197,171) e o mesmo creme a 80% nos
+   textos secundários.
 --------------------------------------------------------------------------- */
 
 :root {
-  --bg: #ffffff;
-  --ink: #141414;
-  --ink-2: #5e5e5e;
-  --line: #e6e6e6;
-  /* Pílula em cinza bem claro: branca, sumiria no fundo branco. */
-  --pill: #f1f1f1;
-  --terracota: #d9653b;
-  --mata: #2f4a3a;
+  --bg: #11100d;
+  --bg-2: rgb(22, 21, 17);
+  --bg-cta: rgb(14, 14, 11);
+  --cream: rgb(208, 197, 171);
+  --cream-80: rgba(208, 197, 171, 0.8);
+  --cream-70: rgba(208, 197, 171, 0.7);
+  --line: rgba(208, 197, 171, 0.12);
 
-  /* Os nomes antigos, que o visualizador ainda usa. */
-  --c-paper: var(--bg);
-  --c-ink: var(--ink);
-  --c-ink-soft: var(--ink-2);
+  /* Nomes que o visualizador usa. */
+  --c-paper: #ffffff;
+  --c-ink: #141414;
+  --c-ink-soft: #5e5e5e;
   --c-ink-faint: #6e6e6e;
 
-  --f-sans: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
-  --f-mono: var(--font-geist-mono), ui-monospace, monospace;
-  --f-serif: var(--f-sans);
+  --jakarta: var(--font-jakarta), system-ui, sans-serif;
+  --urbanist: var(--font-urbanist), var(--font-jakarta), system-ui, sans-serif;
+  --f-sans: var(--jakarta);
+  --f-mono: ui-monospace, monospace;
+  --f-serif: var(--jakarta);
 
-  /* Margem lateral da página: a mesma em todas as seções. */
-  --m: clamp(20px, 2.6vw, 40px);
-  --nav-h: 80px;
+  /* Margem lateral medida: o conteúdo começa em x=112 numa tela de 1440. */
+  --m: clamp(20px, 7.78vw, 112px);
 
   --e-out: cubic-bezier(0.22, 1, 0.36, 1);
 
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 *,
@@ -47,7 +47,6 @@ body {
   padding: 0;
 }
 
-/* O Lenis cuida da rolagem suave; o CSS não pode competir com ele. */
 html.lenis,
 html.lenis body {
   height: auto;
@@ -63,17 +62,13 @@ html.lenis body {
 
 body {
   background: var(--bg);
-  color: var(--ink);
-  font-family: var(--f-sans);
-  font-weight: 400;
-  font-synthesis-weight: none;
-  text-rendering: optimizeLegibility;
+  color: var(--cream);
+  font-family: var(--jakarta);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: clip;
 }
 
-/* Visualizador aberto: o documento atrás não rola. */
 body[data-viewer-open="true"] {
   overflow: hidden;
 }
@@ -84,7 +79,8 @@ h3,
 p,
 ul,
 ol,
-figure {
+figure,
+blockquote {
   margin: 0;
 }
 
@@ -94,7 +90,8 @@ ol {
   list-style: none;
 }
 
-img {
+img,
+video {
   display: block;
   max-width: 100%;
 }
@@ -110,12 +107,12 @@ a {
 }
 
 :where(button, a, [tabindex]):focus-visible {
-  outline: 2px solid var(--ink);
+  outline: 2px solid var(--cream);
   outline-offset: 3px;
 }
 
 ::selection {
-  background: var(--ink);
+  background: var(--cream);
   color: var(--bg);
 }
 
@@ -130,30 +127,66 @@ a {
   white-space: nowrap;
 }
 
-/* A pílula preta das ações principais. Um formato só no site inteiro. */
-.pillDark {
+/* Rótulo entre colchetes: 12px, 0.96px de espaçamento, caixa alta. */
+.rotulo {
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 400;
+  letter-spacing: 0.96px;
+  text-transform: uppercase;
+  color: rgb(207, 196, 170);
+}
+
+/* Botão creme (LET'S TALK): 52px de altura, raio 4, texto 12/800 na cor do fundo. */
+.btnCreme,
+.btnEscuro {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  height: 44px;
-  padding: 0 20px;
+  gap: 10px;
+  height: 52px;
+  padding: 0 24px;
   border: 0;
-  border-radius: 999px;
-  background: var(--ink);
-  color: var(--bg);
-  font-size: 15px;
-  font-weight: 500;
+  border-radius: 4px;
+  font-size: 12px;
+  line-height: 12px;
+  letter-spacing: -0.24px;
+  text-transform: uppercase;
   white-space: nowrap;
   cursor: pointer;
   transition:
-    background 0.2s var(--e-out),
-    transform 0.16s var(--e-out);
+    background 0.3s var(--e-out),
+    transform 0.2s var(--e-out);
 }
 
-.pillDark:hover {
-  background: #2c2c2a;
+.btnCreme {
+  background: rgb(207, 196, 170);
+  color: var(--bg);
+  font-weight: 800;
 }
 
-.pillDark:active {
+.btnCreme:hover {
+  background: rgb(225, 216, 194);
+}
+
+/* Botão escuro (EXPLORE THE ARCHIVE / DOWNLOAD RESUME): fundo #11100d, fio fino. */
+.btnEscuro {
+  background: var(--bg);
+  color: var(--cream);
+  font-weight: 700;
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.btnEscuro:hover {
+  background: var(--bg-2);
+}
+
+.btnCreme:active,
+.btnEscuro:active {
   transform: scale(0.97);
+}
+
+.avatar {
+  width: 24px;
+  height: 24px;
+  object-fit: cover;
 }

@@ -1,0 +1,166 @@
+.secao {
+  --u: calc(100vw / 1440);
+  position: relative;
+  z-index: 1;
+  background: var(--bg);
+  padding-bottom: calc(240 * var(--u));
+}
+
+/* O título fica preso enquanto os cards sobem. */
+.preso {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: calc(92 * var(--u));
+  gap: calc(14 * var(--u));
+}
+
+.titulo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: calc(264 * var(--u));
+  line-height: calc(237.6 * var(--u));
+  font-weight: 700;
+  letter-spacing: calc(-10 * var(--u));
+  text-align: center;
+}
+
+/* Os cards entram depois de uma tela inteira de título sozinho. */
+.cards {
+  position: relative;
+  display: grid;
+  gap: calc(420 * var(--u));
+  margin-top: calc(-100svh + 1186 * var(--u));
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: calc(480 * var(--u));
+  height: calc(480 * var(--u));
+  margin: 0 auto;
+  padding: calc(29 * var(--u)) calc(32 * var(--u)) calc(32 * var(--u));
+  border-radius: 6px;
+  background:
+    radial-gradient(
+      ellipse 70% 55% at 50% 85%,
+      rgba(208, 197, 171, 0.12),
+      rgba(208, 197, 171, 0) 70%
+    ),
+    rgba(21, 20, 16, 0.98);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: inset 0 0 0 1px rgba(208, 197, 171, 0.1);
+}
+
+.numero {
+  font-size: calc(80 * var(--u));
+  line-height: calc(96 * var(--u));
+  font-weight: 700;
+  letter-spacing: calc(-3.2 * var(--u));
+  color: rgb(207, 197, 171);
+}
+
+.texto {
+  margin-top: calc(34 * var(--u));
+  font-size: calc(24 * var(--u));
+  line-height: calc(28.8 * var(--u));
+  letter-spacing: calc(-0.24 * var(--u));
+}
+
+.assina {
+  display: flex;
+  align-items: center;
+  gap: calc(10 * var(--u));
+  margin-top: auto;
+}
+
+.logo {
+  flex: none;
+  width: calc(56 * var(--u));
+  height: calc(56 * var(--u));
+  border-radius: 3px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.nome {
+  display: block;
+  font-size: calc(22 * var(--u));
+  line-height: calc(26.4 * var(--u));
+  letter-spacing: calc(-0.22 * var(--u));
+}
+
+.area {
+  display: block;
+  font-size: calc(14 * var(--u));
+  line-height: calc(16.8 * var(--u));
+  color: var(--cream-80);
+}
+
+@media (max-width: 767px) {
+  .secao {
+    padding: 80px 20px 96px;
+  }
+
+  .preso {
+    position: static;
+    height: auto;
+    padding-top: 0;
+  }
+
+  .titulo {
+    font-size: 26vw;
+    line-height: 23vw;
+    letter-spacing: -1.4vw;
+  }
+
+  .cards {
+    margin-top: 40px;
+    gap: 16px;
+  }
+
+  .card {
+    width: 100%;
+    height: auto;
+    min-height: 360px;
+    padding: 24px;
+  }
+
+  .numero {
+    font-size: 56px;
+    line-height: 60px;
+  }
+
+  .texto {
+    margin: 20px 0 32px;
+    font-size: 20px;
+    line-height: 26px;
+  }
+
+  .logo {
+    width: 48px;
+    height: 48px;
+  }
+
+  .nome {
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  .area {
+    font-size: 13px;
+    line-height: 16px;
+  }
+}

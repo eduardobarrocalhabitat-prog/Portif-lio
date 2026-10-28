@@ -1,0 +1,259 @@
+/* --u: 1px numa tela de 1440. Toda medida da referência entra como N × --u. */
+.hero {
+  --u: calc(100vw / 1440);
+  position: relative;
+  height: 100svh;
+  min-height: calc(760 * var(--u));
+  overflow: clip;
+}
+
+/* ---- Foto ---------------------------------------------------------------- */
+
+.foto {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 12%;
+  opacity: 0.43;
+  /*
+    A foto do Eduardo é clara (estúdio branco) e a da referência é escura e
+    quente. Escurecer e aquecer é o que leva uma à outra; decisão registrada.
+  */
+  filter: grayscale(1) sepia(0.35) brightness(0.62) contrast(1.08);
+}
+
+/* Degradê medido: transparente até 53%, preto em 96%, da esquerda para a direita. */
+.escuro {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0) 53%, rgb(0, 0, 0) 96%);
+}
+
+.hero > *:not(.foto) {
+  position: absolute;
+  z-index: 1;
+}
+
+/* ---- Topo ---------------------------------------------------------------- */
+
+.marca {
+  left: calc(113 * var(--u));
+  top: calc(24 * var(--u));
+}
+
+.logo {
+  display: inline-flex;
+  flex-direction: column;
+  font-family: var(--urbanist);
+  font-weight: 600;
+  /* O logo pequeno é o grande do rodapé (592×150) reduzido 3,84 vezes. */
+  font-size: calc(24 * var(--u));
+  line-height: calc(19.5 * var(--u));
+  letter-spacing: 0.19em;
+  color: rgb(236, 225, 199);
+}
+
+/* O quadrado no lugar do O, como o de L■RENZET. */
+.quadrado {
+  display: inline-block;
+  width: 0.72em;
+  height: 0.72em;
+  margin: 0 0.3em 0 0;
+  vertical-align: -0.04em;
+  border-radius: 0.06em;
+  background: currentColor;
+}
+
+.email {
+  right: calc(112 * var(--u));
+  top: calc(41 * var(--u));
+  font-size: calc(16 * var(--u));
+  line-height: calc(20 * var(--u));
+  color: var(--cream-80);
+  transition: color 0.3s var(--e-out);
+}
+
+.email:hover {
+  color: var(--cream);
+}
+
+/* ---- Título -------------------------------------------------------------- */
+
+.titulo {
+  left: 0;
+  right: 0;
+  top: calc(248 * var(--u));
+  font-size: calc(160 * var(--u));
+  line-height: calc(144 * var(--u));
+  font-weight: 700;
+  letter-spacing: calc(-5 * var(--u));
+  color: var(--cream);
+}
+
+.l1,
+.l2,
+.l3 {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  height: calc(202 * var(--u));
+  white-space: nowrap;
+}
+
+.l1 {
+  top: 0;
+  left: calc(112 * var(--u));
+  gap: calc(16 * var(--u));
+}
+
+.l2 {
+  top: calc(164 * var(--u));
+  right: calc(122 * var(--u));
+}
+
+.l3 {
+  top: calc(324 * var(--u));
+  left: calc(205 * var(--u));
+  right: calc(122 * var(--u));
+  gap: calc(18 * var(--u));
+}
+
+/* A seta encosta na margem direita, como o ↓ da referência (x=1222 a 1318). */
+.seta {
+  margin-left: auto;
+  font-weight: 400;
+}
+
+/* Card de 123×123, raio 4, degradê do fundo para 40% de opacidade. */
+.card {
+  position: relative;
+  flex: none;
+  width: calc(123 * var(--u));
+  height: calc(123 * var(--u));
+  padding: calc(16 * var(--u));
+  border-radius: 4px;
+  background:
+    radial-gradient(
+      ellipse 90% 55% at 50% 100%,
+      rgba(208, 197, 171, 0.16),
+      rgba(208, 197, 171, 0) 70%
+    ),
+    linear-gradient(rgb(21, 20, 16) 0%, rgba(21, 20, 16, 0.4) 100%);
+  box-shadow: inset 0 0 0 1px rgba(208, 197, 171, 0.14);
+  align-self: center;
+  transform: translateY(calc(-4 * var(--u)));
+}
+
+.card span {
+  display: block;
+  font-size: calc(12 * var(--u));
+  line-height: calc(18 * var(--u));
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  white-space: normal;
+  color: var(--cream-80);
+}
+
+/* ---- Apoio e pé ---------------------------------------------------------- */
+
+.apoio {
+  left: calc(424 * var(--u));
+  top: calc(455 * var(--u));
+  width: calc(262 * var(--u));
+  font-size: calc(16 * var(--u));
+  line-height: calc(24 * var(--u));
+  color: var(--cream-80);
+}
+
+.pixel,
+.role {
+  bottom: calc(38 * var(--u));
+  font-size: calc(14 * var(--u));
+  line-height: calc(16.8 * var(--u));
+  color: var(--cream-80);
+}
+
+.pixel {
+  left: calc(112 * var(--u));
+}
+
+.role {
+  right: calc(112 * var(--u));
+}
+
+/* ---- Celular: as linhas empilham, a frase vai para baixo do título ------- */
+
+@media (max-width: 767px) {
+  .hero {
+    --u: calc(100vw / 390);
+    min-height: 0;
+  }
+
+  .marca {
+    left: 20px;
+    top: 24px;
+  }
+
+  .logo {
+    font-size: 14px;
+    line-height: 15px;
+  }
+
+  .email {
+    display: none;
+  }
+
+  .titulo {
+    top: 28svh;
+    font-size: 56px;
+    line-height: 56px;
+    letter-spacing: -2px;
+  }
+
+  .l1,
+  .l2,
+  .l3 {
+    position: static;
+    height: 60px;
+    padding: 0 20px;
+    gap: 8px;
+  }
+
+  .l2 {
+    justify-content: flex-end;
+  }
+
+  .card {
+    width: 60px;
+    height: 60px;
+    padding: 8px;
+  }
+
+  .card span {
+    font-size: 9px;
+    line-height: 11px;
+  }
+
+  .apoio {
+    left: 20px;
+    right: 20px;
+    top: auto;
+    bottom: 120px;
+    width: auto;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .pixel,
+  .role {
+    display: none;
+  }
+}

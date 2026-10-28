@@ -1,0 +1,179 @@
+.rodape {
+  --u: calc(100vw / 1440);
+  position: relative;
+  z-index: 1;
+  background: var(--bg);
+  padding: calc(124 * var(--u)) calc(112 * var(--u)) calc(26 * var(--u))
+    calc(111 * var(--u));
+}
+
+.topo {
+  display: grid;
+  grid-template-columns: 1fr calc(384 * var(--u));
+  column-gap: calc(130 * var(--u));
+  align-items: start;
+}
+
+/* O logo grande: 592×150. */
+.logo {
+  font-size: calc(93 * var(--u)) !important;
+  line-height: calc(80 * var(--u)) !important;
+  letter-spacing: 0.19em !important;
+  margin-top: calc(27 * var(--u));
+  color: rgb(236, 225, 199);
+}
+
+.contato {
+  display: grid;
+  gap: calc(18 * var(--u));
+  font-size: calc(28 * var(--u));
+  line-height: calc(33.6 * var(--u));
+  letter-spacing: calc(-0.84 * var(--u));
+}
+
+.contato a {
+  transition: color 0.3s var(--e-out);
+  white-space: nowrap;
+}
+
+.contato a:hover {
+  color: rgb(236, 225, 199);
+}
+
+.pronto {
+  margin-bottom: calc(6 * var(--u));
+  font-family: var(--urbanist);
+  font-size: calc(56 * var(--u));
+  line-height: calc(76 * var(--u));
+  font-weight: 600;
+  letter-spacing: calc(-0.56 * var(--u));
+}
+
+.meio {
+  display: grid;
+  grid-template-columns: calc(416 * var(--u)) calc(416 * var(--u)) 1fr;
+  margin-top: calc(160 * var(--u));
+  padding-bottom: calc(60 * var(--u));
+  border-bottom: 1px solid rgba(208, 197, 171, 0.1);
+}
+
+.rot {
+  font-size: calc(14 * var(--u));
+  line-height: calc(21 * var(--u));
+  text-transform: uppercase;
+  color: var(--cream-80);
+}
+
+.meio ul {
+  display: grid;
+  gap: calc(14.6 * var(--u));
+  margin-top: calc(22 * var(--u));
+}
+
+.meio ul a {
+  font-size: calc(32 * var(--u));
+  line-height: calc(38.4 * var(--u));
+  font-weight: 600;
+  letter-spacing: calc(-0.96 * var(--u));
+  transition: color 0.3s var(--e-out);
+}
+
+.meio ul a:hover {
+  color: rgb(236, 225, 199);
+}
+
+.cards {
+  display: flex;
+  gap: calc(32 * var(--u));
+  justify-content: flex-end;
+  align-self: end;
+}
+
+.card {
+  width: calc(176 * var(--u));
+  height: calc(176 * var(--u));
+  padding: calc(23 * var(--u));
+  border-radius: 4px;
+  background:
+    radial-gradient(
+      ellipse 90% 55% at 50% 100%,
+      rgba(208, 197, 171, 0.16),
+      rgba(208, 197, 171, 0) 70%
+    ),
+    linear-gradient(rgb(21, 20, 16) 0%, rgba(21, 20, 16, 0.4) 100%);
+  box-shadow: inset 0 0 0 1px rgba(208, 197, 171, 0.14);
+  font-size: calc(16 * var(--u));
+  line-height: calc(24 * var(--u));
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--cream-80);
+}
+
+.pe {
+  display: flex;
+  justify-content: space-between;
+  padding-top: calc(36 * var(--u));
+  font-size: calc(14 * var(--u));
+  line-height: calc(21 * var(--u));
+  color: var(--cream-80);
+}
+
+.pe p {
+  text-transform: uppercase;
+}
+
+@media (max-width: 767px) {
+  .rodape {
+    padding: 80px 20px 120px;
+  }
+
+  .topo,
+  .meio {
+    grid-template-columns: 1fr;
+    row-gap: 40px;
+  }
+
+  .logo {
+    font-size: 38px !important;
+    line-height: 34px !important;
+  }
+
+  .contato {
+    font-size: 20px;
+    line-height: 26px;
+  }
+
+  .pronto {
+    font-size: 36px;
+    line-height: 44px;
+  }
+
+  .meio {
+    margin-top: 48px;
+  }
+
+  .rot {
+    font-size: 13px;
+  }
+
+  .meio ul a {
+    font-size: 26px;
+    line-height: 32px;
+  }
+
+  .cards {
+    justify-content: flex-start;
+  }
+
+  .card {
+    width: 140px;
+    height: 140px;
+    padding: 16px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .pe {
+    font-size: 13px;
+  }
+}

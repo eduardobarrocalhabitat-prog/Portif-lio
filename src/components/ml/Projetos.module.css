@@ -1,0 +1,206 @@
+.secao {
+  --u: calc(100vw / 1440);
+  position: relative;
+  z-index: 1;
+  background: var(--bg);
+}
+
+.cabeca {
+  position: relative;
+  height: calc(202 * var(--u));
+}
+
+.titulo {
+  position: absolute;
+  left: calc(112 * var(--u));
+  bottom: calc(10 * var(--u));
+  font-size: calc(144 * var(--u));
+  line-height: calc(129.6 * var(--u));
+  font-weight: 700;
+  letter-spacing: calc(-4 * var(--u));
+}
+
+.rotulo {
+  position: absolute;
+  right: calc(112 * var(--u));
+  bottom: calc(26 * var(--u));
+}
+
+/* Cada case: uma tela presa, 972px de passo (900 + 72). */
+.case {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  margin-bottom: calc(72 * var(--u));
+  background: var(--bg);
+}
+
+.case:last-child {
+  margin-bottom: 0;
+}
+
+.palco {
+  position: relative;
+  height: 100%;
+  transform-origin: 50% 45%;
+}
+
+.card {
+  position: absolute;
+  left: calc(110 * var(--u));
+  top: calc(160 * var(--u));
+  width: calc(594 * var(--u));
+  height: calc(594 * var(--u));
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--bg-2);
+  cursor: pointer;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s var(--e-out);
+}
+
+.card:hover img {
+  transform: scale(1.03);
+}
+
+.numero {
+  position: absolute;
+  left: calc(736 * var(--u));
+  top: calc(136 * var(--u));
+  font-size: calc(72 * var(--u));
+  line-height: calc(43.2 * var(--u));
+  font-weight: 600;
+  letter-spacing: calc(-0.72 * var(--u));
+  color: var(--cream-80);
+  padding-top: calc(24 * var(--u));
+}
+
+.nome {
+  position: absolute;
+  left: calc(736 * var(--u));
+  top: calc(250 * var(--u));
+  width: calc(360 * var(--u));
+  font-size: calc(32 * var(--u));
+  line-height: calc(38.4 * var(--u));
+  font-weight: 400;
+}
+
+.tags {
+  position: absolute;
+  left: calc(736 * var(--u));
+  top: calc(709 * var(--u));
+  width: calc(230 * var(--u));
+  font-size: calc(18 * var(--u));
+  line-height: calc(21.6 * var(--u));
+  color: var(--cream-80);
+}
+
+.proximo {
+  position: absolute;
+  right: calc(112 * var(--u));
+  top: calc(736 * var(--u));
+  display: flex;
+  align-items: center;
+  gap: calc(8 * var(--u));
+  font-size: calc(14 * var(--u));
+  line-height: calc(16.8 * var(--u));
+  color: var(--cream-80);
+  cursor: pointer;
+  transition: color 0.3s var(--e-out);
+}
+
+.proximo:hover {
+  color: var(--cream);
+}
+
+.proximo svg {
+  width: calc(20 * var(--u));
+  height: calc(20 * var(--u));
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (max-width: 767px) {
+  .secao {
+    --u: calc(100vw / 390);
+    padding-bottom: 40px;
+  }
+
+  .cabeca {
+    height: auto;
+    padding: 80px 20px 32px;
+  }
+
+  .titulo,
+  .rotulo {
+    position: static;
+  }
+
+  .titulo {
+    font-size: 56px;
+    line-height: 52px;
+    letter-spacing: -2px;
+  }
+
+  .rotulo {
+    margin-top: 12px;
+  }
+
+  .case {
+    position: relative;
+    height: auto;
+    margin: 0 0 56px;
+    padding: 0 20px;
+  }
+
+  .palco {
+    display: grid;
+    gap: 14px;
+  }
+
+  .card,
+  .numero,
+  .nome,
+  .tags,
+  .proximo {
+    position: static;
+    width: auto;
+  }
+
+  .card {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+  }
+
+  .numero {
+    order: -1;
+    font-size: 48px;
+    line-height: 40px;
+    padding-top: 0;
+  }
+
+  .nome {
+    font-size: 24px;
+    line-height: 29px;
+  }
+
+  .tags {
+    font-size: 15px;
+    line-height: 20px;
+  }
+
+  .proximo {
+    display: none;
+  }
+}

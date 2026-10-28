@@ -1,0 +1,94 @@
+.secao {
+  --u: calc(100vw / 1440);
+  position: relative;
+  z-index: 1;
+  height: calc(100svh + 1250 * var(--u));
+  background: var(--bg-cta);
+}
+
+.preso {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+}
+
+/* Cada imagem na posição medida quando a seção prende. */
+.flutua {
+  position: absolute;
+  left: calc(var(--x) * var(--u));
+  top: calc(var(--y) * var(--u));
+  width: calc(var(--w) * var(--u));
+  height: auto;
+  border-radius: 3px;
+  will-change: transform;
+}
+
+.centro {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: calc(300 * var(--u));
+}
+
+.titulo {
+  max-width: calc(700 * var(--u));
+  font-family: var(--urbanist);
+  font-size: calc(72 * var(--u));
+  line-height: calc(74 * var(--u));
+  font-weight: 600;
+  letter-spacing: calc(-0.72 * var(--u));
+  text-align: center;
+}
+
+.botoes {
+  display: flex;
+  gap: calc(15 * var(--u));
+  margin-top: calc(50 * var(--u));
+}
+
+.seta {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (max-width: 767px) {
+  .secao {
+    --u: calc(100vw / 600);
+    height: auto;
+  }
+
+  .preso {
+    position: relative;
+    height: 100svh;
+  }
+
+  .flutua {
+    opacity: 0.35 !important;
+  }
+
+  .centro {
+    justify-content: center;
+    padding: 0 20px;
+  }
+
+  .titulo {
+    max-width: none;
+    font-size: 40px;
+    line-height: 44px;
+  }
+
+  .botoes {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 32px;
+  }
+}

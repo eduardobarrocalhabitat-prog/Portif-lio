@@ -1,33 +1,32 @@
-import { Fecho } from "@/components/margem/Fecho";
-import { Indice } from "@/components/margem/Indice";
-import { Metodo } from "@/components/margem/Metodo";
-import { Nav } from "@/components/margem/Nav";
-import { Redes } from "@/components/margem/Redes";
-import { Sites } from "@/components/margem/Sites";
-import { Sobre } from "@/components/margem/Sobre";
 import { Suave } from "@/components/margem/Suave";
-import { Tunel } from "@/components/margem/tunel/Tunel";
 import { ViewerHost } from "@/components/margem/ViewerHost";
+import { Chamada } from "@/components/ml/Chamada";
+import { Dock } from "@/components/ml/Dock";
+import { Empresas } from "@/components/ml/Empresas";
+import { Hero } from "@/components/ml/Hero";
+import { OQueFaco } from "@/components/ml/OQueFaco";
+import { Projetos } from "@/components/ml/Projetos";
+import { Rodape } from "@/components/ml/Rodape";
+import { Sobre } from "@/components/ml/Sobre";
 
 /*
-  A estrutura do site da Margem com o conteúdo do Eduardo: o túnel de
-  trabalhos, as redes sociais, o manifesto com marginália, o método, as marcas, os sites e o fecho.
+  Réplica da estrutura de marcuslorenzet.com com o conteúdo do Eduardo:
+  abertura, o que eu faço, projetos, empresas, sobre, chamada e rodapé.
 */
 export default function Home() {
   return (
     <ViewerHost>
-      <Nav />
       <main>
-        <Tunel />
-        {/* Logo depois do túnel: muita gente chega procurando redes sociais. */}
-        <Redes />
+        <Hero />
+        <OQueFaco />
+        <Projetos />
+        <Empresas />
         <Sobre />
-        <Metodo />
-        <Indice />
-        <Sites />
-        <Fecho />
+        <Chamada />
       </main>
-      {/* Por último: os pins das seções já existem quando a rolagem suave nasce. */}
+      <Rodape />
+      <Dock />
+      {/* Por último: os pins já existem quando a rolagem suave nasce. */}
       <Suave />
     </ViewerHost>
   );
