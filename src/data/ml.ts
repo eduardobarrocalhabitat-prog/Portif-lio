@@ -80,32 +80,35 @@ export type Entrega = {
 const logo = (nome: string) =>
   about.companies.items.find((c) => c.name === nome)?.logo ?? "";
 
-/*
-  Só o que o acervo comprova. Pen: carrosséis e o vídeo estão em Redes.
-  Toth: o pitch deck de 15 páginas está nas marcas. Whido: roteiros de vídeo
-  dos campeonatos de Free Fire (CONFIRMAR com o Eduardo antes de publicar).
-*/
+/* O que o Eduardo fez em cada empresa, nas palavras dele. */
 export const ENTREGAS: Entrega[] = [
   {
     texto:
-      "Carrosséis e vídeo para as redes da Pen Education, falando de educação com quem é pai e mãe.",
+      "Gestão das redes sociais e do site da Pen Education, com o controle das demandas de comunicação.",
     empresa: "Pen Education",
     area: "Educação",
     logo: logo("Pen Education"),
   },
   {
     texto:
-      "Pitch deck de 15 páginas para a Toth Innovation Marketing apresentar a agência.",
+      "Clipagem para a Rede Ronaldo Games e uma solução de IA desenvolvida para a rede.",
+    empresa: "Rede Ronaldo Games",
+    area: "Games",
+    logo: logo("Rede Ronaldo Games"),
+  },
+  {
+    texto:
+      "Toda a operação visual da Toth: apresentações, marcas, sites e brand books.",
     empresa: "Toth Innovation Marketing",
     area: "Marketing",
     logo: logo("Toth Innovation Marketing"),
   },
   {
     texto:
-      "Roteiros de vídeo para explicar formatos e sorteios de campeonatos de Free Fire.",
-    empresa: "Whido",
-    area: "E-sports",
-    logo: logo("Whido"),
+      "Eventos audiovisuais com transmissão ao vivo e presencial, e as peças gráficas que comunicavam cada evento.",
+    empresa: "inovabra",
+    area: "Inovação",
+    logo: logo("inovabra"),
   },
 ];
 
