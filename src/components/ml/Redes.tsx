@@ -34,19 +34,20 @@ function Peca({ peca }: { peca: PecaRede }) {
       }
       aria-label={`Abrir ${peca.formato.toLowerCase()}: ${peca.cliente}`}
     >
-      {peca.previa ? (
+      {/* A capa fica sempre por baixo: enquanto o vídeo não tem quadro
+          pronto, aparece ela, e não o preto do player. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={peca.foto} alt="" loading="lazy" />
+      {peca.previa && (
         <video
           src={peca.previa}
-          poster={peca.foto}
           muted
           loop
           playsInline
           preload="none"
           aria-hidden
+          onPlaying={(e) => (e.currentTarget.dataset.tocando = "")}
         />
-      ) : (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={peca.foto} alt="" loading="lazy" />
       )}
     </button>
   );
@@ -55,21 +56,44 @@ function Peca({ peca }: { peca: PecaRede }) {
 export function Redes() {
   const rootRef = useRef<HTMLElement>(null);
 
-  /* Os reels tocam mudos enquanto estão na tela. */
+  /*
+    Os reels tocam mudos enquanto estão na tela. Começam a carregar uma tela
+    antes de aparecer e só pausam quando saem de vez, para não ficar parando
+    e voltando no meio da rolagem.
+  */
   useEffect(() => {
     const root = rootRef.current!;
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const io = new IntersectionObserver(
+    const videos = root.querySelectorAll("video");
+    const perto = new IntersectionObserver(
       (es) =>
         es.forEach(({ target, isIntersecting }) => {
           const v = target as HTMLVideoElement;
-          if (isIntersecting) void v.play().catch(() => {});
-          else v.pause();
+          if (isIntersecting && v.preload !== "auto") {
+            v.preload = "auto";
+            v.load();
+          }
         }),
-      { threshold: 0.3 },
+      { rootMargin: "100% 0px" },
     );
-    root.querySelectorAll("video").forEach((v) => io.observe(v));
-    return () => io.disconnect();
+    const visivel = new IntersectionObserver(
+      (es) =>
+        es.forEach(({ target, isIntersecting }) => {
+          const v = target as HTMLVideoElement;
+          if (isIntersecting) {
+            if (v.paused) void v.play().catch(() => {});
+          } else if (!v.paused) v.pause();
+        }),
+      { threshold: 0 },
+    );
+    videos.forEach((v) => {
+      perto.observe(v);
+      visivel.observe(v);
+    });
+    return () => {
+      perto.disconnect();
+      visivel.disconnect();
+    };
   }, []);
 
   return (

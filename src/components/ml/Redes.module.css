@@ -54,6 +54,7 @@
 }
 
 .peca {
+  position: relative;
   display: block;
   width: 100%;
   height: 100%;
@@ -61,22 +62,42 @@
   border: 0;
   border-radius: 4px;
   overflow: hidden;
+  /* Uma camada própria para o recorte arredondado: sem ela o Safari pisca o
+     vídeo ao rolar. */
+  isolation: isolate;
+  transform: translateZ(0);
   background: var(--bg-2);
   cursor: pointer;
 }
 
 .peca img,
 .peca video {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.peca img {
   transition: transform 0.6s var(--e-out);
 }
 
-.peca:hover img,
-.peca:hover video {
-  transform: scale(1.04);
+/* O vídeo só aparece por cima da capa quando já está tocando. */
+.peca video {
+  opacity: 0;
+  transition: opacity 0.4s var(--e-out);
+}
+
+.peca video[data-tocando] {
+  opacity: 1;
+}
+
+@media (hover: hover) {
+  .peca:hover img {
+    transform: scale(1.04);
+  }
 }
 
 .pe {
