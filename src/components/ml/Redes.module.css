@@ -1,0 +1,144 @@
+.secao {
+  --u: calc(100vw / 1440);
+  position: relative;
+  z-index: 1;
+  padding-bottom: calc(120 * var(--u));
+  background: var(--bg);
+}
+
+.cabeca {
+  position: relative;
+  height: calc(202 * var(--u));
+}
+
+.titulo {
+  position: absolute;
+  left: calc(112 * var(--u));
+  bottom: calc(10 * var(--u));
+  font-size: calc(144 * var(--u));
+  line-height: calc(129.6 * var(--u));
+  font-weight: 700;
+  letter-spacing: calc(-4 * var(--u));
+}
+
+.rotulo {
+  position: absolute;
+  right: calc(112 * var(--u));
+  bottom: calc(26 * var(--u));
+}
+
+/* Três colunas de 384px nas mesmas posições do resto da página. */
+.colunas {
+  display: grid;
+  grid-template-columns: repeat(3, calc(384 * var(--u)));
+  gap: calc(32 * var(--u));
+  margin-top: calc(48 * var(--u));
+  padding: 0 calc(112 * var(--u));
+  align-items: start;
+}
+
+.reel {
+  display: grid;
+  aspect-ratio: 9 / 16;
+}
+
+/* A grade: quatro imagens 4:5 no espaço de uma coluna. */
+.grade {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: calc(4 * var(--u));
+}
+
+.grade .peca {
+  aspect-ratio: 4 / 5;
+}
+
+.peca {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--bg-2);
+  cursor: pointer;
+}
+
+.peca img,
+.peca video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--e-out);
+}
+
+.peca:hover img,
+.peca:hover video {
+  transform: scale(1.04);
+}
+
+.pe {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(24 * var(--u));
+  margin: calc(72 * var(--u)) calc(112 * var(--u)) 0;
+  padding-top: calc(36 * var(--u));
+  border-top: 1px solid var(--line);
+  font-family: var(--urbanist);
+  font-size: calc(24 * var(--u));
+  line-height: calc(32 * var(--u));
+  color: var(--cream-80);
+}
+
+@media (max-width: 767px) {
+  .secao {
+    padding-bottom: 72px;
+  }
+
+  .cabeca {
+    height: auto;
+    padding: 80px 20px 32px;
+  }
+
+  .titulo,
+  .rotulo {
+    position: static;
+  }
+
+  .titulo {
+    font-size: 56px;
+    line-height: 52px;
+    letter-spacing: -2px;
+  }
+
+  .rotulo {
+    margin-top: 12px;
+  }
+
+  .colunas {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 0;
+    padding: 0 20px;
+  }
+
+  .grade {
+    gap: 8px;
+  }
+
+  .pe {
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 48px 20px 0;
+    padding-top: 28px;
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  .pe a {
+    white-space: normal;
+  }
+}

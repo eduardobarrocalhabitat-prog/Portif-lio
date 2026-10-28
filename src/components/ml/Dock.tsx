@@ -8,7 +8,7 @@ import styles from "./Dock.module.css";
 */
 const LINKS = [
   { href: "#projetos", label: "Projetos" },
-  { href: "#o-que-faco", label: "Redes" },
+  { href: "#redes", label: "Redes" },
   { href: "#sobre", label: "Sobre" },
 ];
 

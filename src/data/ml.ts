@@ -109,52 +109,49 @@ export const ENTREGAS: Entrega[] = [
   },
 ];
 
-/* ---- Peças que sobem na seção "O que eu faço" --------------------------- */
+/* ---- Redes sociais: os reels e as imagens ------------------------------ */
 
 const peca = (foto: string) => REDES.find((r) => r.foto === foto)!;
 const grupo = (...fotos: string[]) =>
   fotos.map((f) => peca(`/conteudo/${f}.webp`));
 
-/*
-  Primeiro os três reels, inteiros em 9:16; depois as imagens de quatro em
-  quatro, duas colunas de duas, no mesmo quadro. Coluna (0 esquerda, 1 meio,
-  2 direita) e topo no documento da seção, em px de 1440.
-*/
-export const SUBINDO = [
-  { pecas: [peca("/conteudo/reel-campo.webp")], col: 0, top: 1012 },
-  { pecas: [peca("/conteudo/reel-0722.webp")], col: 2, top: 1152 },
-  { pecas: [peca("/conteudo/reel-pen.webp")], col: 1, top: 1736 },
-  {
-    pecas: grupo(
-      "lavae-nova-unidade",
-      "hub-cna-futuro",
-      "pen-essa-crianca-01",
-      "lc-perfumes",
-    ),
-    col: 0,
-    top: 1900,
-  },
-  {
-    pecas: grupo(
-      "sura-community-day",
-      "bar-do-cuscuz",
-      "pen-eu-me-viro-01",
-      "lugares-ver-o-mundo",
-    ),
-    col: 2,
-    top: 2000,
-  },
-  {
-    pecas: grupo(
-      "hub-cna-agro",
-      "key-visual-academia",
-      "sura-deck-guide",
-      "elva-garden",
-    ),
-    col: 1,
-    top: 2600,
-  },
+/* Primeiro os três reels, inteiros em 9:16. */
+export const REELS = [
+  peca("/conteudo/reel-campo.webp"),
+  peca("/conteudo/reel-0722.webp"),
+  peca("/conteudo/reel-pen.webp"),
 ];
+
+/* Depois as imagens de quatro em quatro, duas colunas de duas, cada grade
+   no espaço de um reel. */
+export const GRADES = [
+  grupo(
+    "lavae-nova-unidade",
+    "hub-cna-futuro",
+    "pen-essa-crianca-01",
+    "lc-perfumes",
+  ),
+  grupo(
+    "sura-community-day",
+    "bar-do-cuscuz",
+    "pen-eu-me-viro-01",
+    "lugares-ver-o-mundo",
+  ),
+  grupo(
+    "hub-cna-agro",
+    "key-visual-academia",
+    "sura-deck-guide",
+    "elva-garden",
+  ),
+];
+
+/* ---- Soluções de IA ------------------------------------------------------ */
+
+/*
+  Os cases chegam do Eduardo. Enquanto a lista estiver vazia, a seção não
+  aparece no site.
+*/
+export const IA: Case[] = [];
 
 /* ---- Peças flutuando na chamada final ----------------------------------- */
 

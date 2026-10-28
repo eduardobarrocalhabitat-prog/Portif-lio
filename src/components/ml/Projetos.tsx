@@ -4,12 +4,13 @@ import { useRef } from "react";
 
 import { useAbrir } from "@/components/margem/ViewerHost";
 import { useEmpilha } from "@/components/ml/empilha";
-import { CASES } from "@/data/ml";
+import type { Case } from "@/data/ml";
 import styles from "./Projetos.module.css";
 
 /* ---------------------------------------------------------------------------
-   Projetos (o FEATURED. da referência): as quatro marcas. Os sites têm a
-   seção deles logo depois.
+   Cases empilhados (o FEATURED. da referência). Serve às marcas e às
+   soluções de IA: cada uso passa o título, o rótulo, os cases e para onde
+   aponta o link do último.
 
    Medido: título de 144/129.6, peso 700, −4px; cada case é uma tela presa
    (sticky) com 972px de passo; card de 594×594 em x=110; número de 72px a
@@ -18,7 +19,20 @@ import styles from "./Projetos.module.css";
    1 para 0,8 em torno do centro da tela.
 --------------------------------------------------------------------------- */
 
-export function Projetos() {
+export function Projetos({
+  id,
+  titulo,
+  rotulo,
+  cases,
+  depois,
+}: {
+  id: string;
+  titulo: string;
+  rotulo: string;
+  cases: Case[];
+  /** A seção seguinte, para o link do último case. */
+  depois: { href: string; label: string };
+}) {
   const rootRef = useRef<HTMLElement>(null);
   const abrir = useAbrir();
 
@@ -27,18 +41,18 @@ export function Projetos() {
   return (
     <section
       ref={rootRef}
-      id="projetos"
+      id={id}
       className={styles.secao}
-      aria-labelledby="projetos-titulo"
+      aria-labelledby={`${id}-titulo`}
     >
       <div className={styles.cabeca}>
-        <h2 id="projetos-titulo" className={styles.titulo}>
-          PROJETOS.
+        <h2 id={`${id}-titulo`} className={styles.titulo}>
+          {titulo}
         </h2>
-        <p className={`rotulo ${styles.rotulo}`}>[ Cases ]</p>
+        <p className={`rotulo ${styles.rotulo}`}>{rotulo}</p>
       </div>
 
-      {CASES.map((c, i) => (
+      {cases.map((c, i) => (
         <article key={c.titulo} className={styles.case} data-case>
           <div className={styles.palco} data-palco>
             <button
@@ -64,19 +78,19 @@ export function Projetos() {
             <p className={styles.tags}>{c.tags}</p>
             <a
               className={styles.proximo}
-              href={i < CASES.length - 1 ? undefined : "#sites"}
+              href={i < cases.length - 1 ? undefined : depois.href}
               onClick={(e) => {
-                if (i < CASES.length - 1) {
+                if (i < cases.length - 1) {
                   e.preventDefault();
                   const alvo = e.currentTarget.closest("[data-case]")
                     ?.nextElementSibling as HTMLElement | null;
                   alvo?.scrollIntoView({ behavior: "smooth" });
                 }
               }}
-              role={i < CASES.length - 1 ? "button" : undefined}
+              role={i < cases.length - 1 ? "button" : undefined}
               tabIndex={0}
             >
-              {i < CASES.length - 1 ? "Próximo projeto" : "Sites"}
+              {i < cases.length - 1 ? "Próximo projeto" : depois.label}
               <svg viewBox="0 0 20 20" aria-hidden>
                 <path d="M10 3v13M4.5 10.5 10 16l5.5-5.5" />
               </svg>
