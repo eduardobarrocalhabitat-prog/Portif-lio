@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 import { useAbrir } from "@/components/margem/ViewerHost";
 import { MENSAGEM, whatsapp, type PecaRede } from "@/data/margem";
 import { GRADES, REELS } from "@/data/ml";
+import { WhatsAppIcone } from "@/components/ml/WhatsApp";
 import styles from "./Redes.module.css";
 
 /* ---------------------------------------------------------------------------
@@ -110,8 +111,7 @@ export function Redes() {
           target="_blank"
           rel="noreferrer"
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="avatar" src="/media/eduardo-avatar.webp" alt="" />
+          <WhatsAppIcone />
           Quero conteúdo para as minhas redes
         </a>
       </div>

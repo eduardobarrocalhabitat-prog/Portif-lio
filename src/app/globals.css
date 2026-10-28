@@ -185,8 +185,9 @@ a {
   transform: scale(0.97);
 }
 
-.avatar {
-  width: 24px;
-  height: 24px;
-  object-fit: cover;
+.icone {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  fill: currentColor;
 }

@@ -4,6 +4,7 @@ import { useRef } from "react";
 
 import { CONTATO, FLUTUANDO } from "@/data/ml";
 import { gsap, useGSAP } from "@/lib/motion";
+import { WhatsAppIcone } from "@/components/ml/WhatsApp";
 import styles from "./Chamada.module.css";
 
 /* ---------------------------------------------------------------------------
@@ -86,9 +87,8 @@ export function Chamada() {
               target="_blank"
               rel="noreferrer"
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img className="avatar" src="/media/eduardo-avatar.webp" alt="" />
-              Orçamento
+              <WhatsAppIcone />
+              Chamar no WhatsApp
             </a>
             <a className="btnEscuro" href="#projetos">
               Ver os projetos
