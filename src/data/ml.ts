@@ -2,7 +2,6 @@ import { about } from "@/data/about";
 import {
   DESTAQUES,
   MENSAGEM,
-  PROJETOS,
   REDES,
   SITES,
   paginas,
@@ -14,8 +13,7 @@ import {
    O conteúdo do Eduardo na estrutura de marcuslorenzet.com.
 
    Só o conteúdo muda: a estrutura, os tamanhos e o movimento vêm da
-   referência, medidos na página rodando. Nada aqui é inventado: os números são
-   contagens do acervo, os anos são os que ele informou, e no lugar dos
+   referência, medidos na página rodando. Nada aqui é inventado: no lugar dos
    depoimentos entra o que ele entregou para cada empresa, sem citação.
 --------------------------------------------------------------------------- */
 
@@ -25,11 +23,6 @@ export const CONTATO = {
   linkedin: about.contact.links.find((l) => l.icon === "linkedin")!,
   behance: about.contact.links.find((l) => l.icon === "behance")!,
   orcamento: whatsapp(MENSAGEM.geral),
-};
-
-export const NUMEROS = {
-  anos: "5+ anos de experiência",
-  projetos: `${PROJETOS.length} projetos`,
 };
 
 /* ---- Cases: as quatro marcas em destaque -------------------------------- */

@@ -1,4 +1,4 @@
-import { CONTATO, NUMEROS } from "@/data/ml";
+import { CONTATO } from "@/data/ml";
 import styles from "./Hero.module.css";
 
 /* ---------------------------------------------------------------------------
@@ -6,8 +6,7 @@ import styles from "./Hero.module.css";
 
    Medido em 1440×900: retrato em tela cheia a 43% de opacidade com um
    degradê escurecendo a direita; título em três linhas de 160/144, peso 700,
-   −5px de espaçamento, com dois cards de 123×123 dentro das linhas; frase de
-   apoio em 16/24 em x=424; "Pixel by pixel" e "Scroll" no pé.
+   −5px de espaçamento; frase de apoio em 16/24 em x=424; "Pixel by pixel" e "Scroll" no pé.
 
    A foto fica presa ao fundo enquanto a seção seguinte passa por cima dela.
 --------------------------------------------------------------------------- */
@@ -28,14 +27,6 @@ export function Logo({ className }: { className?: string }) {
   );
 }
 
-function Card({ texto }: { texto: string }) {
-  return (
-    <span className={styles.card} aria-hidden>
-      <span>{texto}</span>
-    </span>
-  );
-}
-
 export function Hero() {
   return (
     <section id="topo" className={styles.hero} aria-labelledby="hero-titulo">
@@ -43,7 +34,6 @@ export function Hero() {
       <div className={styles.foto} aria-hidden>
         <picture>
           <source media="(max-width: 767px)" srcSet="/media/eduardo-900.webp" />
-          {}
           <img src="/media/eduardo-1600.webp" alt="" />
         </picture>
         <span className={styles.escuro} />
@@ -63,14 +53,12 @@ export function Hero() {
       >
         <span className={styles.l1} aria-hidden>
           MARCAS,
-          <Card texto={NUMEROS.anos} />
         </span>
         <span className={styles.l2} aria-hidden>
           REDES &amp;
         </span>
         <span className={styles.l3} aria-hidden>
           SITES
-          <Card texto={NUMEROS.projetos} />
           <span className={styles.seta}>↓</span>
         </span>
       </h1>

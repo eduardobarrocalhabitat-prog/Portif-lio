@@ -131,37 +131,6 @@
   font-weight: 400;
 }
 
-/* Card de 123×123, raio 4, degradê do fundo para 40% de opacidade. */
-.card {
-  position: relative;
-  flex: none;
-  width: calc(123 * var(--u));
-  height: calc(123 * var(--u));
-  padding: calc(16 * var(--u));
-  border-radius: 4px;
-  background:
-    radial-gradient(
-      ellipse 90% 55% at 50% 100%,
-      rgba(208, 197, 171, 0.16),
-      rgba(208, 197, 171, 0) 70%
-    ),
-    linear-gradient(rgb(21, 20, 16) 0%, rgba(21, 20, 16, 0.4) 100%);
-  box-shadow: inset 0 0 0 1px rgba(208, 197, 171, 0.14);
-  align-self: center;
-  transform: translateY(calc(-4 * var(--u)));
-}
-
-.card span {
-  display: block;
-  font-size: calc(12 * var(--u));
-  line-height: calc(18 * var(--u));
-  font-weight: 700;
-  letter-spacing: 0;
-  text-transform: uppercase;
-  white-space: normal;
-  color: var(--cream-80);
-}
-
 /* ---- Apoio e pé ---------------------------------------------------------- */
 
 .apoio {
@@ -213,8 +182,8 @@
 
   .titulo {
     top: 28svh;
-    font-size: 56px;
-    line-height: 56px;
+    font-size: 64px;
+    line-height: 60px;
     letter-spacing: -2px;
   }
 
@@ -222,24 +191,12 @@
   .l2,
   .l3 {
     position: static;
-    height: 60px;
+    height: 64px;
     padding: 0 20px;
-    gap: 8px;
   }
 
   .l2 {
     justify-content: flex-end;
-  }
-
-  .card {
-    width: 60px;
-    height: 60px;
-    padding: 8px;
-  }
-
-  .card span {
-    font-size: 9px;
-    line-height: 11px;
   }
 
   .apoio {
