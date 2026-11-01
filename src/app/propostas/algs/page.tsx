@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { Logo } from "@/components/ml/Hero";
 import { WhatsAppIcone } from "@/components/ml/WhatsApp";
 import { whatsapp } from "@/data/margem";
 import styles from "./algs.module.css";
@@ -9,8 +10,8 @@ import styles from "./algs.module.css";
    Proposta comercial para a ALGS (brinquedos de controle remoto).
 
    Página solta do portfólio: não aparece no menu nem no Google (noindex), só
-   abre para quem recebe o link. Formato de documento, uma coluna só: o que
-   importa é ler rápido e sem dúvida.
+   abre para quem recebe o link. Montada como apresentação: cada seção é um
+   "slide" com um assunto só, o número dela e um título grande.
 --------------------------------------------------------------------------- */
 
 export const metadata: Metadata = {
@@ -64,7 +65,8 @@ const ATIVACAO = [
 
 const PLANOS = [
   {
-    nome: "Plano 1 | Conteúdo",
+    n: "Plano 1",
+    nome: "Conteúdo",
     resumo:
       "Produção de conteúdo para divulgação e comercialização dos produtos no TikTok.",
     inclui: null,
@@ -78,9 +80,10 @@ const PLANOS = [
     cobranca: "Valor fixo mensal.",
   },
   {
-    nome: "Plano 2 | Gestão de loja e crescimento",
+    n: "Plano 2",
+    nome: "Gestão de loja e crescimento",
     resumo: "Conteúdo aliado à gestão da operação comercial no TikTok Shop.",
-    inclui: "Inclui tudo do Plano 1, mais:",
+    inclui: "Tudo do Plano 1, mais:",
     itens: [
       "Gerenciamento do catálogo e dos produtos.",
       "Organização e atualização de anúncios.",
@@ -93,13 +96,14 @@ const PLANOS = [
       "Gestão de campanhas de TikTok Ads.",
     ],
     cobranca:
-      "Valor fixo mensal ou composição de valor fixo com percentual sobre as vendas.",
+      "Valor fixo mensal ou valor fixo + percentual sobre as vendas.",
   },
   {
-    nome: "Plano 3 | Gestão completa + Lives",
+    n: "Plano 3",
+    nome: "Gestão completa + Lives",
     resumo:
       "Uma operação completa de conteúdo, gestão comercial e vendas por transmissões ao vivo.",
-    inclui: "Inclui tudo do Plano 2, mais:",
+    inclui: "Tudo do Plano 2, mais:",
     itens: [
       "Planejamento e apresentação de lives comerciais.",
       "Demonstração dos produtos ao vivo.",
@@ -109,16 +113,31 @@ const PLANOS = [
       "Análise de desempenho das transmissões.",
     ],
     cobranca:
-      "Valor fixo mensal ou composição de valor fixo com percentual sobre as vendas, considerando a dedicação adicional das transmissões.",
+      "Valor fixo mensal ou valor fixo + percentual sobre as vendas, considerando a dedicação adicional das transmissões.",
   },
 ];
 
 const CONDICOES = [
-  "Durante os primeiros dois meses, o foco será a implantação da estrutura e a ativação do novo canal de vendas.",
-  "O TikTok Shop oferece incentivo de comissão de 0% por até 60 dias para novos vendedores elegíveis, mediante cumprimento das condições e missões de ativação da plataforma.",
-  "Após esse período inicial, será definido um modelo de remuneração recorrente, considerando o volume de vendas, a complexidade da operação e o nível de serviço contratado.",
-  "Os investimentos em anúncios (TikTok Ads), eventuais comissões de afiliados, assinaturas de sistemas e demais custos operacionais serão de responsabilidade da empresa.",
-  "O atendimento ao consumidor, a gestão de devoluções e os procedimentos de expedição terão responsabilidades e fluxos definidos em conjunto, conforme o plano contratado.",
+  {
+    t: "Foco dos dois primeiros meses",
+    d: "Implantação da estrutura e ativação do novo canal de vendas.",
+  },
+  {
+    t: "Comissão de 0% no TikTok Shop",
+    d: "Incentivo por até 60 dias para novos vendedores elegíveis, mediante cumprimento das condições e missões de ativação da plataforma.",
+  },
+  {
+    t: "Remuneração recorrente",
+    d: "Definida após o período inicial, considerando o volume de vendas, a complexidade da operação e o nível de serviço contratado.",
+  },
+  {
+    t: "Custos da empresa",
+    d: "Anúncios (TikTok Ads), eventuais comissões de afiliados, assinaturas de sistemas e demais custos operacionais.",
+  },
+  {
+    t: "Atendimento, devoluções e expedição",
+    d: "Responsabilidades e fluxos definidos em conjunto, conforme o plano contratado.",
+  },
 ];
 
 function Lista({ itens }: { itens: string[] }) {
@@ -131,83 +150,170 @@ function Lista({ itens }: { itens: string[] }) {
   );
 }
 
+function Slide({
+  n,
+  rotulo,
+  titulo,
+  tom,
+  children,
+}: {
+  n: string;
+  rotulo: string;
+  titulo: React.ReactNode;
+  tom?: "claro";
+  children: React.ReactNode;
+}) {
+  const id = `slide-${n}`;
+  return (
+    <section
+      className={`${styles.slide} ${tom === "claro" ? styles.alt : ""}`}
+      aria-labelledby={id}
+    >
+      <div className={styles.miolo}>
+        <p className={styles.marca}>
+          <span>{n}</span>
+          {rotulo}
+        </p>
+        <h2 id={id} className={styles.h2}>
+          {titulo}
+        </h2>
+        {children}
+      </div>
+    </section>
+  );
+}
+
 export default function PropostaALGS() {
   return (
-    <div className={styles.pagina}>
-      <header className={styles.topo}>
-        <Link href="/">Eduardo Barrocal</Link>
-        <span>Proposta comercial</span>
-      </header>
+    <main className={styles.pagina}>
+      {/* ---- Capa ---- */}
+      <section className={styles.capa} aria-labelledby="titulo">
+        <header className={styles.topo}>
+          <Link href="/" aria-label="Eduardo Barrocal, ir para o portfólio">
+            <Logo className={styles.logo} />
+          </Link>
+          <span>Proposta comercial</span>
+        </header>
 
-      <main className={styles.doc}>
-        <p className={styles.para}>Proposta para ALGS</p>
-        <h1 className={styles.titulo}>
-          Estruturação e Gestão de E&#8209;commerce
-        </h1>
-        <p className={styles.sub}>
-          Implantação de TikTok Shop, Mercado Livre e Bling
-        </p>
+        <div className={styles.capaMeio}>
+          <p className={styles.para}>Proposta para ALGS</p>
+          <h1 id="titulo" className={styles.titulo}>
+            Estruturação e Gestão de E&#8209;commerce
+          </h1>
+          <p className={styles.sub}>
+            Implantação de TikTok Shop, Mercado Livre e Bling
+          </p>
+        </div>
 
-        {/* O essencial antes de qualquer detalhe. */}
-        <dl className={styles.resumo}>
+        <dl className={styles.fatos}>
           <div>
-            <dt>Prazo da implantação</dt>
+            <dt>Implantação</dt>
             <dd>2 meses</dd>
           </div>
           <div>
             <dt>Investimento</dt>
             <dd>R$ 1.500</dd>
-            <dd className={styles.resumoNota}>2 parcelas de R$ 750</dd>
           </div>
           <div>
-            <dt>Pago pela empresa</dt>
-            <dd className={styles.resumoNota}>
-              Assinatura do Bling, TikTok Ads e custos operacionais
-            </dd>
+            <dt>Canais integrados</dt>
+            <dd>Mercado Livre + TikTok Shop</dd>
           </div>
         </dl>
+      </section>
 
-        <section className={styles.secao}>
-          <h2 className={styles.h2}>1. Objetivo do projeto</h2>
-          <p>
-            Estruturar uma operação de vendas integrada entre Mercado Livre e
-            TikTok Shop, centralizando o controle de produtos, estoque, pedidos
-            e informações comerciais em um único sistema.
-          </p>
-          <p>
-            O objetivo é ampliar os canais de venda da empresa sem comprometer a
-            organização operacional já existente, preparando a estrutura para
-            crescer com segurança e eficiência.
-          </p>
-        </section>
-
-        <section className={styles.secao}>
-          <h2 className={styles.h2}>2. Etapa 1 | Implantação e estruturação</h2>
-          <p className={styles.quando}>Primeiro e segundo mês</p>
-          <p>
-            O projeto terá dois meses de implantação, divididos entre
-            organização operacional, configuração das plataformas e início da
-            operação comercial.
-          </p>
-
-          <h3 className={styles.h3}>Organização e integração com Bling</h3>
-          <p>Utilização do plano Titânio como sistema central de gestão.</p>
-          <Lista itens={BLING} />
-
-          <h3 className={styles.h3}>Implantação do TikTok Shop</h3>
-          <Lista itens={TIKTOK} />
-
-          <div className={styles.caixa}>
-            <h3 className={styles.h3}>Diferencial: Loja Virtual própria</h3>
+      {/* ---- 01 Objetivo ---- */}
+      <Slide n="01" rotulo="Objetivo do projeto" titulo="Vender em mais canais, com tudo controlado em um lugar só.">
+        <div className={styles.duasCol}>
+          <div className={styles.texto}>
             <p>
-              O plano Titânio também permite utilizar a Loja Virtual nativa do
-              Bling, possibilitando a criação de um e&#8209;commerce próprio,
-              com catálogo de produtos, domínio personalizado, checkout e gestão
-              integrada ao ERP.
+              Estruturar uma operação de vendas integrada entre Mercado Livre e
+              TikTok Shop, centralizando o controle de produtos, estoque,
+              pedidos e informações comerciais em um único sistema.
             </p>
             <p>
-              Isso abre a possibilidade de desenvolver um terceiro canal de
-              vendas, independente dos marketplaces.
+              O objetivo é ampliar os canais de venda da empresa sem
+              comprometer a organização operacional já existente, preparando a
+              estrutura para crescer com segurança e eficiência.
+            </p>
+          </div>
+
+          {/* Os canais ligados ao sistema central. */}
+          <div className={styles.mapa} aria-label="Canais ligados ao Bling">
+            <div className={styles.canais}>
+              <span className={styles.canal}>
+                <small>Canal atual</small>Mercado Livre
+              </span>
+              <span className={`${styles.canal} ${styles.novo}`}>
+                <small>Novo canal</small>TikTok Shop
+              </span>
+              <span className={`${styles.canal} ${styles.opcional}`}>
+                <small>Opcional</small>Loja própria
+              </span>
+            </div>
+            <span className={styles.liga} aria-hidden />
+            <span className={styles.central}>
+              <small>Sistema central</small>Bling
+              <em>Produtos · Estoque · Pedidos</em>
+            </span>
+          </div>
+        </div>
+      </Slide>
+
+      {/* ---- 02 Cronograma ---- */}
+      <Slide n="02" rotulo="Cronograma" titulo="Dois meses, duas etapas." tom="claro">
+        <div className={styles.linha}>
+          <div className={styles.meses} aria-hidden>
+            <span>Mês 1</span>
+            <span>Mês 2</span>
+          </div>
+          <div className={`${styles.barra} ${styles.barraLonga}`}>
+            <strong>Etapa 1 · Implantação e estruturação</strong>
+            <span>Bling, integrações e montagem do TikTok Shop</span>
+          </div>
+          <div className={`${styles.barra} ${styles.barraCurta}`}>
+            <strong>Etapa 2 · Ativação</strong>
+            <span>Início das vendas no TikTok Shop</span>
+          </div>
+        </div>
+        <p className={styles.legenda}>
+          O projeto terá dois meses de implantação, divididos entre organização
+          operacional, configuração das plataformas e início da operação
+          comercial.
+        </p>
+      </Slide>
+
+      {/* ---- 03 Etapa 1 ---- */}
+      <Slide n="03" rotulo="Etapa 1 · Meses 1 e 2" titulo="Implantação e estruturação">
+        <div className={styles.cards2}>
+          <article className={styles.card}>
+            <p className={styles.tag}>Sistema central</p>
+            <h3 className={styles.h3}>Organização e integração com Bling</h3>
+            <p className={styles.nota}>
+              Utilização do plano Titânio como sistema central de gestão.
+            </p>
+            <Lista itens={BLING} />
+          </article>
+          <article className={styles.card}>
+            <p className={styles.tag}>Novo canal</p>
+            <h3 className={styles.h3}>Implantação do TikTok Shop</h3>
+            <p className={styles.nota}>
+              Loja nova, já ligada ao estoque centralizado.
+            </p>
+            <Lista itens={TIKTOK} />
+          </article>
+        </div>
+
+        <article className={`${styles.card} ${styles.destaque}`}>
+          <div>
+            <p className={styles.tag}>Diferencial</p>
+            <h3 className={styles.h3}>Loja Virtual própria</h3>
+          </div>
+          <div className={styles.texto}>
+            <p>
+              O plano Titânio também permite utilizar a Loja Virtual nativa do
+              Bling: um e&#8209;commerce próprio, com catálogo de produtos,
+              domínio personalizado, checkout e gestão integrada ao ERP. Um
+              terceiro canal de vendas, independente dos marketplaces.
             </p>
             <p className={styles.nota}>
               A Loja Virtual possui contratação e condições comerciais próprias,
@@ -215,99 +321,127 @@ export default function PropostaALGS() {
               conforme as regras da plataforma.
             </p>
           </div>
+        </article>
+      </Slide>
 
-          <h3 className={styles.h3}>Investimento da implantação</h3>
-          <table className={styles.tabela}>
-            <tbody>
-              <tr>
-                <th scope="row">Primeiro mês</th>
-                <td>R$ 750</td>
-              </tr>
-              <tr>
-                <th scope="row">Segundo mês</th>
-                <td>R$ 750</td>
-              </tr>
-              <tr className={styles.total}>
-                <th scope="row">
-                  Total: implantação e estruturação de toda a operação
-                </th>
-                <td>R$ 1.500</td>
-              </tr>
-            </tbody>
-          </table>
-          <p>
-            O valor contempla a implantação do TikTok Shop e a organização e
-            configuração do Bling para a operação dos canais de venda.
-          </p>
-          <p>
-            A assinatura do Bling e eventuais serviços adicionais são pagos
-            diretamente pela empresa.
-          </p>
-        </section>
+      {/* ---- 04 Investimento ---- */}
+      <Slide n="04" rotulo="Investimento da implantação" titulo="R$ 1.500 para estruturar toda a operação." tom="claro">
+        <div className={styles.invest}>
+          <div className={styles.total}>
+            <small>Total da implantação</small>
+            <strong>R$ 1.500</strong>
+            <span>Implantação e estruturação de toda a operação</span>
+          </div>
+          <div className={styles.parcelas}>
+            <div>
+              <small>Primeiro mês</small>
+              <strong>R$ 750</strong>
+            </div>
+            <div>
+              <small>Segundo mês</small>
+              <strong>R$ 750</strong>
+            </div>
+          </div>
+        </div>
+        <div className={styles.cards2}>
+          <div className={styles.inclusoBox}>
+            <p className={styles.tag}>Está incluso</p>
+            <p>
+              Implantação do TikTok Shop e a organização e configuração do
+              Bling para a operação dos canais de venda.
+            </p>
+          </div>
+          <div className={styles.inclusoBox}>
+            <p className={styles.tag}>Pago pela empresa</p>
+            <p>
+              A assinatura do Bling e eventuais serviços adicionais, pagos
+              diretamente pela empresa.
+            </p>
+          </div>
+        </div>
+      </Slide>
 
-        <section className={styles.secao}>
-          <h2 className={styles.h2}>
-            3. Etapa 2 | Ativação e início da operação
-          </h2>
-          <p className={styles.quando}>Segundo mês</p>
-          <p>
-            Durante o segundo mês, com a estrutura preparada, iniciaremos a
-            operação comercial do TikTok Shop.
-          </p>
-          <Lista itens={ATIVACAO} />
-          <p>
-            O objetivo é validar a operação, identificar possíveis gargalos e
-            preparar a loja para um crescimento sustentável.
-          </p>
-        </section>
+      {/* ---- 05 Etapa 2 ---- */}
+      <Slide n="05" rotulo="Etapa 2 · Mês 2" titulo="Ativação e início da operação">
+        <p className={styles.lead}>
+          Durante o segundo mês, com a estrutura preparada, iniciaremos a
+          operação comercial do TikTok Shop.
+        </p>
+        <ol className={styles.passos}>
+          {ATIVACAO.map((t, i) => (
+            <li key={t}>
+              <span>{String(i + 1).padStart(2, "0")}</span>
+              {t}
+            </li>
+          ))}
+        </ol>
+        <p className={styles.legenda}>
+          O objetivo é validar a operação, identificar possíveis gargalos e
+          preparar a loja para um crescimento sustentável.
+        </p>
+      </Slide>
 
-        <section className={styles.secao}>
-          <h2 className={styles.h2}>
-            4. Gestão recorrente | Modelos de contratação
-          </h2>
-          <p>
-            Após a implantação, a continuidade do trabalho poderá ser
-            contratada de acordo com o nível de participação desejado pela
-            empresa.
-          </p>
-          {PLANOS.map((p) => (
-            <div key={p.nome} className={styles.plano}>
-              <h3 className={styles.h3}>{p.nome}</h3>
-              <p>{p.resumo}</p>
+      {/* ---- 06 Planos ---- */}
+      <Slide n="06" rotulo="Gestão recorrente" titulo="Depois da implantação, três formas de continuar." tom="claro">
+        <p className={styles.lead}>
+          A continuidade do trabalho poderá ser contratada de acordo com o
+          nível de participação desejado pela empresa.
+        </p>
+        <ol className={styles.planos}>
+          {PLANOS.map((p, i) => (
+            <li
+              key={p.n}
+              className={`${styles.card} ${styles.plano} ${i === 2 ? styles.planoTop : ""}`}
+            >
+              <p className={styles.tag}>{p.n}</p>
+              <h3 className={styles.planoNome}>{p.nome}</h3>
+              <p className={styles.nota}>{p.resumo}</p>
               {p.inclui && <p className={styles.inclui}>{p.inclui}</p>}
               <Lista itens={p.itens} />
-              <p className={styles.cobranca}>
-                <strong>Modelo de cobrança:</strong> {p.cobranca}
-              </p>
-            </div>
+              <div className={styles.cobranca}>
+                <small>Modelo de cobrança</small>
+                <p>{p.cobranca}</p>
+              </div>
+            </li>
           ))}
-        </section>
+        </ol>
+      </Slide>
 
-        <section className={styles.secao}>
-          <h2 className={styles.h2}>5. Condições comerciais</h2>
-          <Lista itens={CONDICOES} />
-        </section>
+      {/* ---- 07 Condições ---- */}
+      <Slide n="07" rotulo="Condições comerciais" titulo="Como funciona a parceria">
+        <ul className={styles.condicoes}>
+          {CONDICOES.map((c) => (
+            <li key={c.t} className={styles.cond}>
+              <h3>{c.t}</h3>
+              <p>{c.d}</p>
+            </li>
+          ))}
+        </ul>
+      </Slide>
 
-        <section className={styles.secao}>
-          <h2 className={styles.h2}>6. Resultado esperado</h2>
-          <p>
-            Ao final da implantação, a empresa terá uma estrutura integrada
-            entre Mercado Livre e TikTok Shop, com controle centralizado de
-            estoque, produtos e pedidos.
+      {/* ---- 08 Resultado ---- */}
+      <section className={styles.final} aria-labelledby="slide-08">
+        <div className={styles.miolo}>
+          <p className={styles.marca}>
+            <span>08</span>Resultado esperado
           </p>
-          <p>
-            Também terá a possibilidade de utilizar uma loja virtual própria,
-            ampliando sua independência em relação aos marketplaces.
-          </p>
-          <p>
-            A partir dessa estrutura, será possível desenvolver novos canais de
-            venda, explorar oportunidades comerciais e ampliar a presença
-            digital da marca sem perder o controle da operação existente.
-          </p>
-        </section>
-
-        <section className={styles.fim}>
-          <p>Ficou alguma dúvida? É só me chamar.</p>
+          <h2 id="slide-08" className={styles.finalTitulo}>
+            Uma operação integrada, pronta para crescer sem perder o controle.
+          </h2>
+          <ul className={styles.resultados}>
+            <li>
+              Estrutura integrada entre Mercado Livre e TikTok Shop, com
+              controle centralizado de estoque, produtos e pedidos.
+            </li>
+            <li>
+              Possibilidade de uma loja virtual própria, ampliando a
+              independência em relação aos marketplaces.
+            </li>
+            <li>
+              Base para desenvolver novos canais, explorar oportunidades
+              comerciais e ampliar a presença digital da marca.
+            </li>
+          </ul>
           <a
             className="btnCreme"
             href={APROVAR}
@@ -317,8 +451,8 @@ export default function PropostaALGS() {
             <WhatsAppIcone />
             Conversar no WhatsApp
           </a>
-        </section>
-      </main>
-    </div>
+        </div>
+      </section>
+    </main>
   );
 }
