@@ -1,12 +1,12 @@
 /*
-  --ux: 1px numa tela de 1440, para as margens laterais, alinhadas com o
-  resto do site. --u: o mesmo, mas limitado pela altura de uma tela de
-  1440×900, para tamanhos e alturas: em monitor largo e baixo o título
-  encolhe e continua cabendo na tela.
+  A abertura é uma prancha de 1440×900 que escala inteira: --u é 1px dela,
+  limitado pela largura e pela altura da tela. Em monitor largo e baixo a
+  prancha encolhe por igual e fica centrada (--x0 é a sobra de cada lado),
+  então as linhas do título continuam encaixadas umas nas outras.
 */
 .hero {
-  --ux: calc(100vw / 1440);
   --u: min(calc(100vw / 1440), calc(100svh / 900));
+  --x0: calc((100vw - 1440 * var(--u)) / 2);
   position: relative;
   height: 100svh;
   min-height: calc(760 * var(--u));
@@ -54,7 +54,7 @@
 /* ---- Topo ---------------------------------------------------------------- */
 
 .marca {
-  left: calc(113 * var(--ux));
+  left: calc(var(--x0) + 113 * var(--u));
   top: calc(24 * var(--u));
 }
 
@@ -82,7 +82,7 @@
 }
 
 .email {
-  right: calc(112 * var(--ux));
+  right: calc(var(--x0) + 112 * var(--u));
   top: calc(41 * var(--u));
   font-size: calc(16 * var(--u));
   line-height: calc(20 * var(--u));
@@ -119,19 +119,19 @@
 
 .l1 {
   top: 0;
-  left: calc(112 * var(--ux));
+  left: calc(var(--x0) + 112 * var(--u));
   gap: calc(16 * var(--u));
 }
 
 .l2 {
   top: calc(164 * var(--u));
-  right: calc(122 * var(--ux));
+  right: calc(var(--x0) + 122 * var(--u));
 }
 
 .l3 {
   top: calc(324 * var(--u));
-  left: calc(205 * var(--ux));
-  right: calc(122 * var(--ux));
+  left: calc(var(--x0) + 205 * var(--u));
+  right: calc(var(--x0) + 122 * var(--u));
   gap: calc(18 * var(--u));
 }
 
@@ -144,7 +144,7 @@
 /* ---- Apoio e pé ---------------------------------------------------------- */
 
 .apoio {
-  left: calc(424 * var(--ux));
+  left: calc(var(--x0) + 424 * var(--u));
   top: calc(455 * var(--u));
   width: calc(262 * var(--u));
   font-size: calc(16 * var(--u));
@@ -161,11 +161,11 @@
 }
 
 .valor {
-  left: calc(112 * var(--ux));
+  left: calc(var(--x0) + 112 * var(--u));
 }
 
 .role {
-  right: calc(112 * var(--ux));
+  right: calc(var(--x0) + 112 * var(--u));
 }
 
 /* ---- Celular: as linhas empilham, a frase vai para baixo do título ------- */
@@ -173,6 +173,7 @@
 @media (max-width: 767px) {
   .hero {
     --u: calc(100vw / 390);
+    --x0: 0px;
     min-height: 0;
   }
 
