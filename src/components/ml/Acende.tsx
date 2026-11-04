@@ -37,12 +37,20 @@ export function Acende({
       const letras = el.querySelectorAll("[data-l]");
       if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       const u = () => window.innerWidth / 1440;
-      const acender = (scrollTrigger: ScrollTrigger.Vars) =>
-        gsap.fromTo(
-          letras,
-          { opacity: 0.1 },
-          { opacity: 1, ease: "none", stagger: 1, scrollTrigger },
-        );
+      /*
+        Todas as letras apagam antes de a animação existir: com stagger, o
+        fromTo só aplica o estado inicial na primeira letra, e as outras
+        ficavam acesas até a rolagem chegar nelas.
+      */
+      const acender = (scrollTrigger: ScrollTrigger.Vars) => {
+        gsap.set(letras, { opacity: 0.1 });
+        gsap.to(letras, {
+          opacity: 1,
+          ease: "none",
+          stagger: 1,
+          scrollTrigger,
+        });
+      };
 
       const mm = gsap.matchMedia();
       mm.add("(min-width: 768px)", () => {
