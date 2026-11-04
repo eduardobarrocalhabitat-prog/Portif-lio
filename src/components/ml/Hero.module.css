@@ -1,6 +1,12 @@
-/* --u: 1px numa tela de 1440. Toda medida da referência entra como N × --u. */
+/*
+  --ux: 1px numa tela de 1440, para as margens laterais, alinhadas com o
+  resto do site. --u: o mesmo, mas limitado pela altura de uma tela de
+  1440×900, para tamanhos e alturas: em monitor largo e baixo o título
+  encolhe e continua cabendo na tela.
+*/
 .hero {
-  --u: calc(100vw / 1440);
+  --ux: calc(100vw / 1440);
+  --u: min(calc(100vw / 1440), calc(100svh / 900));
   position: relative;
   height: 100svh;
   min-height: calc(760 * var(--u));
@@ -48,7 +54,7 @@
 /* ---- Topo ---------------------------------------------------------------- */
 
 .marca {
-  left: calc(113 * var(--u));
+  left: calc(113 * var(--ux));
   top: calc(24 * var(--u));
 }
 
@@ -76,7 +82,7 @@
 }
 
 .email {
-  right: calc(112 * var(--u));
+  right: calc(112 * var(--ux));
   top: calc(41 * var(--u));
   font-size: calc(16 * var(--u));
   line-height: calc(20 * var(--u));
@@ -113,19 +119,19 @@
 
 .l1 {
   top: 0;
-  left: calc(112 * var(--u));
+  left: calc(112 * var(--ux));
   gap: calc(16 * var(--u));
 }
 
 .l2 {
   top: calc(164 * var(--u));
-  right: calc(122 * var(--u));
+  right: calc(122 * var(--ux));
 }
 
 .l3 {
   top: calc(324 * var(--u));
-  left: calc(205 * var(--u));
-  right: calc(122 * var(--u));
+  left: calc(205 * var(--ux));
+  right: calc(122 * var(--ux));
   gap: calc(18 * var(--u));
 }
 
@@ -138,7 +144,7 @@
 /* ---- Apoio e pé ---------------------------------------------------------- */
 
 .apoio {
-  left: calc(424 * var(--u));
+  left: calc(424 * var(--ux));
   top: calc(455 * var(--u));
   width: calc(262 * var(--u));
   font-size: calc(16 * var(--u));
@@ -146,7 +152,7 @@
   color: var(--cream-80);
 }
 
-.pixel,
+.valor,
 .role {
   bottom: calc(38 * var(--u));
   font-size: calc(14 * var(--u));
@@ -154,12 +160,12 @@
   color: var(--cream-80);
 }
 
-.pixel {
-  left: calc(112 * var(--u));
+.valor {
+  left: calc(112 * var(--ux));
 }
 
 .role {
-  right: calc(112 * var(--u));
+  right: calc(112 * var(--ux));
 }
 
 /* ---- Celular: as linhas empilham, a frase vai para baixo do título ------- */
@@ -213,7 +219,7 @@
     line-height: 24px;
   }
 
-  .pixel,
+  .valor,
   .role {
     display: none;
   }

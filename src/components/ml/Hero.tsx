@@ -6,7 +6,8 @@ import styles from "./Hero.module.css";
 
    Medido em 1440×900: retrato em tela cheia a 43% de opacidade com um
    degradê escurecendo a direita; título em três linhas de 160/144, peso 700,
-   −5px de espaçamento; frase de apoio em 16/24 em x=424; "Pixel by pixel" e "Scroll" no pé.
+   −5px de espaçamento; frase de apoio em 16/24 em x=424; no pé, a proposta de valor
+   e "Role".
 
    A foto fica presa ao fundo enquanto a seção seguinte passa por cima dela.
 --------------------------------------------------------------------------- */
@@ -68,7 +69,7 @@ export function Hero() {
         fazem o cliente parar, lembrar e chamar.
       </p>
 
-      <p className={styles.pixel}>Pixel por pixel</p>
+      <p className={styles.valor}>Do logo ao site, num fornecedor só</p>
       <p className={styles.role}>Role</p>
     </section>
   );

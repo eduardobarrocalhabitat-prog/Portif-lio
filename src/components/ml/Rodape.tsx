@@ -77,8 +77,8 @@ export function Rodape() {
           </ul>
         </nav>
         <div className={styles.cards}>
-          <Card texto="Pixels são pequenos" />
-          <Card texto="Detalhes não" />
+          <Card texto="Marca, redes e site" />
+          <Card texto="Num fornecedor só" />
         </div>
       </div>
 
