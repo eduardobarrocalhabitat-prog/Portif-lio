@@ -11,7 +11,8 @@ import { gsap, useGSAP } from "@/lib/motion";
  * Com `gatilho` (o texto preso da seção), o trecho é medido na referência:
  * [inicio, fim] em px de 1440, escalados pela largura. Sem ele, e sempre no
  * celular, a frase acende enquanto passa pelo meio da tela: começa quando o
- * topo dela chega a 75% da altura e termina quando o pé chega a 45%.
+ * topo dela chega a 80% da altura e termina quando o meio
+ * dela chega ao meio da tela, com a frase inteira à vista.
  */
 export function Acende({
   texto,
@@ -56,16 +57,16 @@ export function Acende({
         else
           acender({
             trigger: el,
-            start: "top 75%",
-            end: "bottom 45%",
+            start: "top 80%",
+            end: "center 50%",
             scrub: true,
           });
       });
       mm.add("(max-width: 767px)", () => {
         acender({
           trigger: el,
-          start: "top 75%",
-          end: "bottom 45%",
+          start: "top 80%",
+          end: "center 50%",
           scrub: true,
         });
       });

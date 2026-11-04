@@ -46,7 +46,8 @@
 }
 
 .titulo {
-  max-width: calc(700 * var(--u));
+  /* Duas linhas equilibradas: "Vamos construir / algo juntos." */
+  max-width: calc(560 * var(--u));
   font-family: var(--urbanist);
   font-size: calc(72 * var(--u));
   line-height: calc(74 * var(--u));
