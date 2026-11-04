@@ -22,11 +22,18 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: calc(264 * var(--u));
-  line-height: calc(237.6 * var(--u));
+  /* 264px numa tela de 1440, mas nunca mais alto que a tela: as três linhas
+     cabem inteiras acima do dock em qualquer proporção. */
+  font-size: min(calc(264 * var(--u)), calc((100svh - 210px) * 0.31));
+  line-height: 0.92;
   font-weight: 700;
-  letter-spacing: calc(-10 * var(--u));
+  letter-spacing: -0.038em;
   text-align: center;
+}
+
+/* Folga para o acento de VÁRIAS não encostar no EM de cima. */
+.titulo span:nth-child(2) {
+  margin-top: 0.16em;
 }
 
 /* Os cards entram depois de uma tela inteira de título sozinho. */
@@ -121,9 +128,7 @@
   }
 
   .titulo {
-    font-size: 26vw;
-    line-height: 23vw;
-    letter-spacing: -1.4vw;
+    font-size: 21vw;
   }
 
   .cards {

@@ -13,15 +13,26 @@
   overflow: hidden;
 }
 
-/* Cada imagem na posição medida quando a seção prende. */
-.flutua {
+/* Cada coluna: as peças empilhadas, com 20px entre elas. */
+.coluna {
   position: absolute;
   left: calc(var(--x) * var(--u));
   top: calc(var(--y) * var(--u));
   width: calc(var(--w) * var(--u));
+  display: flex;
+  flex-direction: column;
+  gap: calc(20 * var(--u));
+  will-change: transform;
+}
+
+.coluna img {
+  width: 100%;
   height: auto;
   border-radius: 3px;
-  will-change: transform;
+}
+
+.movel {
+  display: none;
 }
 
 .centro {
@@ -71,16 +82,20 @@
     height: 100svh;
   }
 
+  .coluna {
+    display: none;
+  }
+
   /* Seis peças em volta da frase: três acima, três abaixo. */
-  .flutua {
+  .movel {
+    position: absolute;
+    display: block;
     left: calc(var(--mx) * 1vw);
     top: calc(var(--my) * 1svh);
     width: calc(var(--mw) * 1vw);
-    opacity: 0.6 !important;
-  }
-
-  .soDesktop {
-    display: none;
+    height: auto;
+    border-radius: 3px;
+    opacity: 0.6;
   }
 
   .centro {

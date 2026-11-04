@@ -2,7 +2,7 @@ import { ENTREGAS } from "@/data/ml";
 import styles from "./Empresas.module.css";
 
 /* ---------------------------------------------------------------------------
-   Feito para vender (o RESULTS SPEAK LOUDER da referência).
+   Em várias frentes (o RESULTS SPEAK LOUDER da referência).
 
    Medido: título de 264/237.6, peso 700, −10px, centralizado e preso; cards de
    480×480 em x=480, de 900 em 900px, subindo por cima dele; fundo
@@ -25,11 +25,11 @@ export function Empresas() {
         <h2
           id="empresas-titulo"
           className={styles.titulo}
-          aria-label="Feito para vender"
+          aria-label="Em várias frentes"
         >
-          <span aria-hidden>FEITO</span>
-          <span aria-hidden>PARA</span>
-          <span aria-hidden>VENDER</span>
+          <span aria-hidden>EM</span>
+          <span aria-hidden>VÁRIAS</span>
+          <span aria-hidden>FRENTES</span>
         </h2>
       </div>
 

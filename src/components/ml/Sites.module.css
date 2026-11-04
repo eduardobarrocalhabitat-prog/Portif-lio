@@ -39,18 +39,28 @@
   margin-bottom: 0;
 }
 
+/*
+  A moldura (860px de largura, barra de 40px e a captura 16:10) fica no meio
+  da altura da tela; em tela baixa ela encolhe para caber com folga.
+*/
 .palco {
+  --larg: min(
+    calc(860 * var(--u)),
+    calc((100svh - 240px - 40 * var(--u)) * 1.6)
+  );
+  --alto: calc(var(--larg) / 1.6 + 40 * var(--u));
+  --topo: calc((100svh - var(--alto)) / 2);
   position: relative;
   height: 100%;
-  transform-origin: 50% 45%;
+  transform-origin: 50% 50%;
 }
 
 /* Moldura de navegador: barra de 40px e a captura 16:10 inteira. */
 .janela {
   position: absolute;
   left: calc(110 * var(--u));
-  top: calc(150 * var(--u));
-  width: calc(860 * var(--u));
+  top: var(--topo);
+  width: var(--larg);
   padding: 0;
   border: 0;
   border-radius: 6px;
@@ -109,10 +119,10 @@
 /* A coluna de texto vai do número ao pé da moldura. */
 .info {
   position: absolute;
-  left: calc(1010 * var(--u));
-  top: calc(136 * var(--u));
-  width: calc(318 * var(--u));
-  height: calc(591.5 * var(--u));
+  left: calc(110 * var(--u) + var(--larg) + 40 * var(--u));
+  right: calc(112 * var(--u));
+  top: calc(var(--topo) - 14 * var(--u));
+  height: calc(var(--alto) + 14 * var(--u));
   display: flex;
   flex-direction: column;
 }

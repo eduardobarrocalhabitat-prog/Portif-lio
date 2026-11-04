@@ -156,114 +156,87 @@ export const GRADES = [
 */
 export const IA: Case[] = [];
 
-/* ---- Peças flutuando na chamada final ----------------------------------- */
+/* ---- Peças em volta da chamada final ----------------------------------- */
 
 /*
-  Posição na tela quando a seção prende, largura, opacidade e velocidade
-  (px de subida por 400 px de rolagem), medidas na referência. As imagens são
-  do Eduardo; a altura sai da proporção de cada uma.
-
-  `m` é a posição no celular, em % da largura (x, w) e da altura (y) da tela:
-  seis peças em volta da frase, três acima e três abaixo, deixando a faixa do
-  meio livre. As outras não aparecem no celular.
+  Desktop: quatro colunas, duas de cada lado, com as peças empilhadas sem
+  encostar uma na outra; o meio fica livre para a frase e os botões. Posição
+  e largura em px de 1440, `y` é o topo da coluna quando a seção prende e
+  `sobe` é quanto ela sobe enquanto a seção está presa. As de dentro sobem
+  mais e ficam mais apagadas: parecem mais longe.
 */
-export const FLUTUANDO = [
+export const COLUNAS_CHAMADA = [
   {
-    src: "/marcas/and-academy/paginas/017.webp",
+    x: 32,
+    w: 170,
+    y: -80,
+    sobe: 120,
+    op: 1,
+    fotos: [
+      "/conteudo/reel-campo.webp",
+      "/conteudo/lc-perfumes.webp",
+      "/marcas/and-academy/paginas/017.webp",
+      "/conteudo/sura-community-day.webp",
+      "/conteudo/pen-eu-me-viro-01.webp",
+    ],
+  },
+  {
+    x: 222,
+    w: 150,
+    y: 60,
+    sobe: 240,
+    op: 0.55,
+    fotos: [
+      "/conteudo/hub-cna-futuro.webp",
+      "/conteudo/bar-do-cuscuz.webp",
+      "/marcas/business-place/paginas/012.webp",
+      "/conteudo/reel-pen.webp",
+      "/conteudo/sura-deck-guide.webp",
+      "/conteudo/key-visual-academia.webp",
+    ],
+  },
+  {
     x: 1068,
-    y: 156,
-    w: 260,
+    w: 150,
+    y: -20,
+    sobe: 240,
+    op: 0.55,
+    fotos: [
+      "/conteudo/pen-essa-crianca-01.webp",
+      "/conteudo/reel-0722.webp",
+      "/conteudo/elva-garden.webp",
+      "/marcas/lavae-laundry/paginas/015.webp",
+      "/conteudo/hub-cna-agro.webp",
+      "/conteudo/lugares-ver-o-mundo.webp",
+    ],
+  },
+  {
+    x: 1238,
+    w: 170,
+    y: 30,
+    sobe: 120,
     op: 1,
-    v: 33,
-    m: { x: 60, y: 4, w: 36 },
+    fotos: [
+      "/conteudo/elva-garden-story.webp",
+      "/sites/mkz-canaa.webp",
+      "/conteudo/lavae-nova-unidade.webp",
+      "/conteudo/pen-essa-crianca-02.webp",
+      "/sites/as7.webp",
+    ],
   },
-  {
-    src: "/conteudo/elva-garden-story.webp",
-    x: 1038,
-    y: 720,
-    w: 281,
-    op: 1,
-    v: 32,
-    m: { x: 72, y: 66, w: 24 },
-  },
-  {
-    src: "/marcas/business-place/paginas/012.webp",
-    x: 184,
-    y: 723,
-    w: 275,
-    op: 1,
-    v: 40,
-    m: { x: 4, y: 72, w: 34 },
-  },
-  {
-    src: "/conteudo/lc-perfumes.webp",
-    x: 1191,
-    y: 323,
-    w: 209,
-    op: 0.5,
-    v: 71,
-    m: { x: 4, y: 3, w: 26 },
-  },
-  { src: "/conteudo/reel-pen.webp", x: 41, y: 280, w: 251, op: 0.5, v: 71 },
-  {
-    src: "/marcas/lavae-laundry/paginas/015.webp",
-    x: 795,
-    y: 415,
-    w: 283,
-    op: 0.5,
-    v: 71,
-  },
-  {
-    src: "/conteudo/hub-cna-futuro.webp",
-    x: 661,
-    y: 94,
-    w: 220,
-    op: 1,
-    v: 71,
-    m: { x: 33, y: 9, w: 24 },
-  },
-  {
-    src: "/conteudo/bar-do-cuscuz.webp",
-    x: 193,
-    y: 582,
-    w: 178,
-    op: 0.3,
-    v: 55,
-  },
-  { src: "/conteudo/reel-campo.webp", x: 523, y: -66, w: 167, op: 0.3, v: 55 },
-  {
-    src: "/conteudo/sura-community-day.webp",
-    x: 1015,
-    y: 570,
-    w: 190,
-    op: 0.3,
-    v: 55,
-  },
-  {
-    src: "/conteudo/key-visual-academia.webp",
-    x: 512,
-    y: 321,
-    w: 200,
-    op: 0.65,
-    v: 71,
-  },
-  {
-    src: "/conteudo/pen-essa-crianca-01.webp",
-    x: 618,
-    y: 108,
-    w: 227,
-    op: 0.52,
-    v: 71,
-  },
-  {
-    src: "/sites/mkz-canaa.webp",
-    x: 622,
-    y: 833,
-    w: 196,
-    op: 1,
-    v: 71,
-    m: { x: 41, y: 78, w: 28 },
-  },
+];
+
+/*
+  Celular: seis peças paradas em volta da frase, três acima e três abaixo,
+  em % da largura (x, w) e da altura (y) da tela.
+*/
+export const PECAS_CHAMADA_CELULAR = [
+  { src: "/conteudo/lc-perfumes.webp", x: 4, y: 3, w: 26 },
+  { src: "/conteudo/hub-cna-futuro.webp", x: 33, y: 9, w: 24 },
+  { src: "/marcas/and-academy/paginas/017.webp", x: 60, y: 4, w: 36 },
+  { src: "/marcas/business-place/paginas/012.webp", x: 4, y: 72, w: 34 },
+  { src: "/sites/mkz-canaa.webp", x: 41, y: 78, w: 28 },
+  { src: "/conteudo/elva-garden-story.webp", x: 72, y: 66, w: 24 },
 ];
 
 export const HABILIDADES =

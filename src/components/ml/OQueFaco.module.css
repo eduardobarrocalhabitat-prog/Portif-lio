@@ -2,8 +2,8 @@
   --u: calc(100vw / 1440);
   position: relative;
   z-index: 1;
-  /* Uma tela de frase presa, mais 1300px de rolagem para ela acender. */
-  height: calc(100svh + 1300 * var(--u));
+  /* Uma tela de frase presa, mais 700px de rolagem para ela acender. */
+  height: calc(100svh + 700 * var(--u));
   background: var(--bg);
 }
 

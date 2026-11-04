@@ -39,18 +39,25 @@
   margin-bottom: 0;
 }
 
+/*
+  O card de 594×594 fica no meio da altura da tela quando o case prende. Em
+  tela baixa ele encolhe para caber com folga; o texto acompanha o card.
+*/
 .palco {
+  --lado: min(calc(594 * var(--u)), calc(100svh - 240px));
+  --topo: calc((100svh - var(--lado)) / 2);
+  --texto: calc(110 * var(--u) + var(--lado) + 32 * var(--u));
   position: relative;
   height: 100%;
-  transform-origin: 50% 45%;
+  transform-origin: 50% 50%;
 }
 
 .card {
   position: absolute;
   left: calc(110 * var(--u));
-  top: calc(160 * var(--u));
-  width: calc(594 * var(--u));
-  height: calc(594 * var(--u));
+  top: var(--topo);
+  width: var(--lado);
+  height: var(--lado);
   padding: 0;
   border: 0;
   border-radius: 4px;
@@ -72,8 +79,8 @@
 
 .numero {
   position: absolute;
-  left: calc(736 * var(--u));
-  top: calc(136 * var(--u));
+  left: var(--texto);
+  top: calc(var(--topo) - 24 * var(--u));
   font-size: calc(72 * var(--u));
   line-height: calc(43.2 * var(--u));
   font-weight: 600;
@@ -84,19 +91,20 @@
 
 .nome {
   position: absolute;
-  left: calc(736 * var(--u));
-  top: calc(250 * var(--u));
+  left: var(--texto);
+  top: calc(var(--topo) + 90 * var(--u));
   width: calc(360 * var(--u));
   font-size: calc(32 * var(--u));
   line-height: calc(38.4 * var(--u));
   font-weight: 400;
 }
 
+/* Tags e "Próximo projeto" alinhados ao pé do card. */
 .tags {
   position: absolute;
-  left: calc(736 * var(--u));
-  top: calc(709 * var(--u));
-  width: calc(230 * var(--u));
+  left: var(--texto);
+  top: calc(var(--topo) + var(--lado) - 22 * var(--u));
+  width: calc(380 * var(--u));
   font-size: calc(18 * var(--u));
   line-height: calc(21.6 * var(--u));
   color: var(--cream-80);
@@ -105,7 +113,7 @@
 .proximo {
   position: absolute;
   right: calc(112 * var(--u));
-  top: calc(736 * var(--u));
+  top: calc(var(--topo) + var(--lado) - 18 * var(--u));
   display: flex;
   align-items: center;
   gap: calc(8 * var(--u));
