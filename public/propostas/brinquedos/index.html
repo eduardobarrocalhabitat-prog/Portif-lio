@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0a0f24">
+<title>Brinquedos no TikTok Shop · Eduardo Barrocal</title>
+<meta name="description" content="Como vai funcionar a venda dos brinquedos no TikTok Shop: setup, estratégia e próximos passos.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Urbanist:wght@600;700&display=swap">
+<style>
+:root{
+  --rgb-bg:10 15 36; --rgb-bg2:18 25 54; --rgb-bg3:8 12 30; --rgb-fg:232 236 246; --rgb-hi:255 255 255;
+  --btn:#4d6bff; --btn-hi:#6480ff; --btn-ink:#fff;
+  --bg:rgb(var(--rgb-bg)); --bg-2:rgb(var(--rgb-bg2)); --bg-3:rgb(var(--rgb-bg3));
+  --cream:rgb(var(--rgb-fg)); --cream-80:rgb(var(--rgb-fg) / .8); --cream-70:rgb(var(--rgb-fg) / .7); --cream-50:rgb(var(--rgb-fg) / .5);
+  --line:rgb(var(--rgb-fg) / .12); --line-2:rgb(var(--rgb-fg) / .22);
+  --jakarta:"Plus Jakarta Sans", system-ui, sans-serif;
+  --urbanist:"Urbanist", "Plus Jakarta Sans", system-ui, sans-serif;
+  --e-out:cubic-bezier(.22, 1, .36, 1);
+  --u:1px;               /* 1/1440 da largura útil (calculado no JS) */
+  --m:calc(112 * var(--u));
+  --notas-w:0px;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0;height:100%}
+body{background:var(--bg);color:var(--cream);font-family:var(--jakarta);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow:hidden}
+h1,h2,h3,p,ul,ol{margin:0}
+ul,ol{padding:0;list-style:none}
+button{font:inherit;color:inherit}
+a{color:inherit;text-decoration:none}
+:where(button,a,[tabindex]):focus-visible{outline:2px solid var(--cream);outline-offset:3px}
+::selection{background:var(--cream);color:var(--bg)}
+
+/* ---------- Palco ---------- */
+.palco{position:fixed;top:0;left:0;bottom:0;right:var(--notas-w);overflow:hidden;transition:right .45s var(--e-out)}
+.topo,.base{position:absolute;left:var(--m);right:var(--m);display:flex;align-items:center;justify-content:space-between;z-index:5;pointer-events:none}
+.topo{top:calc(34 * var(--u))}
+.base{bottom:calc(30 * var(--u))}
+.topo > *,.base > *{pointer-events:auto}
+
+.logo{font-family:var(--urbanist);font-weight:600;font-size:max(12px, calc(20 * var(--u)));line-height:.82;letter-spacing:.19em;color:rgb(var(--rgb-hi));display:inline-flex;flex-direction:column}
+.quadrado{display:inline-block;width:.72em;height:.72em;margin:0 .3em 0 0;vertical-align:-.04em;background:currentColor;border-radius:.06em}
+
+.rotulo{letter-spacing:.08em;text-transform:uppercase;color:var(--cream);font-size:max(11px, calc(13 * var(--u)));font-weight:400;line-height:1.5}
+.rotulo.suave{color:var(--cream-70)}
+
+.controles{display:flex;align-items:center;gap:max(8px, calc(10 * var(--u)))}
+.contador{font-variant-numeric:tabular-nums;letter-spacing:.08em;font-size:max(11px, calc(13 * var(--u)));color:var(--cream-70);min-width:5.5em;text-align:right}
+.btn{height:max(36px, calc(44 * var(--u)));padding:0 max(14px, calc(18 * var(--u)));border:0;border-radius:4px;background:var(--bg);color:var(--cream);box-shadow:inset 0 0 0 1px var(--line);font-size:max(11px, calc(12 * var(--u)));font-weight:700;letter-spacing:-.02em;text-transform:uppercase;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:background .3s var(--e-out), transform .2s var(--e-out)}
+.btn:hover{background:var(--bg-2)}
+.btn:active{transform:scale(.97)}
+.btn[aria-pressed="true"]{background:var(--btn);color:var(--btn-ink);box-shadow:none;font-weight:800}
+.btn.icone{width:max(36px, calc(44 * var(--u)));padding:0;justify-content:center}
+.btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+
+.progresso{position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--line);z-index:5}
+.progresso span{display:block;height:100%;width:0;background:var(--btn);transition:width .6s var(--e-out)}
+
+/* ---------- Slides ---------- */
+.slide{position:absolute;inset:0;padding:calc(128 * var(--u)) var(--m) calc(118 * var(--u));display:flex;flex-direction:column;justify-content:center;opacity:0;visibility:hidden;transition:opacity .5s var(--e-out), visibility 0s linear .5s}
+.slide.ativo{opacity:1;visibility:visible;transition:opacity .5s var(--e-out), visibility 0s}
+.nota{display:none}
+
+[data-in]{opacity:0;transform:translateY(calc(26 * var(--u)));transition:opacity .7s var(--e-out), transform .9s var(--e-out);transition-delay:calc(var(--i, 0) * 70ms + 80ms)}
+.slide.ativo [data-in]{opacity:1;transform:none}
+
+.titulo{font-weight:700;text-transform:uppercase;font-size:calc(100 * var(--u));line-height:.92;letter-spacing:-.032em;color:var(--cream);text-wrap:balance}
+.titulo.medio{font-size:calc(84 * var(--u))}
+.titulo .azul,.azul{color:var(--btn)}
+.apoio{font-size:max(15px, calc(21 * var(--u)));line-height:1.5;color:var(--cream-80);max-width:calc(640 * var(--u));text-wrap:pretty}
+.pilha > * + *{margin-top:calc(28 * var(--u))}
+.pilha > .rotulo + .titulo{margin-top:calc(22 * var(--u))}
+
+.num{font-variant-numeric:tabular-nums;letter-spacing:.08em;font-size:max(11px, calc(13 * var(--u)));color:var(--cream-70)}
+.h3{font-weight:700;font-size:max(17px, calc(26 * var(--u)));line-height:1.15;letter-spacing:-.01em;color:var(--cream)}
+.txt{font-size:max(14px, calc(17 * var(--u)));line-height:1.55;color:var(--cream-70);text-wrap:pretty}
+.tag{display:inline-block;font-size:max(10px, calc(11 * var(--u)));letter-spacing:.08em;text-transform:uppercase;font-weight:700;padding:.45em .8em;border-radius:3px;box-shadow:inset 0 0 0 1px var(--line-2);color:var(--cream-80)}
+.tag.cheia{background:var(--btn);color:#fff;box-shadow:none}
+
+.colunas{display:grid;gap:calc(24 * var(--u))}
+.c2{grid-template-columns:repeat(2, minmax(0, 1fr))}
+.c3{grid-template-columns:repeat(3, minmax(0, 1fr))}
+.c4{grid-template-columns:repeat(4, minmax(0, 1fr))}
+.dividido{display:grid;grid-template-columns:minmax(0, 1fr) minmax(0, 1fr);gap:calc(96 * var(--u));align-items:center}
+.dividido.largo{grid-template-columns:minmax(0, 1.05fr) minmax(0, 1fr)}
+
+.card{background:var(--bg-2);border-radius:6px;padding:calc(30 * var(--u));display:flex;flex-direction:column;gap:calc(14 * var(--u));box-shadow:inset 0 0 0 1px var(--line)}
+.card.azul-card{background:var(--btn);box-shadow:none}
+.card.azul-card .txt,.card.azul-card .num{color:rgb(255 255 255 / .85)}
+.card.tracejado{background:transparent;box-shadow:none;border:1px dashed var(--line-2)}
+.passo{border-top:1px solid var(--line-2);padding-top:calc(22 * var(--u));display:flex;flex-direction:column;gap:calc(12 * var(--u))}
+
+.lista-q li{position:relative;padding-left:1.5em;font-size:max(15px, calc(21 * var(--u)));line-height:1.4;color:var(--cream)}
+.lista-q li + li{margin-top:calc(18 * var(--u))}
+.lista-q li::before{content:"";position:absolute;left:0;top:.42em;width:.56em;height:.56em;border-radius:.06em;background:var(--btn)}
+.lista-q.creme li::before{background:var(--cream)}
+.lista-q.linhas li{padding-top:calc(16 * var(--u));padding-bottom:calc(16 * var(--u));border-top:1px solid var(--line)}
+.lista-q.linhas li + li{margin-top:0}
+.lista-q.linhas li::before{top:calc(16 * var(--u) + .42em)}
+
+/* Capa */
+.capa .titulo{font-size:calc(150 * var(--u));line-height:.9;letter-spacing:-.034em}
+.capa .rodape-capa{display:flex;gap:calc(48 * var(--u));align-items:flex-end;justify-content:space-between;margin-top:calc(56 * var(--u))}
+.capa .seta-baixo{color:var(--btn)}
+
+/* Linha do tempo */
+.tempo{display:grid;grid-template-columns:repeat(4, minmax(0, 1fr));gap:calc(24 * var(--u));margin-top:calc(56 * var(--u))}
+.tempo .marco{display:flex;flex-direction:column;gap:calc(14 * var(--u));padding-top:calc(26 * var(--u));border-top:2px solid var(--line-2);position:relative}
+.tempo .marco::before{content:"";position:absolute;top:calc(-9 * var(--u) - 1px);left:0;width:calc(16 * var(--u));height:calc(16 * var(--u));min-width:10px;min-height:10px;background:var(--cream);border-radius:2px}
+.tempo .marco.agora{border-top-color:var(--btn)}
+.tempo .marco.agora::before{background:var(--btn)}
+.tempo .marco.futuro{border-top-style:dashed}
+.tempo .marco.futuro::before{background:var(--bg);box-shadow:inset 0 0 0 2px var(--cream-50)}
+
+/* Fluxo com setas */
+.fluxo{display:flex;align-items:stretch;gap:calc(14 * var(--u))}
+.fluxo .card{flex:1}
+.seta{flex:none;align-self:center;width:calc(36 * var(--u));min-width:20px;color:var(--cream-50)}
+.seta svg{width:100%;height:auto;display:block;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+
+.destaque-num{font-weight:700;letter-spacing:-.04em;line-height:.85;color:var(--cream)}
+.destaque-num.azul{color:var(--btn)}
+.isencao{display:flex;align-items:center;gap:calc(40 * var(--u));margin-top:calc(36 * var(--u));padding-top:calc(32 * var(--u));border-top:1px solid var(--line)}
+.isencao .destaque-num{font-size:calc(132 * var(--u));color:var(--btn)}
+.rodape-nota{font-size:max(11px, calc(13 * var(--u)));color:var(--cream-50);margin-top:calc(8 * var(--u))}
+
+/* Diagrama Bling */
+.diagrama{display:grid;grid-template-columns:minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1.1fr);align-items:center;gap:calc(22 * var(--u));margin-top:calc(52 * var(--u))}
+.diagrama .card{min-height:calc(150 * var(--u));justify-content:center}
+.destinos{display:flex;flex-direction:column;gap:calc(12 * var(--u))}
+.destinos .card{min-height:0;padding:calc(20 * var(--u)) calc(24 * var(--u));flex-direction:row;align-items:center;justify-content:space-between;gap:12px}
+
+/* Frente */
+.frente{display:grid;grid-template-columns:calc(300 * var(--u)) minmax(0, 1fr);gap:calc(72 * var(--u));align-items:start}
+.frente .grande{font-weight:700;font-size:calc(260 * var(--u));line-height:.78;letter-spacing:-.06em;color:var(--btn)}
+
+/* Preço */
+.preco{font-size:calc(176 * var(--u));white-space:nowrap}
+.preco small{font-size:.32em;letter-spacing:-.02em;vertical-align:.95em;margin-right:.12em;color:var(--cream-80)}
+
+/* Encerramento */
+.fim{display:flex;justify-content:space-between;align-items:flex-end;gap:calc(32 * var(--u));margin-top:calc(56 * var(--u));padding-top:calc(28 * var(--u));border-top:1px solid var(--line)}
+.fim .obrigado{font-family:var(--urbanist);font-weight:600;font-size:calc(64 * var(--u));line-height:1;letter-spacing:-.01em}
+
+/* ---------- Notas de fala ---------- */
+.notas{position:fixed;top:0;right:0;bottom:0;width:min(440px, 100vw);background:var(--bg-2);border-left:1px solid var(--line);transform:translateX(100%);transition:transform .45s var(--e-out);z-index:20;display:flex;flex-direction:column}
+body.com-notas .notas{transform:none}
+.notas header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 24px;border-bottom:1px solid var(--line)}
+.notas .corpo{flex:1;overflow-y:auto;padding:24px;font-size:16.5px;line-height:1.6;color:var(--cream-80)}
+.notas .corpo h4{margin:0 0 14px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--cream);font-weight:700}
+.notas .corpo p{margin:0 0 14px}
+.notas .corpo ul{margin:0 0 14px;padding-left:0}
+.notas .corpo li{position:relative;padding-left:18px;margin-bottom:9px}
+.notas .corpo li::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:7px;border-radius:1px;background:var(--btn)}
+.notas .corpo strong{color:var(--cream);font-weight:700}
+.notas .corpo .dica{margin-top:18px;padding:14px 16px;border-radius:6px;background:rgb(var(--rgb-bg) / .6);box-shadow:inset 0 0 0 1px var(--line);font-size:14.5px;color:var(--cream-70)}
+.notas footer{padding:14px 24px;border-top:1px solid var(--line);font-size:12px;letter-spacing:.04em;color:var(--cream-50)}
+.notas .proximo{padding:14px 24px;border-top:1px solid var(--line);font-size:13px;color:var(--cream-70)}
+.notas .proximo b{color:var(--cream);font-weight:600}
+
+/* ---------- Modo compacto (celular / tela em pé) ---------- */
+body.compacto{--m:20px}
+body.compacto .slide{justify-content:flex-start;padding:84px 20px 96px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+body.compacto .topo{top:22px}
+body.compacto .base{bottom:18px}
+body.compacto .titulo,body.compacto .titulo.medio{font-size:min(9.4vw, 52px)}
+body.compacto .capa .titulo{font-size:min(12.6vw, 72px)}
+body.compacto .base > .rotulo{display:none}
+body.compacto .base{justify-content:flex-end}
+body.compacto .colunas,body.compacto .tempo,body.compacto .dividido,body.compacto .frente{grid-template-columns:minmax(0, 1fr);gap:16px}
+body.compacto .frente .grande{font-size:72px}
+body.compacto .fluxo,body.compacto .diagrama{display:flex;flex-direction:column;align-items:stretch;gap:10px}
+body.compacto .seta{transform:rotate(90deg);width:22px;margin:0 auto}
+body.compacto .diagrama .card{min-height:0}
+body.compacto .isencao{flex-direction:column;align-items:flex-start;gap:8px}
+body.compacto .isencao .destaque-num{font-size:72px}
+body.compacto .preco{font-size:64px}
+body.compacto .fim{flex-direction:column;align-items:flex-start}
+body.compacto .fim .obrigado{font-size:40px}
+body.compacto .capa .rodape-capa{flex-direction:column;align-items:flex-start}
+body.compacto .card{padding:18px}
+body.compacto .pilha > * + *{margin-top:18px}
+body.compacto .tempo .marco::before{top:-6px}
+body.compacto .topo .rotulo{display:none}
+
+@media (prefers-reduced-motion: reduce){
+  [data-in]{transform:none!important;transition:opacity .2s linear!important;transition-delay:0s!important}
+  .slide,.notas,.palco,.progresso span{transition-duration:.01s!important}
+}
+@media print{
+  body{overflow:visible}
+  .palco{position:static}
+  .slide{position:relative;opacity:1;visibility:visible;height:100vh;page-break-after:always}
+  [data-in]{opacity:1;transform:none}
+  .topo,.base,.notas,.progresso{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="palco" id="palco">
+  <div class="topo">
+    <a class="logo" href="#1" aria-label="Eduardo Barrocal"><span aria-hidden="true">EDUARDO</span><span aria-hidden="true">BARR<i class="quadrado"></i>CAL</span></a>
+    <p class="rotulo suave">Proposta · Novembro 2026</p>
+  </div>
+
+  <main id="slides">
+
+  <!-- 01 CAPA -->
+  <section class="slide capa" aria-label="Capa">
+    <div class="pilha">
+      <p class="rotulo" data-in>[ Como vai funcionar ]</p>
+      <h1 class="titulo" data-in>Suas lojas<br>no TikTok<br><span class="azul">Shop.</span></h1>
+    </div>
+    <div class="rodape-capa">
+      <p class="apoio" data-in>O mesmo catálogo do Mercado Livre, em mais um canal.</p>
+      <p class="rotulo suave" data-in>Preparado por Eduardo Barrocal</p>
+    </div>
+    <aside class="nota">
+      <h4>Abertura</h4>
+      <ul>
+        <li>Agradecer pelo convite. "É rápido, só pra gente alinhar o caminho."</li>
+        <li>"Pode me parar a qualquer momento."</li>
+      </ul>
+    </aside>
+  </section>
+
+  <!-- 02 A IDEIA -->
+  <section class="slide" aria-label="A ideia: clonar o que já funciona">
+    <div class="pilha">
+      <p class="rotulo" data-in>[ A ideia ]</p>
+      <h2 class="titulo medio" data-in>Clonar o que<br>já funciona.</h2>
+    </div>
+    <div class="colunas c4" style="margin-top:calc(48 * var(--u))">
+      <div class="card" data-in><span class="num">Mercado Livre</span><h3 class="h3">Loja 1</h3></div>
+      <div class="card" data-in><span class="num">Mercado Livre</span><h3 class="h3">Loja 2</h3></div>
+      <div class="card" data-in><span class="num">Mercado Livre</span><h3 class="h3">Loja 3</h3></div>
+      <div class="card azul-card" data-in><span class="num">Nova</span><h3 class="h3">TikTok Shop</h3></div>
+    </div>
+    <p class="apoio" data-in style="margin-top:calc(36 * var(--u))">Mesmo catálogo, mesmo estoque, tudo ligado no Bling.</p>
+    <aside class="nota">
+      <h4>O que vamos fazer</h4>
+      <ul>
+        <li>"Você já tem 3 lojas iguais no Mercado Livre pra não depender de uma só. O TikTok Shop é <strong>mais uma perna</strong>, só que com outro público."</li>
+        <li>Eu <strong>clono o catálogo</strong> que já existe: fotos, títulos, preços. Ele não precisa refazer nada.</li>
+        <li><strong>Bling:</strong> o mesmo estoque alimenta o ML e o TikTok, pra não vender o que acabou.</li>
+        <li>Perguntar: "Hoje você usa algum sistema pra controlar o estoque das 3 lojas?" Se já for o Bling, é só conectar.</li>
+      </ul>
+    </aside>
+  </section>
+
+  <!-- 03 COMISSÃO -->
+  <section class="slide" aria-label="A comissão">
+    <div class="pilha">
+      <p class="rotulo" data-in>[ Comissão ]</p>
+      <h2 class="titulo medio" data-in>A comissão.</h2>
+    </div>
+    <div class="dividido" style="margin-top:calc(44 * var(--u));align-items:start">
+      <div class="pilha" data-in>
+        <span class="destaque-num azul" style="font-size:calc(150 * var(--u))">0%</span>
+        <p class="h3">nos 2 primeiros meses da loja nova*</p>
+      </div>
+      <ul class="lista-q linhas" data-in>
+        <li><span class="num" style="display:block">Depois, no TikTok</span>6% + R$ 6 por item</li>
+        <li><span class="num" style="display:block">No Mercado Livre</span>cerca de 11,5% a 16,5%</li>
+        <li><span class="num" style="display:block">Num carrinho de R$ 200</span>TikTok R$ 18 · ML R$ 23 a R$ 33</li>
+      </ul>
+    </div>
+    <p class="rodape-nota" data-in style="margin-top:calc(32 * var(--u))">*Até R$ 17 mil em vendas, cumprindo as tarefas iniciais da plataforma. Valores aproximados, para produtos a partir de R$ 50.</p>
+    <aside class="nota">
+      <h4>Comissão</h4>
+      <ul>
+        <li><strong>Começo:</strong> loja nova fica 60 dias com 0% de comissão (até R$ 17 mil em vendas). Eu faço as tarefas que liberam isso no setup.</li>
+        <li><strong>Depois:</strong> a partir de R$ 50, 6% + R$ 6 por item. Abaixo de R$ 50, 10% + R$ 4.</li>
+        <li><strong>ML em brinquedos:</strong> cerca de 11,5% no Clássico e 16,5% no Premium.</li>
+        <li>Nos produtos acima de uns <strong>R$ 110</strong>, o TikTok sai mais barato que até o Clássico. Abaixo disso fica parecido.</li>
+      </ul>
+      <div class="dica">Ainda falta confirmar no painel se a taxa fixa por item também é isenta nos 60 dias. Se ele perguntar: "isso eu confirmo quando abrir a loja".</div>
+    </aside>
+  </section>
+
+  <!-- 04 VANTAGENS -->
+  <section class="slide" aria-label="As vantagens do TikTok Shop">
+    <div class="pilha">
+      <p class="rotulo" data-in>[ Por que TikTok Shop ]</p>
+      <h2 class="titulo medio" data-in>As vantagens.</h2>
+    </div>
+    <div class="colunas c3" style="margin-top:calc(52 * var(--u))">
+      <div class="passo" data-in><span class="num">01</span><h3 class="h3">Vende pra quem não estava procurando</h3></div>
+      <div class="passo" data-in><span class="num">02</span><h3 class="h3">O vídeo mostra o brinquedo funcionando</h3></div>
+      <div class="passo" data-in><span class="num">03</span><h3 class="h3">Afiliados vendem por você e só ganham se vender</h3></div>
+    </div>
+    <aside class="nota">
+      <h4>Por que vale a pena</h4>
+      <ul>
+        <li><strong>Descoberta:</strong> no ML, a pessoa já entra procurando o que quer. No TikTok, ela vê o carrinho correndo e compra por impulso. É <strong>venda que não existiria</strong> no ML.</li>
+        <li><strong>Controle remoto é produto de vídeo:</strong> carrinho correndo e drone voando chamam atenção de quem está rolando a tela.</li>
+        <li><strong>Afiliados:</strong> no TikTok, qualquer criador pode pegar o produto dele, gravar um vídeo e vender. Ele <strong>só paga a comissão quando a venda acontece</strong>: sem custo fixo e sem risco. No ML não existe isso, quem divulga é só a própria loja.</li>
+      </ul>
+    </aside>
+  </section>
+
+  <!-- 05 COMO ESCALA -->
+  <section class="slide" aria-label="Como escala">
+    <div class="pilha">
+      <p class="rotulo" data-in>[ Como escala ]</p>
+      <h2 class="titulo medio" data-in>Como cresce.</h2>
+    </div>
+    <div class="fluxo" style="margin-top:calc(48 * var(--u))">
+      <div class="card" data-in><span class="num">01</span><h3 class="h3">Um vídeo pra cada produto</h3></div>
+      <span class="seta" aria-hidden="true" data-in><svg viewBox="0 0 40 12"><path d="M1 6h37M33 1l5 5-5 5"/></svg></span>
+      <div class="card" data-in><span class="num">02</span><h3 class="h3">Afiliados divulgando</h3></div>
+      <span class="seta" aria-hidden="true" data-in><svg viewBox="0 0 40 12"><path d="M1 6h37M33 1l5 5-5 5"/></svg></span>
+      <div class="card" data-in><span class="num">03</span><h3 class="h3">Influenciadores</h3></div>
+      <span class="seta" aria-hidden="true" data-in><svg viewBox="0 0 40 12"><path d="M1 6h37M33 1l5 5-5 5"/></svg></span>
+      <div class="card azul-card" data-in><span class="num">04</span><h3 class="h3">Anúncio no que já vende</h3></div>
+    </div>
+    <aside class="nota">
+      <h4>A escala (o ponto principal)</h4>
+      <ul>
+        <li><strong>Vídeo:</strong> cada produto ganha um vídeo, e o que vender mais ganha mais vídeos.</li>
+        <li><strong>Afiliados:</strong> outras pessoas fazem vídeo do produto dele e <strong>só ganham se vender</strong>. A comissão a gente define por produto. "É um time de vendedores sem salário."</li>
+        <li><strong>Influenciadores:</strong> mandar produto pra perfis de família e de hobby de controle remoto gravarem.</li>
+        <li><strong>Anúncio:</strong> só entra quando um vídeo já provou que vende. A verba é dele e a gente decide junto.</li>
+        <li>Datas: Black Friday (27/11) e Natal entram com cupom e kits nos produtos que ele liberar.</li>
+      </ul>
+    </aside>
+  </section>
+
+  <!-- 06 SETUP -->
+  <section class="slide" aria-label="Mês 1: setup">
+    <div class="dividido largo">
+      <div class="pilha">
+        <p class="rotulo" data-in>[ Mês 1 · Setup ]</p>
+        <h2 class="titulo medio" data-in>O setup.</h2>
+        <p class="destaque-num preco" data-in><small>R$</small>1.000</p>
+      </div>
+      <ul class="lista-q linhas" data-in>
+        <li>Catálogo clonado do ML pro TikTok</li>
+        <li>Estoque ligado no Bling</li>
+        <li>Loja aprovada e isenção garantida</li>
+        <li>Primeiros vídeos e afiliados no ar</li>
+      </ul>
+    </div>
+    <aside class="nota">
+      <h4>Setup: o único valor da conversa</h4>
+      <ul>
+        <li>"O primeiro mês é montar tudo: clonar o catálogo, ligar o estoque, aprovar a loja e soltar os primeiros vídeos."</li>
+        <li>"Pra esse mês, <strong>R$ 1.000</strong>."</li>
+        <li>Se ele perguntar de porcentagem: "isso a gente combina no checkpoint, com os números na mão".</li>
+      </ul>
+    </aside>
+  </section>
+
+  <!-- 07 CHECKPOINT -->
+  <section class="slide" aria-label="Checkpoint depois do mês 1">
+    <div class="pilha">
+      <p class="rotulo" data-in>[ Depois do mês 1 ]</p>
+      <h2 class="titulo medio" data-in>Checkpoint.</h2>
+      <p class="apoio" data-in>Olhamos os números juntos e combinamos o próximo passo.</p>
+    </div>
+    <div class="colunas c3" style="margin-top:calc(48 * var(--u))">
+      <div class="passo" data-in><span class="num">01</span><h3 class="h3">O que vendeu</h3></div>
+      <div class="passo" data-in><span class="num">02</span><h3 class="h3">Porcentagem</h3></div>
+      <div class="passo" data-in><span class="num">03</span><h3 class="h3">Verba de anúncio</h3></div>
+    </div>
+    <aside class="nota">
+      <h4>Checkpoint</h4>
+      <ul>
+        <li>No fim do mês 1, a gente senta de novo e olha o que vendeu, o que foi muito visto e quais produtos giram.</li>
+        <li>Aí combinamos a <strong>porcentagem</strong> e quanto colocar em anúncio.</li>
+        <li>Também entra quantas unidades ele libera pra influenciadores.</li>
+      </ul>
+    </aside>
+  </section>
+
+  <!-- 08 LOJA PRÓPRIA (OPCIONAL) -->
+  <section class="slide" aria-label="Opcional: loja própria">
+    <div class="pilha">
+      <p class="rotulo" data-in>[ Opcional ]</p>
+      <h2 class="titulo medio" data-in>Loja própria.</h2>
+      <p class="apoio" data-in>Um site seu, ligado ao mesmo estoque. Venda sem taxa de marketplace.</p>
+    </div>
+    <aside class="nota">
+      <h4>Loja própria (opcional)</h4>
+      <ul>
+        <li>"Se fizer sentido pra você, dá pra ter um site próprio ligado no mesmo Bling."</li>
+        <li>O cliente que já comprou volta e compra direto, <strong>sem comissão</strong>.</li>
+        <li>Só apresentar e deixar ele pensar. Não precisa decidir agora.</li>
+      </ul>
+    </aside>
+  </section>
+
+  <!-- 09 FIM -->
+  <section class="slide" aria-label="Próximo passo">
+    <div class="pilha">
+      <p class="rotulo" data-in>[ Próximo passo ]</p>
+      <h2 class="titulo medio" data-in>Obrigado.</h2>
+      <p class="apoio" data-in>Pra começar: acesso ao catálogo do Mercado Livre e ao controle de estoque.</p>
+    </div>
+    <div class="fim" data-in>
+      <a class="rotulo suave" href="mailto:eduardo.barrocal@hotmail.com">eduardo.barrocal@hotmail.com</a>
+    </div>
+    <aside class="nota">
+      <h4>O que pedir pra começar</h4>
+      <ul>
+        <li>Acesso ao ML (ou exportação do catálogo) e ao sistema de estoque.</li>
+        <li>CNPJ pra abrir a loja e emitir nota.</li>
+        <li><strong>Certificados do INMETRO</strong> dos brinquedos.</li>
+        <li>Margem mínima por produto (pra cupons e comissão de afiliado).</li>
+        <li>Quem embala e envia os pedidos do TikTok.</li>
+      </ul>
+    </aside>
+  </section>
+
+  </main>
+
+  <div class="base">
+    <p class="rotulo suave">Brinquedos no TikTok Shop</p>
+    <div class="controles">
+      <span class="contador" id="contador" aria-live="polite">01 / 09</span>
+      <button class="btn icone" id="anterior" type="button" aria-label="Slide anterior"><svg viewBox="0 0 16 16"><path d="M10 3 5 8l5 5"/></svg></button>
+      <button class="btn icone" id="proximo" type="button" aria-label="Próximo slide"><svg viewBox="0 0 16 16"><path d="m6 3 5 5-5 5"/></svg></button>
+      <button class="btn" id="btnNotas" type="button" aria-pressed="false" title="Notas de fala (tecla N)">Notas</button>
+    </div>
+  </div>
+  <div class="progresso" aria-hidden="true"><span id="barra"></span></div>
+</div>
+
+<aside class="notas" id="notas" aria-label="Notas de fala">
+  <header>
+    <span class="rotulo">Notas · <span id="notasNum">01</span></span>
+    <button class="btn icone" id="fecharNotas" type="button" aria-label="Fechar notas"><svg viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8"/></svg></button>
+  </header>
+  <div class="corpo" id="notasCorpo"></div>
+  <div class="proximo" id="notasProximo"></div>
+  <footer>← → navegar · N notas · F tela cheia</footer>
+</aside>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var total = slides.length;
+  var atual = 0;
+  var body = document.body;
+  var palco = document.getElementById('palco');
+  var contador = document.getElementById('contador');
+  var barra = document.getElementById('barra');
+  var notasCorpo = document.getElementById('notasCorpo');
+  var notasNum = document.getElementById('notasNum');
+  var notasProximo = document.getElementById('notasProximo');
+  var btnNotas = document.getElementById('btnNotas');
+  var NOTAS_W = 440;
+
+  function dois(n){ return (n < 10 ? '0' : '') + n; }
+
+  // Ordem de entrada das animações
+  slides.forEach(function(s){
+    s.querySelectorAll('[data-in]').forEach(function(el, i){ el.style.setProperty('--i', i); });
+  });
+
+  // Unidade de escala: desenho em 1440 x 810 (16:9)
+  function medir(){
+    var largo = window.innerWidth >= 1100 && body.classList.contains('com-notas');
+    document.documentElement.style.setProperty('--notas-w', largo ? NOTAS_W + 'px' : '0px');
+    var w = palco.clientWidth || window.innerWidth;
+    var h = palco.clientHeight || window.innerHeight;
+    var compacto = w < 760 || (w / h) < 1.05;
+    body.classList.toggle('compacto', compacto);
+    var u = compacto ? Math.max(w / 760, 0.5) : Math.min(w / 1440, h / 810);
+    document.documentElement.style.setProperty('--u', u + 'px');
+  }
+
+  function ir(n, semHistorico){
+    n = Math.max(0, Math.min(total - 1, n));
+    slides[atual].classList.remove('ativo');
+    slides[atual].setAttribute('aria-hidden', 'true');
+    atual = n;
+    var s = slides[atual];
+    s.classList.add('ativo');
+    s.removeAttribute('aria-hidden');
+    s.scrollTop = 0;
+    contador.textContent = dois(atual + 1) + ' / ' + dois(total);
+    barra.style.width = ((atual + 1) / total * 100) + '%';
+    var nota = s.querySelector('.nota');
+    notasCorpo.innerHTML = nota ? nota.innerHTML : '<p>Sem notas.</p>';
+    notasCorpo.scrollTop = 0;
+    notasNum.textContent = dois(atual + 1);
+    var prox = slides[atual + 1];
+    notasProximo.innerHTML = prox ? 'A seguir: <b>' + prox.getAttribute('aria-label') + '</b>' : 'Último slide.';
+    if (!semHistorico) {
+      try { history.replaceState(null, '', location.pathname + location.search + '#' + (atual + 1)); } catch(e) {}
+    }
+  }
+
+  function alternarNotas(forcar){
+    var abrir = typeof forcar === 'boolean' ? forcar : !body.classList.contains('com-notas');
+    body.classList.toggle('com-notas', abrir);
+    btnNotas.setAttribute('aria-pressed', abrir ? 'true' : 'false');
+    medir();
+  }
+
+  function telaCheia(){
+    try {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+      else document.exitFullscreen();
+    } catch(e) {}
+  }
+
+  document.addEventListener('keydown', function(e){
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    var k = e.key;
+    if (k === 'ArrowRight' || k === 'PageDown' || k === ' ' || k === 'Enter') { e.preventDefault(); ir(atual + 1); }
+    else if (k === 'ArrowLeft' || k === 'PageUp' || k === 'Backspace') { e.preventDefault(); ir(atual - 1); }
+    else if (k === 'Home') { ir(0); }
+    else if (k === 'End') { ir(total - 1); }
+    else if (k === 'n' || k === 'N') { alternarNotas(); }
+    else if (k === 'f' || k === 'F') { telaCheia(); }
+    else if (k === 'Escape' && body.classList.contains('com-notas')) { alternarNotas(false); }
+  });
+
+  document.getElementById('anterior').addEventListener('click', function(){ ir(atual - 1); });
+  document.getElementById('proximo').addEventListener('click', function(){ ir(atual + 1); });
+  btnNotas.addEventListener('click', function(){ alternarNotas(); });
+  document.getElementById('fecharNotas').addEventListener('click', function(){ alternarNotas(false); });
+
+  // Clique no slide: terço esquerdo volta, resto avança (só em tela grande)
+  document.getElementById('slides').addEventListener('click', function(e){
+    if (body.classList.contains('compacto')) return;
+    if (e.target.closest('a, button')) return;
+    if (window.getSelection && String(window.getSelection()).length) return;
+    var r = palco.getBoundingClientRect();
+    if (e.clientX - r.left < r.width / 3) ir(atual - 1); else ir(atual + 1);
+  });
+
+  // Swipe horizontal
+  var x0 = null, y0 = null;
+  palco.addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+  palco.addEventListener('touchend', function(e){
+    if (x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.4) ir(atual + (dx < 0 ? 1 : -1));
+    x0 = y0 = null;
+  }, { passive: true });
+
+  window.addEventListener('resize', medir);
+  window.addEventListener('hashchange', function(){
+    var n = parseInt(location.hash.slice(1), 10);
+    if (!isNaN(n) && n - 1 !== atual) ir(n - 1, true);
+  });
+
+  slides.forEach(function(s){ s.setAttribute('aria-hidden', 'true'); });
+  if (/[?&]notas\b/.test(location.search)) body.classList.add('com-notas'), btnNotas.setAttribute('aria-pressed', 'true');
+  medir();
+  var inicial = parseInt(location.hash.slice(1), 10);
+  ir(isNaN(inicial) ? 0 : inicial - 1, true);
+})();
+</script>
+</body>
+</html>

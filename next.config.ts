@@ -32,8 +32,25 @@ const nextConfig: NextConfig = {
   // Cabeçalho sem função aqui além de anunciar o stack.
   poweredByHeader: false,
 
+  /*
+    Propostas: HTML pronto em `public/propostas/<nome>/index.html`, aberto só
+    por quem tem o link. Sem link na home, no menu ou no rodapé.
+  */
+  async rewrites() {
+    return [
+      {
+        source: "/propostas/:nome",
+        destination: "/propostas/:nome/index.html",
+      },
+    ];
+  },
+
   async headers() {
     return [
+      {
+        source: "/propostas/:path*",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
       {
         /*
           Vídeos, posters, capas, páginas de manual: nada aqui muda sem mudar
